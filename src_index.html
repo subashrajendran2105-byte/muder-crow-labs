@@ -1,0 +1,1731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Murder Crow #Labs — Learn Digital Growth. For Real.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#080a06;--bg-soft:#10130b;--panel:#15180f;--panel2:#1c2014;
+--line:#30351f;--olive:#646b2d;--accent:#d7dc3d;--accent2:#aab02c;
+--text:#f1f2e8;--muted:#a6aa97;--faint:#707665;--glow:rgba(215,220,61,.16);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+background:radial-gradient(circle at 50% -10%,rgba(215,220,61,.08),transparent 34%),var(--bg);
+color:var(--text);font:16px/1.65 'DM Sans',sans-serif;overflow-x:hidden;
+-webkit-font-smoothing:antialiased
+}
+body:after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.035;background-image:radial-gradient(#fff .7px,transparent .7px);background-size:4px 4px}
+a{color:inherit;text-decoration:none}button{font:inherit}
+h1,h2{font-family:'Manrope',sans-serif;letter-spacing:-.06em;line-height:.96}
+h3{font-family:'Manrope',sans-serif;line-height:1.1}
+.w{max-width:1180px;margin:auto;padding:0 24px}
+.eyebrow,.mono,.count-label,.count-unit{font-family:'Space Mono',monospace;letter-spacing:.13em;text-transform:uppercase}
+.eyebrow{font-size:11px;color:var(--accent);font-weight:700}
+.lede{color:var(--muted);max-width:650px;font-size:17px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:14px 22px;font-weight:800;cursor:pointer;transition:.22s ease}
+.btn.primary{background:var(--accent);color:#111207;box-shadow:0 10px 28px rgba(215,220,61,.08)}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 14px 34px var(--glow)}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--accent2);color:var(--accent)}
+
+.countdown{position:relative;z-index:100;background:linear-gradient(90deg,#272b10,#4d5218,#272b10);border-bottom:1px solid #666d22}
+.count-inner{min-height:52px;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;text-align:center}
+.count-label{font-size:10px;color:#f4f5d0}
+.timer{display:flex;gap:7px;align-items:center}
+.tbox{min-width:49px;padding:5px 7px;background:rgba(0,0,0,.15);border:1px solid rgba(255,255,255,.14);border-radius:9px}
+.tval{display:block;font:700 17px/1 'Space Mono';color:#fff}
+.tunit{display:block;font:7px/1.2 'Space Mono';letter-spacing:.13em;color:#cfd28f;margin-top:3px}
+.sep{opacity:.5}
+.count-msg{font-size:11px;color:#e0e2bc}
+
+.site{position:sticky;top:0;z-index:90;background:rgba(8,10,6,.87);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-mark{
+width:40px;height:40px;border-radius:11px;background:#111406;border:1px solid #666d22;
+display:grid;place-items:center
+}
+.brand-mark svg{width:26px;height:26px;color:var(--accent)}
+.brand-word{font:800 20px/1 'Manrope';letter-spacing:-.04em}
+.brand-word span{display:block;margin-top:4px;font:9px 'Space Mono';letter-spacing:.2em;color:#858a74}
+.nav-links{display:flex;gap:24px;color:#a7ab98;font-size:14px}
+.nav-links a:hover{color:var(--accent)}
+.nav-cta{white-space:nowrap}
+
+.hero{position:relative;overflow:hidden;padding:92px 0 82px;text-align:center;z-index:1}
+.hero-inner{position:relative;z-index:3}
+.hero h1{font-size:clamp(46px,7.2vw,88px);max-width:970px;margin:18px auto}
+.hero h1 .lime{color:var(--accent)}
+.hero-sub{max-width:700px;margin:0 auto 12px;color:var(--muted);font-size:18px}
+.hero-meta{font:10px/1.7 'Space Mono';letter-spacing:.11em;color:var(--faint);margin-top:17px}
+.offer-badge{
+display:inline-flex;align-items:center;gap:18px;margin:26px auto 24px;
+padding:15px 20px;background:linear-gradient(180deg,var(--panel2),var(--panel));
+border:1px solid var(--olive);border-radius:16px
+}
+.offer-tag{font:10px 'Space Mono';letter-spacing:.16em;color:var(--accent);text-transform:uppercase}
+.offer-price{font:800 31px/1 'Manrope';letter-spacing:-.05em}
+.strike{text-decoration:line-through;color:#737869;font-size:15px;font-weight:500;margin-left:7px}
+.hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+
+.crow-stage{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.halo{position:absolute;width:min(780px,95vw);height:500px;left:50%;top:42%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(215,220,61,.08),transparent 65%);filter:blur(10px)}
+.crow{
+position:absolute;width:72px;opacity:.36;animation:fly linear infinite;
+filter:drop-shadow(0 0 17px rgba(215,220,61,.08))
+}
+.crow svg{width:100%;display:block}
+.crow .wing{transform-origin:34px 30px;animation:flap .62s ease-in-out infinite}
+@keyframes flap{0%,100%{transform:rotateX(0)}50%{transform:rotateX(45deg) translateY(3px)}}
+@keyframes fly{from{transform:translateX(-9vw)}50%{transform:translateX(52vw) translateY(-18px)}to{transform:translateX(116vw) translateY(8px)}}
+.c1{top:14%;animation-duration:23s}.c2{top:36%;width:50px;opacity:.22;animation-duration:17s;animation-delay:-8s}.c3{top:63%;width:60px;opacity:.26;animation-duration:28s;animation-delay:-13s}.c4{top:7%;width:42px;opacity:.18;animation-duration:14s;animation-delay:-6s}
+
+.banner-slot{padding:0 24px 76px;position:relative;z-index:1}
+.banner{
+max-width:1180px;min-height:300px;margin:auto;border:1px solid var(--olive);border-radius:22px;
+background:
+radial-gradient(circle at 15% 40%,rgba(215,220,61,.10),transparent 26%),
+linear-gradient(135deg,#161a0f,#0c0f0a 70%);
+display:flex;align-items:center;justify-content:center;text-align:center;padding:30px;overflow:hidden;position:relative
+}
+.banner:before,.banner:after{content:"";position:absolute;border:1px solid rgba(215,220,61,.08);border-radius:50%}
+.banner:before{width:420px;height:420px;right:-120px;bottom:-260px}.banner:after{width:250px;height:250px;left:-110px;top:-160px}
+.banner-content{position:relative;z-index:2;max-width:800px}
+.banner h2{font-size:clamp(34px,5vw,60px);margin:10px 0}
+.banner p{color:var(--muted);max-width:620px;margin:0 auto}
+
+.section{padding:92px 24px;max-width:1180px;margin:auto;position:relative;z-index:1}
+.divider{max-width:1180px;margin:auto;border-top:1px solid var(--line)}
+.head{margin-bottom:38px}.head h2{font-size:clamp(34px,4.7vw,58px);margin-top:10px}.head .lede{margin-top:13px}.callout{color:var(--accent);font-weight:700;margin-top:8px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.016),rgba(255,255,255,.004));border:1px solid var(--line);border-radius:18px;padding:24px;transition:.22s ease}
+.card:hover{transform:translateY(-4px);border-color:#5d6426;background:#191d11}
+.card .num{font:700 11px 'Space Mono';letter-spacing:.1em;color:var(--accent)}
+.card h3{margin:10px 0 8px;font-size:19px}.card p{color:var(--muted);font-size:14px}
+
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.phase{background:var(--panel);padding:26px 22px}.phase b{color:var(--accent);font:700 11px 'Space Mono'}.phase h3{margin:9px 0 6px;font-size:20px}.phase p{color:var(--muted);font-size:14px}
+
+.curriculum-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.sessions-wrap{display:grid;grid-template-columns:1fr 1fr;gap:12px 22px}
+.session-row{display:flex;align-items:center;gap:14px;padding:15px 18px;background:var(--panel);border:1px solid var(--line);border-radius:11px;font-size:15px}
+.session-row .n{width:29px;height:29px;border-radius:7px;background:var(--accent);color:#111207;display:grid;place-items:center;flex:none;font:700 10px 'Space Mono'}
+
+.proof-panel{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}.stat{padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:13px}.stat strong{display:block;color:var(--accent);font:800 34px/1 'Manrope'}.stat span{color:var(--muted);font-size:13px}
+.result-box{min-height:320px;border:1px dashed var(--olive);border-radius:20px;background:linear-gradient(135deg,#161a0e,#0e100b);display:grid;place-items:center;text-align:center;padding:20px;color:var(--faint)}
+
+.chips{display:flex;gap:12px;flex-wrap:wrap}.chip{flex:1 1 30%;text-align:center;padding:14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;color:var(--muted);font-weight:600}.fine{font-size:12px;color:var(--faint);margin-top:14px}
+
+.faq-list{border-top:1px solid var(--line)}details{border-bottom:1px solid var(--line);padding:19px 2px}summary{cursor:pointer;font-weight:700;display:flex;justify-content:space-between;list-style:none}summary::-webkit-details-marker{display:none}summary:after{content:"+";color:var(--accent);font:18px 'Space Mono';transition:.2s}details[open] summary:after{transform:rotate(45deg)}details p{color:var(--muted);margin-top:11px;max-width:700px;font-size:14px}
+
+.pricing-panel{background:radial-gradient(circle at 16% 0%,#34391b,#161a10 58%);border:1px solid var(--olive);border-radius:22px;padding:42px;position:relative;overflow:hidden}
+.value-stack{display:flex;flex-direction:column;gap:6px;font:13px 'Space Mono';margin-bottom:20px}.value-row{display:flex;justify-content:space-between;color:var(--faint);padding:8px 0;border-bottom:1px dashed var(--line)}.value-row.total{color:var(--muted)}
+.price-line{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}.now{font:800 58px/1 'Manrope';letter-spacing:-.06em;color:var(--accent)}.was{font:13px 'Space Mono';text-decoration:line-through;color:var(--faint)}
+.price-note{color:var(--muted);font-size:14px;margin:10px 0 22px}
+.payment-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+.pay-card{background:rgba(0,0,0,.22);border:1px solid var(--line);border-radius:15px;padding:20px}
+.pay-card h3{font-size:18px;margin-bottom:8px}.pay-card p{color:var(--muted);font-size:13px;margin-bottom:14px}
+.pay-buttons{display:grid;gap:9px}
+.pay-btn{width:100%;display:flex;align-items:center;justify-content:space-between;padding:13px 14px;border-radius:11px;background:#0c0f09;color:var(--text);border:1px solid #3b401e;cursor:pointer}
+.pay-btn:hover{border-color:var(--accent);color:var(--accent)}
+.pay-btn strong{font-size:13px}.pay-btn small{display:block;color:#868b77;font-size:11px;text-align:left}
+.reserve-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}.reserve-card{background:rgba(0,0,0,.24);border:1px solid var(--line);border-radius:13px;padding:18px}.reserve-card h3{font-size:17px;margin-bottom:5px}.reserve-card p{color:var(--muted);font-size:13px}
+.community{
+margin-top:22px;border:1px solid #596020;border-radius:18px;padding:24px;
+background:linear-gradient(135deg,#171b0d,#0e100a);display:grid;grid-template-columns:1fr 1fr;gap:24px
+}
+.community-num{font:800 56px/1 'Manrope';color:var(--accent);letter-spacing:-.06em;margin:8px 0}
+.community p{color:var(--muted);font-size:14px}.community strong{color:#e4e6c8}
+.socials{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}.social{width:42px;height:42px;border-radius:11px;border:1px solid var(--line);display:grid;place-items:center;background:#0d100a;font:700 11px 'Space Mono';color:#d7d9ca}.social:hover{border-color:var(--accent);color:var(--accent)}
+
+.final{text-align:center;padding:105px 24px;position:relative;z-index:1;border-top:1px solid var(--line);overflow:hidden}.final h2{max-width:800px;margin:10px auto 14px;font-size:clamp(38px,5.2vw,64px)}.final .meta{font:10px 'Space Mono';letter-spacing:.1em;color:var(--faint);margin:11px 0 26px}
+
+footer{border-top:1px solid var(--line);padding:34px 24px 54px;position:relative;z-index:1}.foot{max-width:1180px;margin:auto;display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap}.foot p{max-width:600px;color:var(--faint);font-size:12px}
+
+.modal-bg{position:fixed;inset:0;z-index:300;background:rgba(4,5,3,.78);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:18px;opacity:0;pointer-events:none;transition:.2s}.modal-bg.open{opacity:1;pointer-events:auto}.modal{width:min(430px,100%);background:#15190f;border:1px solid var(--olive);border-radius:20px;padding:26px;box-shadow:0 30px 90px rgba(0,0,0,.55)}.modal h3{font-size:27px;margin:8px 0}.modal p{color:var(--muted);font-size:14px}.modal-price{font:800 40px 'Manrope';color:var(--accent);margin:12px 0}.modal-close{display:inline-block;margin-top:12px;color:var(--faint);cursor:pointer;font-size:13px}.demo-note{margin-top:14px;padding:13px;border:1px dashed #555a20;border-radius:11px;font-size:12px!important}
+
+.reveal{opacity:1;transform:none;transition:.7s ease}.reveal.in{opacity:1;transform:none}
+
+@media(max-width:920px){.nav-links{display:none}.grid3,.curriculum-grid{grid-template-columns:repeat(2,1fr)}.timeline{grid-template-columns:1fr 1fr}.proof-panel,.payment-grid,.community{grid-template-columns:1fr}}
+@media(max-width:680px){.hero{padding:72px 0}.section{padding:68px 20px}.w{padding:0 20px}.grid3,.grid2,.curriculum-grid,.sessions-wrap,.reserve-grid,.stats{grid-template-columns:1fr}.pricing-panel{padding:30px 22px}.chips .chip{flex:1 1 45%}.offer-badge{width:100%;justify-content:center}.now{font-size:48px}.count-inner{padding:8px 12px}.banner{min-height:370px}}
+@media(prefers-reduced-motion:reduce){.crow,.crow .wing,.reveal{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+/* --- subtle roadmap + curriculum motion --- */
+.curriculum-grid .card,
+.sessions-wrap .session-row,
+.timeline .phase {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: labRise .65s cubic-bezier(.2,.75,.2,1) forwards;
+}
+.curriculum-grid .card:nth-child(1){animation-delay:.04s}
+.curriculum-grid .card:nth-child(2){animation-delay:.09s}
+.curriculum-grid .card:nth-child(3){animation-delay:.14s}
+.curriculum-grid .card:nth-child(4){animation-delay:.19s}
+.curriculum-grid .card:nth-child(5){animation-delay:.24s}
+.curriculum-grid .card:nth-child(6){animation-delay:.29s}
+.curriculum-grid .card:nth-child(7){animation-delay:.34s}
+.curriculum-grid .card:nth-child(8){animation-delay:.39s}
+.curriculum-grid .card:nth-child(9){animation-delay:.44s}
+.sessions-wrap .session-row:nth-child(1){animation-delay:.04s}
+.sessions-wrap .session-row:nth-child(2){animation-delay:.08s}
+.sessions-wrap .session-row:nth-child(3){animation-delay:.12s}
+.sessions-wrap .session-row:nth-child(4){animation-delay:.16s}
+.sessions-wrap .session-row:nth-child(5){animation-delay:.20s}
+.sessions-wrap .session-row:nth-child(6){animation-delay:.24s}
+.sessions-wrap .session-row:nth-child(7){animation-delay:.28s}
+.sessions-wrap .session-row:nth-child(8){animation-delay:.32s}
+.sessions-wrap .session-row:nth-child(9){animation-delay:.36s}
+.sessions-wrap .session-row:nth-child(10){animation-delay:.40s}
+.sessions-wrap .session-row:nth-child(11){animation-delay:.44s}
+.sessions-wrap .session-row:nth-child(12){animation-delay:.48s}
+.sessions-wrap .session-row:nth-child(13){animation-delay:.52s}
+.sessions-wrap .session-row:nth-child(14){animation-delay:.56s}
+.sessions-wrap .session-row:nth-child(15){animation-delay:.60s}
+.sessions-wrap .session-row:nth-child(16){animation-delay:.64s}
+.timeline .phase:nth-child(1){animation-delay:.05s}
+.timeline .phase:nth-child(2){animation-delay:.15s}
+.timeline .phase:nth-child(3){animation-delay:.25s}
+.timeline .phase:nth-child(4){animation-delay:.35s}
+@keyframes labRise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){
+  .curriculum-grid .card,.sessions-wrap .session-row,.timeline .phase{
+    animation:none!important;opacity:1;transform:none;
+  }
+}
+
+/* --- Google review slider --- */
+.reviews-wrap{position:relative;overflow:hidden}
+.reviews-track{display:flex;transition:transform .55s cubic-bezier(.2,.8,.2,1);will-change:transform}
+.review-card{
+  min-width:100%;padding:28px;background:linear-gradient(135deg,#171b0e,#0e110b);
+  border:1px solid var(--line);border-radius:18px
+}
+.review-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
+.google-mark{display:flex;align-items:center;gap:10px;font-weight:800}
+.google-g{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#4285f4;font:800 19px Arial}
+.stars{color:#d7dc3d;letter-spacing:3px;font-size:15px}
+.review-text{font-size:18px;line-height:1.55;color:#e9eadf;max-width:780px}
+.review-name{margin-top:18px;color:var(--muted);font-size:13px}
+.review-controls{display:flex;align-items:center;justify-content:space-between;margin-top:14px}
+.review-dots{display:flex;gap:7px}
+.review-dot{width:7px;height:7px;border-radius:50%;background:#4a4f30;border:0;padding:0;cursor:pointer}
+.review-dot.active{background:var(--accent);width:20px;border-radius:99px}
+.review-arrow{width:42px;height:42px;border:1px solid var(--line);border-radius:50%;background:#0c0f09;color:var(--text);cursor:pointer}
+.review-arrow:hover{border-color:var(--accent);color:var(--accent)}
+.review-note{color:var(--faint);font-size:11px;margin-top:12px}
+
+
+/* ===== premium roadmap animation ===== */
+.roadmap-shell{
+  position:relative;
+  margin-top:34px;
+  padding:18px 0 6px;
+}
+.roadmap-line{
+  position:absolute;
+  left:7%;
+  right:7%;
+  top:50px;
+  height:2px;
+  background:linear-gradient(90deg,transparent,#41461d 8%,#697126 50%,#41461d 92%,transparent);
+  overflow:hidden;
+}
+.roadmap-line:after{
+  content:"";
+  position:absolute;
+  top:0;left:-18%;
+  width:18%;
+  height:100%;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  animation:roadSweep 3.8s linear infinite;
+}
+@keyframes roadSweep{to{left:110%}}
+.roadmap-phases{
+  position:relative;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+.roadmap-phase{
+  position:relative;
+  text-align:center;
+  padding:0 10px 8px;
+  opacity:0;
+  transform:translateY(18px);
+  animation:roadAppear .7s cubic-bezier(.2,.8,.2,1) forwards;
+}
+.roadmap-phase:nth-child(1){animation-delay:.12s}
+.roadmap-phase:nth-child(2){animation-delay:.28s}
+.roadmap-phase:nth-child(3){animation-delay:.44s}
+.roadmap-phase:nth-child(4){animation-delay:.60s}
+.roadmap-node{
+  position:relative;
+  z-index:3;
+  width:64px;
+  height:64px;
+  margin:0 auto 16px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#0d100a;
+  border:1px solid #4d531f;
+  box-shadow:0 0 0 8px rgba(177,181,43,.035);
+  transition:.25s ease;
+}
+.roadmap-phase:hover .roadmap-node{
+  transform:scale(1.08);
+  border-color:var(--accent);
+  box-shadow:0 0 0 8px rgba(177,181,43,.07),0 0 32px rgba(177,181,43,.12);
+}
+.roadmap-number{
+  font:700 11px 'Space Mono';
+  color:var(--accent);
+  letter-spacing:.1em;
+}
+.roadmap-dot{
+  position:absolute;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--accent);
+  top:50%;left:100%;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 18px rgba(177,181,43,.6);
+  opacity:.25;
+}
+.roadmap-phase:last-child .roadmap-dot{display:none}
+.roadmap-phase h3{font-size:18px;margin-bottom:7px}
+.roadmap-phase p{color:var(--muted);font-size:13px;max-width:210px;margin:auto}
+@keyframes roadAppear{to{opacity:1;transform:none}}
+@media(max-width:820px){
+  .roadmap-line{left:31px;right:auto;top:32px;bottom:28px;width:2px;height:auto;background:linear-gradient(180deg,#40461d,#697126 50%,#40461d)}
+  .roadmap-line:after{
+    left:0;top:-20%;width:100%;height:20%;
+    background:linear-gradient(180deg,transparent,var(--accent),transparent);
+    animation:roadSweepVertical 3.8s linear infinite
+  }
+  @keyframes roadSweepVertical{to{top:110%}}
+  .roadmap-phases{grid-template-columns:1fr;gap:18px}
+  .roadmap-phase{text-align:left;padding:0 10px 0 78px;min-height:78px}
+  .roadmap-node{position:absolute;left:0;top:0;width:64px;height:64px;margin:0}
+  .roadmap-phase p{margin:0;max-width:none}
+  .roadmap-dot{left:100%;top:32px}
+}
+@media(prefers-reduced-motion:reduce){
+  .roadmap-phase{animation:none;opacity:1;transform:none}
+  .roadmap-line:after{animation:none}
+}
+
+
+/* ===== curriculum motion + alignment ===== */
+.curriculum-grid .card{
+  position:relative;
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(16px);
+  animation:currAppear .65s cubic-bezier(.2,.8,.2,1) forwards;
+}
+.curriculum-grid .card:before{
+  content:"";
+  position:absolute;left:0;top:0;width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  transform:translateX(-100%);
+  transition:transform .45s ease;
+}
+.curriculum-grid .card:hover:before{transform:translateX(100%)}
+.curriculum-grid .card:nth-child(1){animation-delay:.04s}.curriculum-grid .card:nth-child(2){animation-delay:.08s}
+.curriculum-grid .card:nth-child(3){animation-delay:.12s}.curriculum-grid .card:nth-child(4){animation-delay:.16s}
+.curriculum-grid .card:nth-child(5){animation-delay:.20s}.curriculum-grid .card:nth-child(6){animation-delay:.24s}
+.curriculum-grid .card:nth-child(7){animation-delay:.28s}.curriculum-grid .card:nth-child(8){animation-delay:.32s}
+.curriculum-grid .card:nth-child(9){animation-delay:.36s}
+@keyframes currAppear{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){
+  .curriculum-grid .card{animation:none;opacity:1;transform:none}
+}
+
+
+#reviews .head{margin-bottom:28px}
+#reviews{padding-top:76px;padding-bottom:76px}
+@media(max-width:680px){#reviews{padding-top:58px;padding-bottom:58px}.review-text{font-size:16px}}
+
+
+/* ===== USP comparison ===== */
+.shift-table{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#0e110a}
+.shift-head,.shift-row{display:grid;grid-template-columns:1fr 1fr}
+.shift-head{background:#181c0f;border-bottom:1px solid var(--line)}
+.shift-head div{padding:15px 20px;font:700 10px 'Space Mono';letter-spacing:.13em;color:var(--accent);display:flex;align-items:center;gap:9px}
+.shift-head div:first-child{color:#9b9f92}
+.shift-head .shift-cross,.shift-head .shift-tick{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font:800 15px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:0}
+.shift-head .shift-cross{color:#9b9f92;border:1px solid #555a4b;background:#151812}
+.shift-head .shift-tick{color:var(--accent);border:1px solid #687026;background:rgba(215,220,61,.08)}
+.shift-row>div{padding:20px;border-bottom:1px solid #272c1b;position:relative}
+.shift-row>div+div{border-left:1px solid #272c1b}
+.shift-row:last-child>div{border-bottom:0}
+.shift-row b{display:block;font:700 17px 'Manrope';margin-bottom:5px}
+.shift-row span{display:block;color:var(--muted);font-size:13px;line-height:1.55}
+.shift-row>div:first-child b{color:#a1a594}
+.shift-row>div:last-child{background:linear-gradient(90deg,rgba(215,220,61,.055),transparent)}
+.shift-row>div:last-child b{color:var(--accent)}
+.shift-row>div:first-child:before,.shift-row>div:last-child:before{position:absolute;top:18px;right:18px;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font:800 15px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.shift-row>div:first-child:before{content:"×";color:#8e9286;border:1px solid #4c5144;background:#151812}
+.shift-row>div:last-child:before{content:"✓";color:var(--accent);border:1px solid #687026;background:rgba(215,220,61,.08)}
+.shift-row>div:first-child,.shift-row>div:last-child{padding-right:58px}
+.shift-bottom{margin-top:16px;padding:22px 24px;border:1px solid #515823;border-radius:16px;background:radial-gradient(circle at 0 50%,rgba(215,220,61,.08),transparent 45%),#12160d}
+.shift-bottom strong{display:block;font:700 21px/1.3 'Manrope';letter-spacing:-.03em;margin-top:7px}
+@media(max-width:680px){
+ .shift-head,.shift-row{grid-template-columns:1fr}
+ .shift-head div:first-child{display:flex}
+ .shift-head div{padding:13px 14px;font-size:9px}
+ .shift-row>div+div{border-left:0;border-top:1px solid #272c1b}
+ .shift-row>div{padding:17px 50px 17px 17px}
+ .shift-row>div:first-child:before,.shift-row>div:last-child:before{top:16px;right:16px}
+ .shift-head .shift-cross,.shift-head .shift-tick{width:22px;height:22px}
+ .shift-head div:last-child{padding:13px 14px}
+}
+
+/* ===== phase/class showcase polish ===== */
+.road-panel .lesson{cursor:default}
+.lesson h4{transition:color .2s ease}
+.lesson:hover h4{color:var(--accent)}
+.road-step{position:relative;overflow:hidden}
+.road-step:after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--accent);transition:width .35s ease}
+.road-step.active:after{width:100%}
+
+
+/* ===== persistent enrol bar ===== */
+.sticky-enroll{
+ position:fixed;left:0;right:0;bottom:0;z-index:120;
+ background:rgba(11,14,9,.94);backdrop-filter:blur(16px);
+ border-top:1px solid #353a20;box-shadow:0 -12px 40px rgba(0,0,0,.24);
+ padding:10px 16px;
+}
+.sticky-inner{max-width:1180px;margin:auto;display:flex;align-items:center;justify-content:center;gap:24px}
+.sticky-price{display:flex;align-items:baseline;gap:10px}
+.sticky-price strong{font:800 23px 'Manrope';letter-spacing:-.05em;color:var(--text)}
+.sticky-price span{font:8px 'Space Mono';letter-spacing:.1em;color:var(--faint)}
+.sticky-enroll .btn{min-width:290px}
+@media(max-width:600px){
+ .sticky-inner{justify-content:space-between;gap:10px}
+ .sticky-price{display:block;min-width:96px}
+ .sticky-price strong{display:block;font-size:18px}
+ .sticky-price span{font-size:7px}
+ .sticky-enroll .btn{min-width:0;flex:1;padding:14px 13px;font-size:12px}
+}
+
+
+/* ===== unified typography: one visual language ===== */
+:root{
+  --display:'Manrope',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+body{font-family:var(--display)!important;letter-spacing:-.012em}
+h1,h2,h3{font-family:var(--display)!important;text-transform:none!important;letter-spacing:-.045em!important;font-weight:800!important}
+.card h3,.phase h3,.modal h3,.reserve-card h3,.addon h3,.lesson h4{font-family:var(--display)!important}
+.hero h1{font-weight:850!important;letter-spacing:-.055em!important}
+.eyebrow,.mono,.hero-meta,.road-index,.road-title-row span,.lesson small,
+.sticky-price span,.shift-head div,.road-step span{font-family:'Space Mono',monospace!important}
+
+
+
+
+/* =========================================================
+   MURDER CROW — SCROLL ROADMAP / ANIMATED LINE
+   One authoritative rule set
+   ========================================================= */
+.growth-roadmap{
+  position:relative;
+  display:grid;
+  grid-template-columns:210px minmax(0,1fr);
+  gap:28px;
+  margin-top:34px;
+  min-height:980px;
+  padding:48px 0 110px;
+}
+.roadmap-progress{
+  position:absolute!important;
+  z-index:5!important;
+  left:24px!important;
+  top:48px!important;
+  bottom:110px!important;
+  width:2px!important;
+  height:auto!important;
+  display:block!important;
+  background:#292e1a!important;
+  border-radius:999px;
+  overflow:visible!important;
+  pointer-events:none;
+}
+.roadmap-progress:before{
+  content:"";
+  position:absolute;
+  left:50%;top:0;
+  width:9px;height:9px;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 0 5px rgba(215,220,61,.06),0 0 24px rgba(215,220,61,.75);
+  animation:roadPulse 1.6s ease-in-out infinite;
+}
+.roadmap-progress:after{
+  content:"";
+  position:absolute;
+  left:-2px;top:0;
+  width:6px;height:100%;
+  border-radius:999px;
+  background:repeating-linear-gradient(
+    to bottom,
+    rgba(215,220,61,.0) 0px,
+    rgba(215,220,61,.0) 18px,
+    rgba(215,220,61,.45) 19px,
+    rgba(215,220,61,.0) 23px
+  );
+  animation:roadDash 1.8s linear infinite;
+  opacity:.9;
+}
+.roadmap-progress span{
+  position:absolute!important;
+  z-index:2!important;
+  left:0!important;
+  top:0!important;
+  display:block!important;
+  width:2px!important;
+  height:0;
+  max-height:100%;
+  border-radius:999px;
+  background:linear-gradient(180deg,#f2f56b 0%,#c7d044 52%,#7b8427 100%)!important;
+  box-shadow:0 0 12px rgba(215,220,61,.5);
+  transition:height .08s linear;
+  overflow:visible!important;
+}
+.roadmap-progress span:after{
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:0;
+  width:12px;height:12px;
+  transform:translate(-50%,50%);
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 0 6px rgba(215,220,61,.07),0 0 28px rgba(215,220,61,.7);
+}
+@keyframes roadPulse{
+  0%,100%{box-shadow:0 0 0 4px rgba(215,220,61,.04),0 0 16px rgba(215,220,61,.45)}
+  50%{box-shadow:0 0 0 8px rgba(215,220,61,.08),0 0 30px rgba(215,220,61,.8)}
+}
+@keyframes roadDash{to{background-position:0 42px}}
+.roadmap-steps{position:sticky;top:110px;align-self:start;z-index:6;display:flex;flex-direction:column;gap:7px}
+.road-step{
+  position:relative;
+  z-index:7;
+  text-align:left;
+  padding:13px 13px 13px 40px;
+  border:1px solid transparent;
+  background:transparent;
+  color:#858a76;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:700;
+  transition:.25s ease;
+}
+.road-step span{position:absolute;left:13px;color:#555b38;font:10px 'Space Mono'}
+.road-step:hover,.road-step.active{background:#15190e;border-color:#34391f;color:#eef0df}
+.road-step.active span{color:var(--accent)}
+.road-step.active:before{
+  content:"";
+  position:absolute;
+  left:-1px;top:50%;
+  width:7px;height:7px;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 18px rgba(215,220,61,.7);
+}
+.road-showcase{position:relative;z-index:2;min-width:0}
+.road-panel{display:none}
+.road-panel.active{display:block;animation:roadPanelReveal .55s cubic-bezier(.18,.8,.2,1) both}
+@keyframes roadPanelReveal{
+  from{opacity:.15;transform:translateY(24px) scale(.988);filter:blur(2px)}
+  to{opacity:1;transform:none;filter:none}
+}
+@media(max-width:820px){
+  .growth-roadmap{
+    display:block;
+    min-height:0;
+    padding:24px 0 70px 0;
+  }
+  .roadmap-progress{
+    left:8px!important;
+    top:24px!important;
+    bottom:70px!important;
+  }
+  .roadmap-steps{
+    position:relative;
+    top:auto;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+    padding-left:24px;
+    margin-bottom:20px;
+  }
+  .road-step{text-align:center;padding:11px 7px;font-size:11px}
+  .road-step span{position:static;display:block;margin-bottom:3px}
+  .road-showcase{padding-left:24px}
+}
+@media(prefers-reduced-motion:reduce){
+  .roadmap-progress:before,.roadmap-progress:after{animation:none}
+  .road-panel.active{animation:none}
+}
+
+
+/* ===== cohort scarcity ===== */
+.scarcity-section{padding-top:72px;padding-bottom:72px}
+.scarcity-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(320px,.75fr);gap:18px;align-items:stretch}
+.scarcity-copy,.scarcity-card{border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#14180d,#0c100a);padding:30px}
+.scarcity-copy h2{font-size:clamp(34px,4.5vw,56px);margin:11px 0 14px}
+.seat-status{margin-top:24px}.seat-count{display:flex;align-items:baseline;gap:10px}
+.seat-count strong{font:800 56px/1 'Manrope';color:var(--accent);letter-spacing:-.06em}
+.seat-count span{font:700 10px 'Space Mono';letter-spacing:.14em;color:#a2a68f}
+.seat-track{height:8px;margin:13px 0 8px;border-radius:999px;background:#252a19;overflow:hidden}
+.seat-track span{display:block;height:100%;width:80%;border-radius:999px;background:linear-gradient(90deg,#707822,var(--accent))}
+.seat-note{font:10px 'Space Mono';color:#767c68}
+.scarcity-timer{margin-top:24px;padding-top:20px;border-top:1px dashed var(--line)}
+.mini-timer{display:flex;align-items:center;gap:10px;margin:7px 0 3px;font:800 29px/1 'Manrope'}
+.mini-timer span{color:var(--accent)}.mini-timer b{color:#60674b;font-weight:700}
+.scarcity-timer small{color:#707665;font-size:11px}
+.scarcity-card{display:flex;flex-direction:column;justify-content:center}
+.scarcity-price{display:flex;align-items:baseline;gap:12px;margin:12px 0}
+.scarcity-price strong{font:800 45px/1 'Manrope';letter-spacing:-.06em;color:var(--accent)}
+.scarcity-price span{font:14px 'Space Mono';text-decoration:line-through;color:#7a7f70}
+.scarcity-card p{color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:19px}
+.scarcity-card .btn{width:100%;justify-content:center}.scarcity-micro{font-size:10px;color:#777d69;text-align:center;margin-top:10px}
+@media(max-width:820px){.scarcity-grid{grid-template-columns:1fr}.scarcity-copy,.scarcity-card{padding:23px}.seat-count strong{font-size:48px}}
+
+/* ===== qualification / confirmation flow ===== */
+.reservation-modal{position:relative!important;text-align:left!important;max-width:430px!important;padding:30px!important}
+.modal-x{position:absolute;right:14px;top:10px;border:0;background:none;color:#8a907b;font-size:26px;cursor:pointer}
+.reservation-modal label{display:block;margin:12px 0 0;color:#dfe2d4;font-size:12px;font-weight:700}
+.reservation-modal input,.reservation-modal select{display:block;width:100%;margin-top:7px;padding:13px 14px;border-radius:10px;border:1px solid #34391f;background:#0c0f09;color:#f0f1e7;outline:none;font:14px var(--display)}
+.reservation-modal select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,#8b917c 50%),linear-gradient(135deg,#8b917c 50%,transparent 50%);background-position:calc(100% - 15px) 50%,calc(100% - 10px) 50%;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+.reservation-modal input:focus,.reservation-modal select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(215,220,61,.07)}
+.reservation-modal input.invalid,.reservation-modal select.invalid{border-color:#d96b6b}
+.form-note{font-size:10px!important;color:#727865!important;line-height:1.5!important;margin:12px 0 16px!important}
+.form-submit{width:100%;justify-content:center}
+.back-link{border:0;background:none;color:#858b75;font:11px 'Space Mono';cursor:pointer;padding:0;margin-bottom:20px}
+.pay-summary{border:1px solid #34391f;background:#0e120b;border-radius:13px;padding:13px 15px;margin:18px 0}
+.pay-summary div{display:flex;justify-content:space-between;align-items:center;padding:7px 0;color:#909680;font-size:12px}
+.pay-summary strong{color:#eef0df;font-size:17px}.strike-inline{text-decoration:line-through;color:#7b806f!important;font-size:15px!important}
+.pay-summary p{border-top:1px dashed #30351f;padding-top:11px;margin:5px 0 0;color:#757c68;font-size:10px;line-height:1.5}
+.thanks-icon{width:54px;height:54px;border-radius:15px;display:grid;place-items:center;background:rgba(215,220,61,.08);border:1px solid #687026;color:var(--accent);font-size:28px;font-weight:900;margin-bottom:15px}
+.thanks-card{border:1px solid #39401f;background:#0f130b;border-radius:12px;padding:14px;margin:16px 0}
+.thanks-card strong{display:block;color:#e8eadc;font-size:13px}.thanks-card span{display:block;color:#777d69;font-size:11px;margin-top:4px}
+.reservation-modal [hidden]{display:none!important}
+@media(max-width:600px){.reservation-modal{padding:24px 20px!important}}
+
+</style>
+<meta name="description" content="Murder Crow Labs — Digital Growth Fellowship. 16 live sessions, practical growth systems, mentorship and community.">
+<meta name="theme-color" content="#080a06">
+<style>body{padding-bottom:74px}</style>
+
+<style id="final-polish-override">
+/* ===== FINAL MOBILE / ROADMAP POLISH ===== */
+:root{
+  --display: -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+}
+html,body{
+  font-family:var(--display)!important;
+}
+h1,h2,h3,h4,.brand-word,.btn,.card,.phase,.lesson,.road-step,.sticky-price,.sticky-enroll{
+  font-family:var(--display)!important;
+}
+.brand-word span,
+.eyebrow,.mono,.hero-meta,.road-index,.road-title-row span,.lesson small,
+.count-label,.tunit,.sticky-price span,.shift-head div{
+  font-family:"SFMono-Regular",ui-monospace,Menlo,Monaco,Consolas,monospace!important;
+}
+
+/* desktop roadmap: clean left navigation + contained animated spine */
+.growth-roadmap{
+  min-height:960px!important;
+  display:grid!important;
+  grid-template-columns:210px minmax(0,1fr)!important;
+  gap:26px!important;
+  padding:36px 0 80px!important;
+  position:relative!important;
+}
+.roadmap-progress{
+  left:216px!important;
+  top:42px!important;
+  bottom:82px!important;
+  width:2px!important;
+  background:#2a301c!important;
+  z-index:3!important;
+}
+.roadmap-steps{
+  position:sticky!important;
+  top:104px!important;
+  align-self:start!important;
+  z-index:10!important;
+  gap:8px!important;
+  padding-right:18px!important;
+}
+.road-step{
+  min-height:52px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:12px!important;
+  padding:12px 14px!important;
+  border-radius:14px!important;
+  background:transparent!important;
+  color:#727864!important;
+  font-size:14px!important;
+  letter-spacing:-.015em!important;
+}
+.road-step span{position:static!important;font:700 10px/1 "SFMono-Regular",ui-monospace,monospace!important;color:#555c38!important}
+.road-step.active{
+  background:#151a0d!important;
+  border-color:#41471f!important;
+  color:#f0f1e5!important;
+  box-shadow:inset 2px 0 0 var(--accent),0 10px 30px rgba(0,0,0,.12)!important;
+}
+.road-step.active span{color:var(--accent)!important}
+.road-step.active:before{left:0!important}
+.roadmap-progress span{
+  background:linear-gradient(180deg,#eff35c,#cbd744,#879128)!important;
+}
+.road-showcase{padding-left:28px!important}
+.road-panel{
+  padding:34px!important;
+  border-radius:22px!important;
+  background:linear-gradient(145deg,#14180d,#0c0f09)!important;
+}
+.road-title-row h3{font-size:42px!important}
+.road-title-row span{font-size:10px!important}
+.road-intro{font-size:16px!important;max-width:760px!important}
+.lesson{
+  min-height:165px!important;
+  padding:18px!important;
+  background:#0f130b!important;
+}
+.lesson b{font-size:10px!important}
+.lesson h4{font-size:17px!important}
+.lesson p{font-size:13px!important}
+.lesson small{font-size:8px!important}
+
+/* keep line visual confined and away from text */
+.roadmap-progress:after{opacity:.55!important}
+
+/* sticky enrollment: quiet, not giant */
+.sticky-enroll{padding:8px 14px!important}
+.sticky-inner{min-height:58px!important}
+.sticky-price strong{font-size:21px!important}
+.sticky-enroll .btn{min-width:265px!important;padding:13px 17px!important}
+
+/* MOBILE */
+@media(max-width:820px){
+  .growth-roadmap{
+    min-height:0!important;
+    display:block!important;
+    padding:18px 0 72px!important;
+  }
+  .roadmap-progress{
+    left:12px!important;
+    top:86px!important;
+    bottom:70px!important;
+    height:auto!important;
+    width:2px!important;
+  }
+  .roadmap-progress:before{
+    top:0!important;
+    left:0!important;
+    transform:translate(-50%,-50%)!important;
+  }
+  .roadmap-progress span:after{
+    width:10px!important;height:10px!important;
+  }
+
+  /* Clean 2x2 phase picker like the reference, but compact */
+  .roadmap-steps{
+    position:relative!important;
+    top:auto!important;
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    gap:10px!important;
+    padding:0 0 0 32px!important;
+    margin:0 0 28px!important;
+  }
+  .road-step{
+    min-height:68px!important;
+    justify-content:flex-start!important;
+    padding:12px 13px!important;
+    border:1px solid #32381e!important;
+    background:#0d1109!important;
+    border-radius:15px!important;
+    display:flex!important;
+    align-items:center!important;
+    gap:10px!important;
+  }
+  .road-step span{
+    width:28px!important;
+    height:28px!important;
+    border-radius:8px!important;
+    background:#171c0e!important;
+    display:grid!important;
+    place-items:center!important;
+    flex:none!important;
+    position:static!important;
+  }
+  .road-step.active{
+    border-color:#6a7127!important;
+    background:linear-gradient(180deg,#181d0f,#11150c)!important;
+  }
+  .road-step.active:before{
+    display:none!important;
+  }
+  .road-step:after{display:none!important}
+
+  .road-showcase{
+    padding:0 0 0 32px!important;
+  }
+  .road-panel{
+    padding:24px 18px!important;
+    border-radius:18px!important;
+    box-shadow:none!important;
+  }
+  .road-index{
+    font-size:9px!important;
+    margin-bottom:7px!important;
+  }
+  .road-title-row{
+    align-items:flex-end!important;
+    gap:8px!important;
+    padding-bottom:14px!important;
+    margin-bottom:14px!important;
+  }
+  .road-title-row h3{font-size:34px!important}
+  .road-title-row span{font-size:9px!important}
+  .road-intro{font-size:14px!important;line-height:1.6!important;margin-bottom:18px!important}
+  .lesson-grid{gap:10px!important}
+  .lesson{
+    min-height:0!important;
+    padding:16px!important;
+    border-radius:13px!important;
+  }
+  .lesson h4{font-size:16px!important}
+  .lesson p{font-size:13px!important;line-height:1.5!important}
+  .lesson small{margin-top:11px!important}
+
+  /* line does not pass through the copy */
+  .roadmap-progress{
+    z-index:0!important;
+  }
+  .roadmap-steps,.road-showcase{
+    position:relative!important;
+    z-index:5!important;
+  }
+  .roadmap-progress:after{
+    display:none!important;
+  }
+
+  .sticky-enroll{
+    padding:7px 12px!important;
+  }
+  .sticky-inner{
+    min-height:56px!important;
+    gap:9px!important;
+  }
+  .sticky-price{
+    min-width:96px!important;
+  }
+  .sticky-price strong{
+    font-size:18px!important;
+  }
+  .sticky-price span{
+    font-size:6.5px!important;
+    letter-spacing:.08em!important;
+  }
+  .sticky-enroll .btn{
+    min-width:0!important;
+    flex:1!important;
+    font-size:12px!important;
+    padding:13px 12px!important;
+    white-space:nowrap!important;
+  }
+}
+
+/* very small phones */
+@media(max-width:380px){
+  .roadmap-steps{gap:8px!important;padding-left:26px!important}
+  .road-step{min-height:62px!important;font-size:12px!important;padding:10px!important}
+  .road-step span{width:25px!important;height:25px!important;font-size:9px!important}
+  .road-showcase{padding-left:26px!important}
+  .road-title-row h3{font-size:30px!important}
+  .sticky-price{min-width:82px!important}
+  .sticky-price strong{font-size:16px!important}
+  .sticky-enroll .btn{font-size:11px!important;padding:12px 9px!important}
+}
+</style>
+<style id="smooth-motion-polish">
+/* ===== smooth, slow, deliberate motion ===== */
+html{scroll-behavior:smooth}
+
+/* Let scroll-linked progress glide instead of snapping frame-by-frame. */
+.roadmap-progress span{
+  transition:height .42s cubic-bezier(.22,.72,.2,1)!important;
+}
+.roadmap-progress span:after{
+  transition:transform .35s cubic-bezier(.22,.72,.2,1), box-shadow .35s ease!important;
+}
+.roadmap-progress:before{
+  animation:roadPulse 2.8s ease-in-out infinite!important;
+}
+
+/* Replace the fast dashed flash with a slow travelling highlight. */
+.roadmap-progress:after{
+  animation:roadDashSoft 5.6s linear infinite!important;
+  opacity:.38!important;
+}
+@keyframes roadDashSoft{to{background-position:0 86px}}
+
+/* Smooth phase-panel handoff */
+.road-panel.active{
+  animation:roadPanelRevealSlow .72s cubic-bezier(.16,.78,.2,1) both!important;
+}
+@keyframes roadPanelRevealSlow{
+  from{opacity:0;transform:translateY(18px);filter:blur(3px)}
+  to{opacity:1;transform:none;filter:none}
+}
+
+/* Animated cards across the page — subtle, not flashy. */
+.metric-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.metric-card{
+  position:relative;
+  overflow:hidden;
+  min-height:178px;
+  padding:28px 22px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(215,220,61,.055),transparent 52%),
+    linear-gradient(180deg,#11150d,#0c0f09);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  transition:transform .45s cubic-bezier(.2,.8,.2,1),border-color .45s ease,box-shadow .45s ease;
+}
+.metric-card:before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(115deg,transparent 28%,rgba(215,220,61,.075) 50%,transparent 72%);
+  transform:translateX(-110%);
+  transition:transform 1.15s cubic-bezier(.16,.72,.2,1);
+}
+.metric-card:hover{
+  transform:translateY(-5px);
+  border-color:#4f5721;
+  box-shadow:0 18px 50px rgba(0,0,0,.22),0 0 0 1px rgba(215,220,61,.04);
+}
+.metric-card:hover:before{transform:translateX(110%)}
+.metric-card strong{
+  position:relative;z-index:1;
+  font:800 clamp(30px,5vw,48px)/1 'Manrope',sans-serif;
+  letter-spacing:-.06em;
+  color:#eaf0de;
+}
+.metric-card span{
+  position:relative;z-index:1;
+  margin-top:14px;
+  font:700 12px/1.45 'SFMono-Regular',ui-monospace,monospace;
+  letter-spacing:.16em;
+  color:#a9ad9c;
+}
+.metric-card:first-child strong,.metric-card:nth-child(5) strong{color:var(--accent)}
+.metric-section{padding-top:36px;padding-bottom:76px}
+
+/* Give the rest of the site a gentle reveal rhythm. */
+body.motion-ready .reveal{
+  opacity:0!important;
+  transform:translateY(22px) scale(.992)!important;
+  filter:blur(2px);
+  transition:opacity .72s ease,transform .72s cubic-bezier(.16,.78,.2,1),filter .72s ease!important;
+}
+body.motion-ready .reveal.in{
+  opacity:1!important;
+  transform:none!important;
+  filter:none!important;
+}
+.reveal-card{
+  opacity:1;
+  transform:none;
+}
+.metric-grid .reveal-card{
+  animation:metricRise .72s cubic-bezier(.16,.78,.2,1) both;
+}
+.metric-grid .reveal-card:nth-child(2){animation-delay:.07s}
+.metric-grid .reveal-card:nth-child(3){animation-delay:.14s}
+.metric-grid .reveal-card:nth-child(4){animation-delay:.21s}
+.metric-grid .reveal-card:nth-child(5){animation-delay:.28s}
+.metric-grid .reveal-card:nth-child(6){animation-delay:.35s}
+@keyframes metricRise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+/* Cards, rows and pricing blocks get a tiny hover lift for a more alive page. */
+.card,.session-row,.shift-row,.reserve-card,.pay-card{
+  transition:transform .38s cubic-bezier(.2,.8,.2,1),border-color .38s ease,background .38s ease,box-shadow .38s ease!important;
+}
+.card:hover,.session-row:hover,.shift-row:hover,.reserve-card:hover,.pay-card:hover{
+  transform:translateY(-3px);
+}
+
+/* Banner gets a slow ambient sweep instead of a static rectangle. */
+.banner:after{
+  animation:bannerOrbit 9s ease-in-out infinite alternate!important;
+}
+.banner:before{
+  animation:bannerOrbit 11s ease-in-out infinite alternate-reverse!important;
+}
+@keyframes bannerOrbit{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(18px,-10px,0) scale(1.06)}}
+
+@media(max-width:680px){
+  .metric-section{padding-top:18px;padding-bottom:58px}
+  .metric-grid{gap:12px}
+  .metric-card{min-height:154px;padding:22px 12px;border-radius:18px}
+  .metric-card strong{font-size:30px}
+  .metric-card span{font-size:9px;letter-spacing:.12em;margin-top:11px}
+}
+@media(prefers-reduced-motion:reduce){
+  .roadmap-progress span,.roadmap-progress span:after{transition:none!important}
+  .roadmap-progress:before,.roadmap-progress:after,.banner:before,.banner:after,.metric-grid .reveal-card{animation:none!important}
+  .metric-card,.card,.session-row,.shift-row,.reserve-card,.pay-card{transition:none!important}
+}
+
+/* ===== FINAL TYPE + INTERACTIVE ROADMAP ===== */
+.shift-head div{font-family:var(--display)!important;font-weight:850!important;font-size:12px!important;letter-spacing:.01em!important}
+.shift-row>div{padding-left:58px!important}
+.shift-row>div:before{
+  position:absolute;left:20px;top:20px;width:25px;height:25px;border-radius:7px;
+  display:grid;place-items:center;font-family:var(--display)!important;font-size:16px;font-weight:900;line-height:1;
+}
+.shift-row>div:first-child:before{content:"×";color:#a5a99b;border:1px solid #555a4b;background:#151812}
+.shift-row>div:last-child:before{content:"✓";color:var(--accent);border:1px solid #687026;background:rgba(215,220,61,.08)}
+.shift-row b{font-family:var(--display)!important;font-weight:850!important;font-size:17px!important;letter-spacing:-.025em!important}
+.shift-row span{font-family:var(--display)!important;font-size:13px!important;line-height:1.55!important}
+
+/* Stack-of-cards roadmap: hover/focus expands each phase and reveals its lessons line by line. */
+.roadmap-steps{
+  display:flex!important;flex-direction:column!important;gap:10px!important;
+  align-items:stretch!important;
+}
+.road-step{
+  min-height:58px!important;width:100%!important;
+  display:block!important;position:relative!important;overflow:hidden!important;
+  padding:14px 16px!important;border:1px solid #30361e!important;border-radius:15px!important;
+  background:linear-gradient(180deg,#10140c,#0d1109)!important;
+  color:#8e937f!important;
+  transition:min-height .48s cubic-bezier(.2,.8,.2,1),background .4s ease,border-color .4s ease,box-shadow .4s ease,transform .4s ease!important;
+}
+.road-step-head{display:flex;align-items:center;gap:12px;min-height:30px}
+.road-step-head .road-label{font-family:var(--display)!important;font-size:14px;font-weight:850;letter-spacing:-.02em;color:inherit}
+.road-step span{position:static!important;width:29px!important;height:29px!important;border-radius:8px!important;background:#171c0e!important;display:grid!important;place-items:center!important;flex:none!important;color:#626942!important;font:700 10px/1 "SFMono-Regular",ui-monospace,monospace!important}
+.road-step-preview{display:grid;grid-template-rows:0fr;margin-left:41px;opacity:0;transition:grid-template-rows .48s cubic-bezier(.2,.8,.2,1),opacity .3s ease,margin-top .48s ease}
+.road-step-preview-inner{overflow:hidden;display:flex;flex-direction:column;gap:7px}
+.road-step-preview-line{display:flex;align-items:center;gap:8px;font-family:var(--display)!important;font-size:11px;line-height:1.3;color:#929782;opacity:0;transform:translateY(-7px);transition:opacity .34s ease,transform .34s ease}
+.road-step-preview-line i{width:5px;height:5px;border-radius:50%;background:#555c38;flex:none}
+.road-step.active{background:linear-gradient(180deg,#151a0d,#10140b)!important;border-color:#505a23!important;color:#f0f1e5!important;box-shadow:inset 2px 0 0 var(--accent)!important}
+.road-step.active span{color:var(--accent)!important;background:#20260f!important}
+@media (hover:hover) and (pointer:fine){
+  .road-step:hover,.road-step:focus-visible{
+    min-height:176px!important;transform:translateX(3px)!important;
+    background:linear-gradient(180deg,#171c0e,#10140b)!important;border-color:#596124!important;
+    box-shadow:0 14px 34px rgba(0,0,0,.18),inset 2px 0 0 var(--accent)!important;
+  }
+  .road-step:hover .road-step-preview,.road-step:focus-visible .road-step-preview{grid-template-rows:1fr;opacity:1;margin-top:12px}
+  .road-step:hover .road-step-preview-line,.road-step:focus-visible .road-step-preview-line{opacity:1;transform:none}
+  .road-step:hover .road-step-preview-line:nth-child(1),.road-step:focus-visible .road-step-preview-line:nth-child(1){transition-delay:.04s}
+  .road-step:hover .road-step-preview-line:nth-child(2),.road-step:focus-visible .road-step-preview-line:nth-child(2){transition-delay:.10s}
+  .road-step:hover .road-step-preview-line:nth-child(3),.road-step:focus-visible .road-step-preview-line:nth-child(3){transition-delay:.16s}
+  .road-step:hover .road-step-preview-line:nth-child(4),.road-step:focus-visible .road-step-preview-line:nth-child(4){transition-delay:.22s}
+  .road-step:hover .road-step-preview-line:nth-child(5),.road-step:focus-visible .road-step-preview-line:nth-child(5){transition-delay:.28s}
+  .road-step:hover .road-step-preview-line:nth-child(6),.road-step:focus-visible .road-step-preview-line:nth-child(6){transition-delay:.34s}
+}
+@media(max-width:820px){
+  .roadmap-steps{grid-template-columns:1fr!important;display:flex!important}
+  .road-step{min-height:68px!important}
+  .road-step.active .road-step-preview{grid-template-rows:1fr;opacity:1;margin-top:10px}
+  .road-step.active .road-step-preview-line{opacity:1;transform:none}
+  .road-step-preview-line{font-size:10.5px}
+  .shift-row>div{padding-left:52px!important}
+  .shift-row>div:before{left:16px;top:17px;width:23px;height:23px}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+<defs>
+<g id="crowShape">
+<path fill="currentColor" d="M34 30c10-4 20-10 24-18-2 10-8 18-16 24 6 0 12 2 16 6-9 1-17-1-24-6z"/>
+<path fill="currentColor" d="M30 24c2-3 6-4 8-2 3-4 8-3 9 1 1 3-1 6-4 7l3 9c1 3-1 5-3 4l-5-6-3 1 1 6c-3 1-5-1-5-4l-1-6c-3 0-5-2-4-5 1-2 3-4 4-5z"/>
+</g>
+</defs>
+</svg>
+
+<div class="countdown">
+<div class="w count-inner">
+<span class="count-label">OFFER ENDS IN</span>
+<div class="timer"><div class="tbox"><span class="tval" id="hh">58</span><span class="tunit">HRS</span></div><span class="sep">:</span><div class="tbox"><span class="tval" id="mm">00</span><span class="tunit">MIN</span></div><span class="sep">:</span><div class="tbox"><span class="tval" id="ss">00</span><span class="tunit">SEC</span></div></div>
+<span class="count-msg">₹27,499 offer · limited-time</span>
+</div>
+</div>
+
+<header class="site">
+<div class="w nav">
+<div class="brand">
+<div class="brand-mark"><svg viewBox="0 0 68 40"><use href="#crowShape"/></svg></div>
+<div class="brand-word">Murder Crow<span>#Labs</span></div>
+</div>
+<nav class="nav-links">
+<a href="#curriculum">Curriculum</a><a href="#journey">Journey</a><a href="#proof">Proof</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a>
+</nav>
+<a href="#pricing" class="btn primary nav-cta">Join Lab →</a>
+</div>
+</header>
+
+<section class="hero">
+<div class="crow-stage" aria-hidden="true">
+<div class="halo"></div>
+<div class="crow c1"><svg viewBox="0 0 68 40"><use href="#crowShape"/></svg></div>
+<div class="crow c2"><svg viewBox="0 0 68 40"><use href="#crowShape"/></svg></div>
+<div class="crow c3"><svg viewBox="0 0 68 40"><use href="#crowShape"/></svg></div>
+<div class="crow c4"><svg viewBox="0 0 68 40"><use href="#crowShape"/></svg></div>
+</div>
+<div class="hero-inner">
+<span class="eyebrow">Murder Crow #Labs · Digital Growth Fellowship</span>
+<h1>Don’t just learn marketing.<br><span class="lime">Learn how growth works.</span></h1>
+<p class="hero-sub">Live classes. Real examples. Practical work. Personal guidance — not a recorded course you forget in a week.</p>
+<p class="hero-meta">16 LIVE SESSIONS · 2 MONTHS · 2 HRS/SESSION · CERTIFICATE · 1‑YEAR MENTORSHIP</p>
+<div class="offer-badge"><div><div class="offer-tag">Today's Offer</div><div class="offer-price">₹27,499 <span class="strike">₹35,000</span></div></div></div>
+<div class="hero-actions"><button class="btn primary" onclick="openModal('reserve')">Reserve ₹10 · 7 seats left →</button><a href="#curriculum" class="btn ghost">See what's inside ↓</a></div>
+</div>
+</section>
+
+<div class="banner-slot reveal">
+<div class="banner">
+<div class="banner-content">
+      <span class="eyebrow">BANNER SPACE</span><h2>Your campaign creative.</h2><p>Reserved for the final banner.</p>
+    </div>
+  </div>
+
+<section class="section reveal scarcity-section" id="availability">
+  <div class="scarcity-grid">
+    <div class="scarcity-copy">
+      <span class="eyebrow">NEXT COHORT</span>
+      <h2>35 seats. <span style="color:var(--accent)">Next opening is next month.</span></h2>
+      <p class="lede">The cohort stays intentionally small so live feedback, practical work and mentorship stay useful. Once these seats are filled, the next opening is next month.</p>
+      <div class="seat-status">
+        <div class="seat-count"><strong>7</strong><span>SEATS AVAILABLE</span></div>
+        <div class="seat-track"><span></span></div>
+        <div class="seat-note">28 / 35 seats reserved</div>
+      </div>
+      <div class="scarcity-timer">
+        <span class="eyebrow">OFFER WINDOW</span>
+        <div class="mini-timer"><span id="scarcityH">58</span><b>:</b><span id="scarcityM">00</span><b>:</b><span id="scarcityS">00</span></div>
+        <small>Current offer price closes when this timer ends.</small>
+      </div>
+    </div>
+    <div class="scarcity-card">
+      <span class="eyebrow">RESERVE BEFORE IT FILLS</span>
+      <div class="scarcity-price"><strong>₹27,499</strong><span>₹45,000</span></div>
+      <p><b>Today's enrolment price.</b> 16 live sessions, 1-year mentorship, Murder Crow Playbook and certificate.</p>
+      <button class="btn primary" type="button" onclick="openModal('reserve')">Reserve your seat for ₹10 →</button>
+      <div class="scarcity-micro">₹10 is adjusted against the final ₹27,499 programme fee.</div>
+    </div>
+  </div>
+</section>
+
+
+</div>
+
+<section class="section reveal metric-section" aria-label="Programme highlights">
+  <div class="metric-grid">
+    <div class="metric-card reveal-card"><strong>50+</strong><span>HOURS<br>TRAINING</span></div>
+    <div class="metric-card reveal-card"><strong>16</strong><span>LIVE<br>SESSIONS</span></div>
+    <div class="metric-card reveal-card"><strong>4</strong><span>GROWTH<br>PHASES</span></div>
+    <div class="metric-card reveal-card"><strong>2</strong><span>MONTHS<br>PROGRAMME</span></div>
+    <div class="metric-card reveal-card"><strong>₹27,499</strong><span>ONE TIME<br>TODAY'S OFFER</span></div>
+    <div class="metric-card reveal-card"><strong>1 YEAR</strong><span>MENTORSHIP<br>AFTER THE LAB</span></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section reveal">
+<div class="head"><span class="eyebrow">The Format</span><h2>Not a recorded course.</h2><p class="callout">This is a live learning programme.</p><p class="lede">You can ask questions, work through examples, build things and get feedback while you're learning.</p></div>
+<div class="grid3">
+<div class="card"><span class="num">01</span><h3>Live</h3><p>Learn with the trainer in real time.</p></div>
+<div class="card"><span class="num">02</span><h3>Practical</h3><p>Work on real business examples and tasks.</p></div>
+<div class="card"><span class="num">03</span><h3>Mentorship</h3><p>Get support even after the live classes.</p></div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section reveal" id="journey">
+<div class="head"><span class="eyebrow">The Journey</span><h2>One system. From idea to growth.</h2><p class="lede">Every phase builds on the last, so you're not collecting random tactics — you're assembling one working system.</p></div>
+
+<div class="roadmap-shell">
+<div class="growth-roadmap" id="growthRoadmap">
+  <div class="roadmap-progress"><span id="roadmapProgress"></span></div>
+  <div class="roadmap-steps">
+    <button class="road-step active" data-phase="0"><div class="road-step-head"><span>01</span><strong class="road-label">Understand</strong></div><div class="road-step-preview"><div class="road-step-preview-inner"><div class="road-step-preview-line"><i></i>Business &amp; Marketing Basics</div><div class="road-step-preview-line"><i></i>Business Audit &amp; Customer Research</div><div class="road-step-preview-line"><i></i>Market &amp; Competitor Research</div><div class="road-step-preview-line"><i></i>Brand + Offer + Funnel</div></div></div></button>
+    <button class="road-step" data-phase="1"><div class="road-step-head"><span>02</span><strong class="road-label">Attract</strong></div><div class="road-step-preview"><div class="road-step-preview-inner"><div class="road-step-preview-line"><i></i>Social Media Management</div><div class="road-step-preview-line"><i></i>Meta Ads</div><div class="road-step-preview-line"><i></i>Google Ads</div><div class="road-step-preview-line"><i></i>SEO + Backlinks</div><div class="road-step-preview-line"><i></i>AEO + GEO</div><div class="road-step-preview-line"><i></i>LinkedIn + B2B</div></div></div></button>
+    <button class="road-step" data-phase="2"><div class="road-step-head"><span>03</span><strong class="road-label">Convert</strong></div><div class="road-step-preview"><div class="road-step-preview-inner"><div class="road-step-preview-line"><i></i>WhatsApp + CRM</div><div class="road-step-preview-line"><i></i>AI + Automation</div></div></div></button>
+    <button class="road-step" data-phase="3"><div class="road-step-head"><span>04</span><strong class="road-label">Scale</strong></div><div class="road-step-preview"><div class="road-step-preview-inner"><div class="road-step-preview-line"><i></i>Analytics + Numbers</div><div class="road-step-preview-line"><i></i>Problem-Solving Lab</div><div class="road-step-preview-line"><i></i>Portfolio + Career</div><div class="road-step-preview-line"><i></i>Final Growth Project</div></div></div></button>
+  </div>
+
+  <div class="road-showcase">
+    <article class="road-panel active" data-panel="0">
+      <div class="road-index">PHASE 01 / FOUNDATION</div>
+      <div class="road-title-row"><h3>Understand</h3><span>01 → 04</span></div>
+      <p class="road-intro">Before you touch an ad manager, understand the machine. Learn how the business makes money, who buys, what they value and where growth is leaking.</p>
+      <div class="lesson-grid">
+        <div class="lesson"><b>01</b><h4>Business & Marketing Basics</h4><p>Business models, revenue, customer value, growth constraints and vanity metrics.</p><small>LIVE LAB · 2 HRS</small></div>
+        <div class="lesson"><b>02</b><h4>Business Audit & Customer Research</h4><p>Audit the offer, customer journey and buying triggers. Build a practical customer profile.</p><small>LIVE LAB · 2 HRS</small></div>
+        <div class="lesson"><b>03</b><h4>Market & Competitor Research</h4><p>Map the market, competitors, positioning gaps and opportunities worth pursuing.</p><small>LIVE LAB · 2 HRS</small></div>
+        <div class="lesson"><b>04</b><h4>Brand + Offer + Funnel</h4><p>Turn the research into positioning, a compelling offer and the first conversion path.</p><small>LIVE LAB · 2 HRS</small></div>
+      </div>
+    </article>
+
+    <article class="road-panel" data-panel="1">
+      <div class="road-index">PHASE 02 / ACQUISITION</div>
+      <div class="road-title-row"><h3>Attract</h3><span>05 → 10</span></div>
+      <p class="road-intro">Build attention that has a job. Content, creative, search and paid acquisition work together instead of becoming six disconnected skills.</p>
+      <div class="lesson-grid">
+        <div class="lesson"><b>05</b><h4>Social Media Management</h4><p>Content pillars, planning, publishing, community and reporting systems.</p><small>LIVE LAB · 2 HRS</small></div>
+        <div class="lesson"><b>06</b><h4>Meta Ads</h4><p>Campaign structure, audiences, creative testing, retargeting and optimisation.</p><small>LIVE LAB · 2 HRS</small></div>
+        <div class="lesson"><b>07</b><h4>Google Ads</h4><p>Search intent, keyword strategy, high-intent traffic and landing-page alignment.</p><small>LIVE LAB · 2 HRS</small></div>
+        <div class="lesson"><b>08</b><h4>SEO + Backlinks</h4><p>Search visibility, technical foundations, content clusters and authority building.</p><small>LIVE LAB · 2 HRS</small></div>
+        <div class="lesson"><b>09</b><h4>AEO + GEO</h4><p>Structure content for answer engines, AI discovery and local relevance.</p><small>LIVE LAB · 2 HRS</small></div>
+        <div class="lesson"><b>10</b><h4>LinkedIn + B2B</h4><p>Authority, prospecting, messaging and decision-maker journeys.</p><small>LIVE LAB · 2 HRS</small></div>
+      </div>
+    </article>
+
+    <article class="road-panel" data-panel="2">
+      <div class="road-index">PHASE 03 / CONVERSION</div>
+      <div class="road-title-row"><h3>Convert</h3><span>11 → 12</span></div>
+      <p class="road-intro">Attention is useless if the journey breaks. Build the systems that turn a lead into a conversation, a sale and a follow-up.</p>
+      <div class="lesson-grid">
+        <div class="lesson"><b>11</b><h4>WhatsApp + CRM</h4><p>Lead capture, qualification, follow-up, pipeline stages and customer journeys.</p><small>LIVE LAB · 2 HRS</small></div>
+        <div class="lesson"><b>12</b><h4>AI + Automation</h4><p>Automate repetitive marketing and CRM work without losing the human layer.</p><small>LIVE LAB · 2 HRS</small></div>
+      </div>
+    </article>
+
+    <article class="road-panel" data-panel="3">
+      <div class="road-index">PHASE 04 / COMPOUND</div>
+      <div class="road-title-row"><h3>Scale</h3><span>13 → 16</span></div>
+      <p class="road-intro">Now make the system measurable and repeatable. Finish with a real growth project you can show, explain and improve.</p>
+      <div class="lesson-grid">
+        <div class="lesson"><b>13</b><h4>Analytics + Numbers</h4><p>KPI dashboards, attribution, CAC, conversion, retention and decision-making.</p><small>LIVE LAB · 2 HRS</small></div>
+        <div class="lesson"><b>14</b><h4>Problem-Solving Lab</h4><p>Bring a real marketing problem. Diagnose it, challenge assumptions and build the fix.</p><small>LIVE LAB · 2 HRS</small></div>
+        <div class="lesson"><b>15</b><h4>Portfolio + Career</h4><p>Turn the work into a portfolio, resume story, LinkedIn positioning and interview material.</p><small>LIVE LAB · 2 HRS</small></div>
+        <div class="lesson"><b>16</b><h4>Final Growth Project</h4><p>Build the whole system: strategy, funnel, acquisition, CRM, analytics and growth plan.</p><small>CAPSTONE · FINAL</small></div>
+      </div>
+    </article>
+  </div>
+</div>
+</section>
+
+
+<div class="divider"></div>
+<section class="section reveal" id="shift">
+  <div class="head">
+    <span class="eyebrow">The Shift</span>
+    <h2>Old marketing taught tactics.<br><span style="color:var(--accent)">Growth teaches the system.</span></h2>
+    <p class="lede">The point isn't to collect more tools. It's to understand why the work works — and what to do when it doesn't.</p>
+  </div>
+
+  <div class="shift-table">
+    <div class="shift-head">
+      <div><span class="shift-cross">×</span> OLD MARKETING</div><div><span class="shift-tick">✓</span> NEW MARKETING</div>
+    </div>
+    <div class="shift-row"><div><b>Post more.</b><span>Chase reach, likes and followers.</span></div><div><b>Build demand.</b><span>Understand the customer, message and journey behind the attention.</span></div></div>
+    <div class="shift-row"><div><b>Run ads.</b><span>Press buttons and hope the platform finds buyers.</span></div><div><b>Build acquisition.</b><span>Research → offer → creative → campaign → landing page → conversion.</span></div></div>
+    <div class="shift-row"><div><b>SEO as a checklist.</b><span>Keywords, blogs and backlinks in isolation.</span></div><div><b>Be discoverable.</b><span>SEO + AEO + GEO so people can find and understand the business across search and AI answers.</span></div></div>
+    <div class="shift-row"><div><b>Leads are the finish line.</b><span>Generate a number and move on.</span></div><div><b>Leads are the beginning.</b><span>WhatsApp + CRM + follow-up + sales + retention.</span></div></div>
+    <div class="shift-row"><div><b>More tools.</b><span>Learn every platform separately.</span></div><div><b>One growth system.</b><span>Connect the pieces so every channel has a job.</span></div></div>
+    <div class="shift-row"><div><b>Reports.</b><span>Show numbers after the work is done.</span></div><div><b>Decisions.</b><span>Use analytics to decide what to stop, fix, test and scale.</span></div></div>
+  </div>
+
+  <div class="shift-bottom">
+    <span class="eyebrow">The difference</span>
+    <strong>You don't leave with a list of tactics.<br>You leave knowing how the machine fits together.</strong>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section reveal" id="curriculum">
+<div class="head"><span class="eyebrow">Curriculum</span><h2>What you'll learn</h2><p class="lede">Simple language. Real work.</p></div>
+<div class="curriculum-grid">
+<div class="card"><span class="num">01</span><h3>Business thinking</h3><p>Understand how a business makes money and where growth is stuck.</p></div>
+<div class="card"><span class="num">02</span><h3>Customer research</h3><p>Find who buys, why they buy and what stops them.</p></div>
+<div class="card"><span class="num">03</span><h3>Social media</h3><p>Plan, create, manage and report social media properly.</p></div>
+<div class="card"><span class="num">04</span><h3>Meta + Google</h3><p>Build campaigns, test ideas and read the numbers.</p></div>
+<div class="card"><span class="num">05</span><h3>SEO + AEO/GEO</h3><p>Help businesses get found in search and AI answers.</p></div>
+<div class="card"><span class="num">06</span><h3>Funnels + CRM</h3><p>Turn attention into leads, sales and follow‑up.</p></div>
+<div class="card"><span class="num">07</span><h3>WhatsApp + AI</h3><p>Build useful customer journeys and simple automation.</p></div>
+<div class="card"><span class="num">08</span><h3>LinkedIn + B2B</h3><p>Build authority and reach decision‑makers.</p></div>
+<div class="card"><span class="num">09</span><h3>Career support</h3><p>Portfolio, resume, LinkedIn and interview guidance.</p></div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section reveal">
+<div class="head"><span class="eyebrow">The Roadmap</span><h2>See what you actually take.</h2><p class="lede">Scroll through the four phases. Every phase opens into the classes, practical work and systems you will build.</p></div>
+<div class="sessions-wrap">
+<div class="session-row"><span class="n">01</span>Business &amp; Marketing Basics</div>
+<div class="session-row"><span class="n">02</span>Business Audit &amp; Customer Research</div>
+<div class="session-row"><span class="n">03</span>Market &amp; Competitor Research</div>
+<div class="session-row"><span class="n">04</span>Brand + Offer + Funnel</div>
+<div class="session-row"><span class="n">05</span>Social Media Management</div>
+<div class="session-row"><span class="n">06</span>Meta Ads</div>
+<div class="session-row"><span class="n">07</span>Google Ads</div>
+<div class="session-row"><span class="n">08</span>SEO + Backlinks</div>
+<div class="session-row"><span class="n">09</span>AEO + GEO</div>
+<div class="session-row"><span class="n">10</span>LinkedIn + B2B</div>
+<div class="session-row"><span class="n">11</span>WhatsApp + CRM</div>
+<div class="session-row"><span class="n">12</span>AI + Automation</div>
+<div class="session-row"><span class="n">13</span>Analytics + Numbers</div>
+<div class="session-row"><span class="n">14</span>Problem‑Solving Lab</div>
+<div class="session-row"><span class="n">15</span>Portfolio + Career</div>
+<div class="session-row"><span class="n">16</span>Final Growth Project</div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section reveal">
+<div class="head"><span class="eyebrow">Inclusions</span><h2>Everything you get</h2></div>
+<div class="grid3">
+<div class="card"><h3>Live programme</h3><p>16 live sessions over 2 months.</p></div>
+<div class="card"><h3>Murder Crow Playbook</h3><p>Worksheets, notes, labs and glossary.</p></div>
+<div class="card"><h3>Career guidance</h3><p>Resume, LinkedIn, portfolio and interview support.</p></div>
+<div class="card"><h3>1‑year mentorship</h3><p>Support after the live programme.</p></div>
+<div class="card"><h3>Certificate</h3><p>Awarded after completing programme requirements.</p></div>
+<div class="card"><h3>Custom option</h3><p>Add a focused 1‑to‑1 session for ₹5,000.</p></div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section reveal">
+<div class="head"><span class="eyebrow">Beyond The Classroom</span><h2>Career support</h2><p class="lede">We'll help you prepare to apply for stronger roles — portfolio, resume, LinkedIn positioning, application strategy and interview prep.</p></div>
+<div class="chips"><div class="chip">Zoho</div><div class="chip">Freshworks</div><div class="chip">Accenture</div><div class="chip">Deloitte</div><div class="chip">Razorpay</div><div class="chip">Chargebee</div></div>
+<p class="fine">Examples of employers to explore — not placement partners or job guarantees.</p>
+</section>
+
+<div class="divider"></div>
+<section class="section reveal" id="community">
+<div class="head">
+  <span class="eyebrow">Community</span>
+  <h2>Knowledge should move forward.</h2>
+  <p class="lede">More than classes — a growing learning network built around practical knowledge, mentorship and sharing opportunities forward.</p>
+</div>
+<div class="community">
+  <div>
+    <div class="community-num">10 → 2</div>
+    <h3 style="font-size:25px;margin-bottom:9px">For every 10 paid learners, 2 free student seats.</h3>
+    <p>Two learners who genuinely cannot afford the programme can receive free access through the Murder Crow Community.</p>
+  </div>
+  <div>
+    <span class="eyebrow">Subscribe to the Community</span>
+    <p style="margin-top:8px">Join the community and stay connected to practical learning, mentorship and opportunities.</p>
+    <div class="socials">
+      <a class="social" href="https://instagram.com/" target="_blank" rel="noopener">IG</a>
+      <a class="social" href="https://linkedin.com/" target="_blank" rel="noopener">IN</a>
+      <a class="social" href="https://wa.me/" target="_blank" rel="noopener">WA</a>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<div class="divider"></div>
+<section class="section reveal" id="reviews">
+  <div class="head">
+    <span class="eyebrow">Google Reviews</span>
+    <h2>What people say.</h2>
+    <p class="lede">A moving review wall for your verified Google feedback.</p>
+  </div>
+  <div class="reviews-wrap" aria-label="Google review slider">
+    <div class="reviews-track" id="reviewsTrack">
+      <article class="review-card">
+        <div class="review-top"><div class="google-mark"><span class="google-g">G</span> Google Reviews</div><div class="stars">★★★★★</div></div>
+        <div class="review-text">“Add your first verified Google review here.”</div>
+        <div class="review-name">Verified Google reviewer</div>
+      </article>
+      <article class="review-card">
+        <div class="review-top"><div class="google-mark"><span class="google-g">G</span> Google Reviews</div><div class="stars">★★★★★</div></div>
+        <div class="review-text">“Replace this card with an actual customer review from your Google profile.”</div>
+        <div class="review-name">Verified Google reviewer</div>
+      </article>
+      <article class="review-card">
+        <div class="review-top"><div class="google-mark"><span class="google-g">G</span> Google Reviews</div><div class="stars">★★★★★</div></div>
+        <div class="review-text">“Keep the slider filled only with real, verifiable reviews.”</div>
+        <div class="review-name">Verified Google reviewer</div>
+      </article>
+    </div>
+  </div>
+  <div class="review-controls">
+    <div class="review-dots" id="reviewDots">
+      <button class="review-dot active" type="button" aria-label="Review 1"></button>
+      <button class="review-dot" type="button" aria-label="Review 2"></button>
+      <button class="review-dot" type="button" aria-label="Review 3"></button>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="review-arrow" id="reviewPrev" type="button" aria-label="Previous review">←</button>
+      <button class="review-arrow" id="reviewNext" type="button" aria-label="Next review">→</button>
+    </div>
+  </div>
+  <p class="review-note">Placeholder copy is intentional until you provide the actual Google review text. No invented testimonials.</p>
+</section>
+
+<div class="divider"></div>
+
+<section class="section reveal" id="faq">
+<div class="head"><span class="eyebrow">Before You Join</span><h2>Questions, answered</h2></div>
+<div class="faq-list">
+<details><summary>Is this a normal digital marketing course?</summary><p>No. It's structured as a live practical lab — business diagnosis, real examples, assessments and a capstone project, not a video library.</p></details>
+<details><summary>Is it beginner friendly?</summary><p>Yes. It starts with business and customer thinking before platform execution, so zero prior knowledge is assumed.</p></details>
+<details><summary>What happens after two months?</summary><p>You get one year of mentorship support after the live programme ends, for eligible students.</p></details>
+<details><summary>Will I get a certificate?</summary><p>Yes, after meeting the stated completion requirements.</p></details>
+<details><summary>Is a job or revenue outcome guaranteed?</summary><p>No. The programme builds practical capability, portfolio evidence and career support. Results depend on execution, market and opportunity.</p></details>
+</div>
+</section>
+
+<section class="section reveal" id="pricing">
+<div class="head" style="text-align:center;margin:0 auto 34px"><span class="eyebrow">Today's Offer</span><h2>Build the system. Own the price.</h2></div>
+<div class="pricing-panel">
+<div class="value-stack">
+<div class="value-row"><span>Full programme stack</span><span>₹75,000</span></div>
+<div class="value-row"><span>Standard price</span><span>₹35,000</span></div>
+<div class="value-row total"><span>Today's offer</span><span style="color:var(--accent)">₹27,499</span></div>
+</div>
+<div class="price-line"><span class="now">₹27,499</span><span class="was">₹35,000</span></div>
+<p class="price-note">One‑time payment · 16 live sessions · 1‑year mentorship · Murder Crow Playbook · Certificate</p>
+
+<div class="payment-grid">
+<div class="pay-card"><h3>Full enrolment</h3><p>Pay the full ₹27,499 programme fee.</p><div class="pay-buttons">
+<button class="pay-btn" onclick="openModal('full')"><span><strong>UPI / Card Payment</strong><small>Connect your live gateway here</small></span><b>→</b></button>
+<button class="pay-btn" onclick="openModal('full')"><span><strong>WhatsApp the team</strong><small>Get payment assistance</small></span><b>→</b></button>
+</div></div>
+
+<div class="pay-card"><h3>Reserve your seat</h3><p>Start with ₹10. The amount is adjusted against the final enrolment.</p><div class="pay-buttons">
+<button class="pay-btn" onclick="openModal('reserve')"><span><strong>Reserve for ₹10 · Pay Later</strong><small>Reservation checkout</small></span><b>→</b></button>
+<a class="pay-btn" href="https://wa.me/?text=Hi%20Murder%20Crow%20Labs%2C%20I%20want%20to%20reserve%20a%20seat." target="_blank" rel="noopener"><span><strong>WhatsApp reservation</strong><small>Talk to the team</small></span><b>→</b></a>
+</div></div>
+</div>
+
+<div class="reserve-grid">
+<div class="reserve-card"><h3>Reserve your interest</h3><p>A ₹10 reservation locks your spot in the next live cohort — adjusted against your final payment.</p></div>
+<div class="reserve-card"><h3>Offer window</h3><p>The 58-hour countdown is a campaign timer. Cohort dates and remaining seats should be confirmed before launch.</p></div>
+</div>
+
+<div class="reserve-card" style="margin-top:16px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap">
+<div><h3>Want it built around your goal?</h3><p>One-to-one customisation — a focused session for career direction, portfolio review or a specific business need.</p></div>
+<strong style="font:700 18px 'Space Mono';color:var(--accent);white-space:nowrap">+₹5,000</strong>
+</div>
+
+<div class="community"><div><span class="eyebrow">Community commitment</span><h3 style="font-size:24px;margin:9px 0">10 paid learners → 2 free seats</h3><p>Two eligible learners who genuinely cannot afford the programme can receive a free student seat.</p></div><div><a href="#community" class="btn primary">Join the Community →</a></div></div>
+</div>
+</section>
+
+<section class="final reveal">
+<div class="crow-stage" aria-hidden="true">
+<div class="crow c3"><svg viewBox="0 0 68 40"><use href="#crowShape"/></svg></div>
+<div class="crow c4"><svg viewBox="0 0 68 40"><use href="#crowShape"/></svg></div>
+</div>
+<span class="eyebrow">Ready?</span>
+<h2>Your next move is not another course.<br><span style="color:var(--accent)">It’s learning how the whole system works.</span></h2>
+<p class="callout">Learn the thinking. Build the system.</p>
+<div class="now">₹27,499 today</div>
+<p class="meta">16 LIVE SESSIONS · 1‑YEAR MENTORSHIP · PLAYBOOK · CERTIFICATE</p>
+<a class="btn primary" href="#pricing">Claim Today's Offer →</a>
+</section>
+
+<footer>
+<div class="foot">
+<div class="brand"><div class="brand-mark" style="width:34px;height:34px"><svg viewBox="0 0 68 40"><use href="#crowShape"/></svg></div><div class="brand-word" style="font-size:17px">Murder Crow<span>#Labs</span></div></div>
+<div><p>© 2026 Murder Crow #Labs. Results depend on the work you put in. Nothing on this page is a guarantee of income or placement.</p><div class="socials"><a class="social" href="https://instagram.com/" target="_blank" rel="noopener">IG</a><a class="social" href="https://linkedin.com/" target="_blank" rel="noopener">IN</a><a class="social" href="https://wa.me/" target="_blank" rel="noopener">WA</a></div></div>
+</div>
+</footer>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal reservation-modal">
+    <button class="modal-x" type="button" onclick="closeModal()" aria-label="Close">×</button>
+
+    <div id="leadStep">
+      <span class="eyebrow">RESERVE YOUR SEAT</span>
+      <h3>Let's save your seat.</h3>
+      <p>Tell us a little about you first. Payment comes after this step.</p>
+
+      <form id="leadForm" novalidate>
+        <label>Full name
+          <input id="leadName" type="text" autocomplete="name" placeholder="Your name" required>
+        </label>
+        <label>WhatsApp / mobile number
+          <input id="leadPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 XXXXX XXXXX" required>
+        </label>
+        <label>Email
+          <input id="leadEmail" type="email" autocomplete="email" placeholder="you@example.com" required>
+        </label>
+        <label>What are you currently doing?
+          <select id="leadStatus" required>
+            <option value="">Select one</option>
+            <option>Studying</option>
+            <option>Working</option>
+            <option>Business owner</option>
+            <option>Freelancer / Creator</option>
+            <option>Looking for a career switch</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <p class="form-note">Your details are used for reservation and programme communication. Entering them does not confirm a seat.</p>
+        <button class="btn primary form-submit" type="submit">Continue to Reserve ₹10 →</button>
+      </form>
+    </div>
+
+    <div id="paymentStep" hidden>
+      <button class="back-link" type="button" onclick="backToLead()">← Edit details</button>
+      <span class="eyebrow">STEP 02 / RESERVATION</span>
+      <h3>Almost there.</h3>
+      <div class="pay-summary">
+        <div><span>Programme value</span><strong class="strike-inline">₹45,000</strong></div>
+        <div><span>Today's enrolment price</span><strong>₹27,499</strong></div>
+        <div><span>Seat reservation</span><strong style="color:var(--accent)">₹10</strong></div>
+        <p>Your ₹10 reservation is adjusted against the final programme fee. Your seat is confirmed only after successful payment.</p>
+      </div>
+      <button class="btn primary form-submit" type="button" onclick="startRazorpay()">Pay ₹10 &amp; Reserve →</button>
+      <p class="form-note">Razorpay will be connected here. Leaving this step does not confirm the reservation.</p>
+    </div>
+
+    <div id="thankyouStep" hidden>
+      <div class="thanks-icon">✓</div>
+      <span class="eyebrow">THANK YOU</span>
+      <h3>Your details are saved.</h3>
+      <p>Complete the ₹10 reservation to lock your place in this cohort.</p>
+      <div class="thanks-card">
+        <strong>7 seats currently available</strong>
+        <span>Next opening: next month if this cohort fills.</span>
+      </div>
+      <button class="btn primary form-submit" type="button" onclick="showPaymentStep()">Reserve for ₹10 →</button>
+      <button class="modal-close" type="button" onclick="closeModal()">I'll do it later</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  document.body.classList.add('motion-ready');
+const endKey='murderCrowOfferEndsAt';
+let end=Number(localStorage.getItem(endKey));
+if(!end || end<Date.now()){end=Date.now()+58*60*60*1000;localStorage.setItem(endKey,String(end))}
+const pad=n=>String(n).padStart(2,'0');
+function tick(){
+let d=Math.max(0,end-Date.now());
+const h=Math.floor(d/36e5);d%=36e5;const m=Math.floor(d/6e4);d%=6e4;const s=Math.floor(d/1e3);
+document.getElementById('hh').textContent=pad(h);
+document.getElementById('mm').textContent=pad(m);
+document.getElementById('ss').textContent=pad(s);
+}
+tick();setInterval(tick,1000);
+
+const els=document.querySelectorAll('.reveal');
+const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+els.forEach(el=>io.observe(el));
+window.openModal=(type)=>{
+  document.getElementById('modalBg').classList.add('open');
+  showLeadStep();
+};
+window.closeModal=()=>document.getElementById('modalBg').classList.remove('open');
+
+const leadStep=document.getElementById('leadStep');
+const paymentStep=document.getElementById('paymentStep');
+const thankyouStep=document.getElementById('thankyouStep');
+let reservationLead=null;
+
+function showLeadStep(){leadStep.hidden=false;paymentStep.hidden=true;thankyouStep.hidden=true;}
+function showPaymentStep(){leadStep.hidden=true;paymentStep.hidden=false;thankyouStep.hidden=true;}
+function showThankyouStep(){leadStep.hidden=true;paymentStep.hidden=true;thankyouStep.hidden=false;}
+function backToLead(){showLeadStep();}
+
+document.getElementById('leadForm').addEventListener('submit',(e)=>{
+  e.preventDefault();
+  const name=document.getElementById('leadName');
+  const phone=document.getElementById('leadPhone');
+  const email=document.getElementById('leadEmail');
+  const status=document.getElementById('leadStatus');
+  [name,phone,email,status].forEach(x=>x.classList.remove('invalid'));
+  let valid=true;
+  if(name.value.trim().length<2){name.classList.add('invalid');valid=false}
+  if(phone.value.replace(/\D/g,'').length<10){phone.classList.add('invalid');valid=false}
+  if(!email.checkValidity()){email.classList.add('invalid');valid=false}
+  if(!status.value){status.classList.add('invalid');valid=false}
+  if(!valid)return;
+  reservationLead={name:name.value.trim(),phone:phone.value.trim(),email:email.value.trim(),status:status.value};
+  localStorage.setItem('mcl_pending_reservation',JSON.stringify(reservationLead));
+  showThankyouStep();
+});
+
+function startRazorpay(){
+  alert('Razorpay integration goes here next. Your qualifying details have already been collected.');
+}
+
+document.getElementById('modalBg').addEventListener('click',e=>{
+  if(e.target.id==='modalBg')closeModal();
+});
+
+// Separate 58-hour offer timer for the cohort scarcity block.
+(function(){
+  const key='mclScarcityEndsAt';
+  let end=Number(localStorage.getItem(key));
+  if(!end || end<Date.now()){end=Date.now()+58*60*60*1000;localStorage.setItem(key,String(end))}
+  const pad=n=>String(n).padStart(2,'0');
+  function tickScarcity(){
+    let d=Math.max(0,end-Date.now());
+    const h=Math.floor(d/3600000);d%=3600000;
+    const m=Math.floor(d/60000);d%=60000;
+    const s=Math.floor(d/1000);
+    const a=document.getElementById('scarcityH'),b=document.getElementById('scarcityM'),c=document.getElementById('scarcityS');
+    if(a)a.textContent=pad(h);if(b)b.textContent=pad(m);if(c)c.textContent=pad(s);
+  }
+  tickScarcity();setInterval(tickScarcity,1000);
+})();
+
+// Google review slider
+const reviewTrack = document.getElementById('reviewsTrack');
+const reviewDots = [...document.querySelectorAll('.review-dot')];
+const reviewPrev = document.getElementById('reviewPrev');
+const reviewNext = document.getElementById('reviewNext');
+let reviewIndex = 0;
+let reviewTimer;
+function showReview(i){
+  reviewIndex=(i+reviewDots.length)%reviewDots.length;
+  if(reviewTrack) reviewTrack.style.transform=`translateX(-${reviewIndex*100}%)`;
+  reviewDots.forEach((d,j)=>d.classList.toggle('active',j===reviewIndex));
+}
+function startReviewTimer(){
+  clearInterval(reviewTimer);
+  reviewTimer=setInterval(()=>showReview(reviewIndex+1),5000);
+}
+reviewDots.forEach((d,i)=>d.addEventListener('click',()=>{showReview(i);startReviewTimer()}));
+reviewPrev?.addEventListener('click',()=>{showReview(reviewIndex-1);startReviewTimer()});
+reviewNext?.addEventListener('click',()=>{showReview(reviewIndex+1);startReviewTimer()});
+showReview(0); startReviewTimer();
+
+
+// ===== stable scroll-linked roadmap =====
+const growthRoadmap=document.getElementById('growthRoadmap');
+const roadmapProgress=document.getElementById('roadmapProgress');
+const roadSteps=[...document.querySelectorAll('.road-step')];
+const roadPanels=[...document.querySelectorAll('.road-panel')];
+let activeRoadPhase=0;
+let roadTick=false;
+
+function setPhase(i){
+  if(!roadPanels.length)return;
+  i=Math.max(0,Math.min(roadPanels.length-1,i));
+  if(i===activeRoadPhase && roadPanels[i]?.classList.contains('active'))return;
+  activeRoadPhase=i;
+  roadSteps.forEach((s,j)=>s.classList.toggle('active',j===i));
+  roadPanels.forEach((p,j)=>{
+    const active=j===i;
+    p.classList.toggle('active',active);
+    if(active){
+      p.classList.remove('road-refresh');
+      void p.offsetWidth;
+      p.classList.add('road-refresh');
+    }
+  });
+}
+
+function updateRoadmap(){
+  roadTick=false;
+  if(!growthRoadmap || !roadmapProgress)return;
+
+  const r=growthRoadmap.getBoundingClientRect();
+  const vh=window.innerHeight || document.documentElement.clientHeight;
+
+  // Start when the roadmap enters the lower 75% of the viewport,
+  // finish when its bottom reaches the upper 25%.
+  const startY=vh*0.75;
+  const endY=vh*0.25;
+  const travel=Math.max(1,r.height-(startY-endY));
+  const raw=(startY-r.top)/travel;
+  const progress=Math.max(0,Math.min(1,raw));
+
+  const targetHeight=progress*100;
+  roadmapProgress.dataset.targetHeight=targetHeight.toFixed(3);
+  if(!roadmapProgress._smoothHeight){
+    roadmapProgress._smoothHeight=targetHeight;
+    roadmapProgress.style.height=targetHeight.toFixed(3)+'%';
+  }
+
+  const phaseCount=roadPanels.length || 1;
+  let phase=Math.floor(progress*phaseCount);
+  if(phase>=phaseCount)phase=phaseCount-1;
+  setPhase(phase);
+}
+
+function smoothRoadmapLine(){
+  if(roadmapProgress){
+    const target=parseFloat(roadmapProgress.dataset.targetHeight||'0');
+    const current=roadmapProgress._smoothHeight ?? target;
+    const next=current+(target-current)*0.12;
+    roadmapProgress._smoothHeight=next;
+    roadmapProgress.style.height=next.toFixed(3)+'%';
+    if(Math.abs(target-next)>0.02) requestAnimationFrame(smoothRoadmapLine);
+  }
+}
+
+function queueRoadmap(){
+  if(!roadTick){
+    roadTick=true;
+    requestAnimationFrame(updateRoadmap);
+  }
+  requestAnimationFrame(smoothRoadmapLine);
+}
+
+roadSteps.forEach((step,i)=>{
+  step.addEventListener('click',()=>{
+    setPhase(i);
+    roadPanels[i]?.scrollIntoView({behavior:'smooth',block:'center'});
+  });
+  step.addEventListener('mouseenter',()=>setPhase(i));
+});
+
+window.addEventListener('scroll',queueRoadmap,{passive:true});
+window.addEventListener('resize',queueRoadmap);
+window.addEventListener('load',queueRoadmap);
+setPhase(0);
+queueRoadmap();
+
+})();
+</script>
+
+<div class="sticky-enroll" id="stickyEnroll">
+  <div class="sticky-inner">
+    <div class="sticky-price"><strong>₹27,499</strong><span>ONE TIME · TODAY'S OFFER</span></div>
+    <a href="#pricing" class="btn primary">Reserve ₹10 · 7 seats left <span>→</span></a>
+  </div>
+</div>
+
+</body>
+</html>
