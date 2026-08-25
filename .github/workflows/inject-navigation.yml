@@ -31,6 +31,10 @@ jobs:
               if '/menu.css' not in s:
                   s = s.replace('</head>', '  <link rel="stylesheet" href="/menu.css">\n</head>', 1)
 
+              # Every page gets the Murder Crow favicon in the browser tab.
+              if '/favicon.svg' not in s:
+                  s = s.replace('</head>', '  <link rel="icon" href="/favicon.svg" type="image/svg+xml">\n</head>', 1)
+
               # Convert the simple Playbook-style text header into the same logo treatment.
               s = s.replace('<nav class="nav"><span>#MURDERCROW</span></nav>', '<nav class="nav"><a class="brand" href="/">#<span>murdercrow</span></a></nav>')
 
