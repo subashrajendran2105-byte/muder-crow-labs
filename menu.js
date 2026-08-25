@@ -12,7 +12,24 @@
     trigger.setAttribute('aria-label','Open menu');
     trigger.setAttribute('aria-expanded','false');
     trigger.innerHTML = '<b>Menu</b><i><span></span></i>';
-    nav.appendChild(trigger);
+
+    // Keep the shared header geometry consistent: logo on the left,
+    // menu control on the right, both inside the same aligned wrapper.
+    const headerWrap = nav.querySelector('.wrap');
+    (headerWrap || nav).appendChild(trigger);
+
+    // Every inner page uses the real Murder Crow logo asset, never a text substitute.
+    const brand = nav.querySelector('.brand');
+    if (brand) {
+      brand.textContent = '';
+      brand.setAttribute('aria-label', 'Murder Crow Labs');
+      brand.style.backgroundImage = "url('/muder-crow-logo.jpg')";
+      brand.style.backgroundRepeat = 'no-repeat';
+      brand.style.backgroundPosition = 'left center';
+      brand.style.backgroundSize = 'contain';
+      brand.style.display = 'block';
+      brand.style.flex = '0 0 auto';
+    }
 
     const panel = document.createElement('div');
     panel.className = 'mc-menu-panel';
