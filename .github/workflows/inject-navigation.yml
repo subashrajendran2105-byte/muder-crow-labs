@@ -15,10 +15,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Inject shared Murder Crow branding
+      - name: Inject shared Murder Crow branding and homepage SEO
         shell: python
         run: |
           from pathlib import Path
+          import re
 
           changed_files = []
           for p in Path('.').rglob('*.html'):
@@ -27,16 +28,65 @@ jobs:
               s = p.read_text(encoding='utf-8')
               original = s
 
-              # Every page gets the shared brand CSS so inner-page headers use the real logo.
               if '/menu.css' not in s:
                   s = s.replace('</head>', '  <link rel="stylesheet" href="/menu.css">\n</head>', 1)
 
-              # Every page gets the Murder Crow favicon in the browser tab.
               if '/favicon.svg' not in s:
                   s = s.replace('</head>', '  <link rel="icon" href="/favicon.svg" type="image/svg+xml">\n</head>', 1)
 
-              # Convert the simple Playbook-style text header into the same logo treatment.
               s = s.replace('<nav class="nav"><span>#MURDERCROW</span></nav>', '<nav class="nav"><a class="brand" href="/">#<span>murdercrow</span></a></nav>')
+
+              # Homepage-only SEO layer. Keep the existing design/content intact.
+              if p.name == 'index.html' and p.parent == Path('.'):
+                  s = re.sub(r'<title>.*?</title>', '<title>Murder Crow Labs | Digital Marketing & Growth Marketing</title>', s, count=1, flags=re.S)
+                  s = re.sub(r'<meta name="description"[^>]*>', '<meta name="description" content="Murder Crow Labs is a practical digital marketing and growth marketing lab covering SEO, AEO, GEO, social media marketing, Meta Ads, Google Ads, AI marketing, analytics, CRM and career-focused learning.">', s, count=1, flags=re.S)
+
+                  seo_tags = '''
+  <link rel="canonical" href="https://mudercrowlabs.in/">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mudercrowlabs.in/">
+  <meta property="og:title" content="Murder Crow Labs | Digital Marketing & Growth Marketing">
+  <meta property="og:description" content="Learn how growth works through practical digital marketing, SEO, AEO, GEO, AI, advertising, analytics, CRM and real-world projects.">
+  <meta property="og:site_name" content="Murder Crow Labs">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Murder Crow Labs | Digital Marketing & Growth Marketing">
+  <meta name="twitter:description" content="A practical growth lab for digital marketing, SEO, AEO, GEO, AI marketing, advertising, analytics and CRM.">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Organization",
+        "@id":"https://mudercrowlabs.in/#organization",
+        "name":"Murder Crow Labs",
+        "url":"https://mudercrowlabs.in/",
+        "description":"A practical creative and growth lab focused on digital marketing, growth marketing, SEO, AEO, GEO, AI, advertising, analytics and CRM."
+      },
+      {
+        "@type":"WebSite",
+        "@id":"https://mudercrowlabs.in/#website",
+        "url":"https://mudercrowlabs.in/",
+        "name":"Murder Crow Labs",
+        "publisher":{"@id":"https://mudercrowlabs.in/#organization"},
+        "inLanguage":"en-IN"
+      },
+      {
+        "@type":"WebPage",
+        "@id":"https://mudercrowlabs.in/#webpage",
+        "url":"https://mudercrowlabs.in/",
+        "name":"Murder Crow Labs | Digital Marketing & Growth Marketing",
+        "isPartOf":{"@id":"https://mudercrowlabs.in/#website"},
+        "about":{"@id":"https://mudercrowlabs.in/#organization"},
+        "description":"Practical digital marketing and growth marketing learning covering SEO, AEO, GEO, social media, paid advertising, AI, analytics and CRM.",
+        "inLanguage":"en-IN"
+      }
+    ]
+  }
+  </script>
+'''
+                  if 'property="og:type"' not in s:
+                      s = s.replace('</head>', seo_tags + '</head>', 1)
 
               if s != original:
                   p.write_text(s, encoding='utf-8')
