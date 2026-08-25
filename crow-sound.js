@@ -26,6 +26,7 @@
     } catch (_) {}
   };
 
+  // Normal site buttons/links: three short real-crow calls.
   const playThree = () => {
     if (clickBusy) return;
     clickBusy = true;
@@ -37,6 +38,7 @@
     }, 2500);
   };
 
+  // Crow itself: one signature flight caw only once per page.
   const playFlightOnce = () => {
     if (flightPlayed) return;
     flightPlayed = true;
@@ -46,7 +48,6 @@
   document.addEventListener('click', (event) => {
     const crow = event.target.closest?.('.crow3d');
     if (crow) {
-      // Clicking the flying Crow gets one real caw, not the three-click sequence.
       playFlightOnce();
       return;
     }
@@ -54,14 +55,4 @@
     const interactive = event.target.closest?.('a, button, .btn, .navcta, [role="button"]');
     if (interactive) playThree();
   }, true);
-
-  // If the Crow is already in flight when the visitor has interacted once,
-  // give the animation one signature caw. It never repeats automatically.
-  const unlockFlight = () => {
-    if (document.querySelector('.crow3d')) playFlightOnce();
-    window.removeEventListener('pointerdown', unlockFlight, true);
-    window.removeEventListener('keydown', unlockFlight, true);
-  };
-  window.addEventListener('pointerdown', unlockFlight, true);
-  window.addEventListener('keydown', unlockFlight, true);
 })();
