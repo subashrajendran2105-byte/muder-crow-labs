@@ -1,0 +1,46 @@
+name: Wire Murder Crow navigation
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  navigation:
+    if: ${{ !contains(github.event.head_commit.message, 'Wire global navigation') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Inject menu assets into homepage
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          changed = False
+          if '/menu.css' not in s:
+              s = s.replace('</head>', '  <link rel="stylesheet" href="/menu.css">\n</head>', 1)
+              changed = True
+          if '/menu.js' not in s:
+              s = s.replace('</head>', '  <script defer src="/menu.js"></script>\n</head>', 1)
+              changed = True
+          if changed:
+              p.write_text(s, encoding='utf-8')
+          print('changed:', changed)
+
+      - name: Commit navigation wiring
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No changes needed."
+            exit 0
+          fi
+          git config user.name "murder-crow-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          git commit -m "Wire global navigation into homepage"
+          git push
