@@ -21,11 +21,26 @@ jobs:
           import re
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
-          s = re.sub(r'<title>.*?</title>', '<title>Murder Crow Labs | Digital Marketing & Growth Marketing</title>', s, count=1, flags=re.S)
-          s = re.sub(r'<meta name="description"[^>]*>', '<meta name="description" content="Murder Crow Labs is a practical digital marketing and growth marketing lab covering SEO, AEO, GEO, social media marketing, Meta Ads, Google Ads, AI marketing, analytics, CRM and career-focused learning.">', s, count=1, flags=re.S)
-          tags = '''\n<link rel="canonical" href="https://mudercrowlabs.in/">\n<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">\n<meta property="og:type" content="website">\n<meta property="og:url" content="https://mudercrowlabs.in/">\n<meta property="og:title" content="Murder Crow Labs | Digital Marketing & Growth Marketing">\n<meta property="og:description" content="Learn how growth works through practical digital marketing, SEO, AEO, GEO, AI, advertising, analytics, CRM and real-world projects.">\n<meta property="og:site_name" content="Murder Crow Labs">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing & Growth Marketing">\n<meta name="twitter:description" content="A practical growth lab for digital marketing, SEO, AEO, GEO, AI marketing, advertising, analytics and CRM.">\n<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://mudercrowlabs.in/#organization","name":"Murder Crow Labs","url":"https://mudercrowlabs.in/","description":"A practical creative and growth lab focused on digital marketing, growth marketing, SEO, AEO, GEO, AI, advertising, analytics and CRM."},{"@type":"WebSite","@id":"https://mudercrowlabs.in/#website","url":"https://mudercrowlabs.in/","name":"Murder Crow Labs","publisher":{"@id":"https://mudercrowlabs.in/#organization"},"inLanguage":"en-IN"},{"@type":"WebPage","@id":"https://mudercrowlabs.in/#webpage","url":"https://mudercrowlabs.in/","name":"Murder Crow Labs | Digital Marketing & Growth Marketing","isPartOf":{"@id":"https://mudercrowlabs.in/#website"},"about":{"@id":"https://mudercrowlabs.in/#organization"},"description":"Practical digital marketing and growth marketing learning covering SEO, AEO, GEO, social media, paid advertising, AI, analytics and CRM.","inLanguage":"en-IN"}]}</script>\n'''
+
+          title = 'Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing'
+          description = ('Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.')
+          keywords = ('Murder Crow Labs, Murder Crow, Murder Crow digital marketing, Murder Crow digital marketing course, Murder Crow online class, Murder Crow Chennai, digital marketing course, digital marketing online course, digital marketing online class, digital marketing training, digital marketing classes, digital marketing coaching, digital marketing certification, digital marketing course for beginners, practical digital marketing course, live digital marketing classes, digital marketing with live projects, digital marketing course Chennai, digital marketing classes Chennai, digital marketing training Chennai, digital marketing institute Chennai, digital marketing course in Chennai, online digital marketing course Chennai, digital marketing classes Tamil Nadu, learn digital marketing, digital marketing career, digital marketing skills, digital marketing job training, digital marketing course for students, digital marketing course for working professionals, growth marketing course, growth marketing training, AI digital marketing course, AI marketing course, SEO course, AEO course, GEO course, social media marketing, Google Ads, Meta Ads, performance marketing, content marketing, marketing analytics, conversion optimization, sales funnel, CRM, WhatsApp marketing, marketing automation, lead generation')
+
+          s = re.sub(r'<title>.*?</title>', f'<title>{title}</title>', s, count=1, flags=re.S)
+          s = re.sub(r'<meta name="description"[^>]*>', f'<meta name="description" content="{description}">', s, count=1, flags=re.S)
+
+          keyword_tag = f'<meta name="keywords" content="{keywords}">'
+          if '<meta name="keywords"' in s:
+              s = re.sub(r'<meta name="keywords"[^>]*>', keyword_tag, s, count=1)
+          else:
+              s = s.replace('</head>', keyword_tag + '\n</head>', 1)
+
+          tags = f'''\n<link rel="canonical" href="https://mudercrowlabs.in/">\n<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">\n<meta property="og:type" content="website">\n<meta property="og:url" content="https://mudercrowlabs.in/">\n<meta property="og:title" content="{title}">\n<meta property="og:description" content="{description}">\n<meta property="og:site_name" content="Murder Crow Labs">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="{title}">\n<meta name="twitter:description" content="{description}">\n<script type="application/ld+json">{{"@context":"https://schema.org","@graph":[{{"@type":"Organization","@id":"https://mudercrowlabs.in/#organization","name":"Murder Crow Labs","url":"https://mudercrowlabs.in/","description":"A practical creative and growth lab focused on digital marketing, growth marketing, SEO, AEO, GEO, AI, advertising, analytics and CRM.","knowsAbout":["Digital Marketing","Growth Marketing","SEO","AEO","GEO","AI Marketing","Social Media Marketing","Google Ads","Meta Ads","Performance Marketing","CRM","Marketing Automation"]}},{{"@type":"WebSite","@id":"https://mudercrowlabs.in/#website","url":"https://mudercrowlabs.in/","name":"Murder Crow Labs","publisher":{{"@id":"https://mudercrowlabs.in/#organization"}},"inLanguage":"en-IN","keywords":"{keywords}"}},{{"@type":"WebPage","@id":"https://mudercrowlabs.in/#webpage","url":"https://mudercrowlabs.in/","name":"{title}","isPartOf":{{"@id":"https://mudercrowlabs.in/#website"}},"about":{{"@id":"https://mudercrowlabs.in/#organization"}},"description":"{description}","keywords":"{keywords}","inLanguage":"en-IN"}}]}}</script>\n'''
           if 'property="og:type"' not in s:
               s = s.replace('</head>', tags + '</head>', 1)
+          else:
+              s = re.sub(r'<script type="application/ld\+json">.*?</script>', tags.strip(), s, count=1, flags=re.S)
+
           if '/menu.css' not in s:
               s = s.replace('</head>', '  <link rel="stylesheet" href="/menu.css">\n</head>', 1)
           if '/favicon.svg' not in s:
@@ -38,5 +53,5 @@ jobs:
           git config user.name "murder-crow-bot"
           git config user.email "actions@users.noreply.github.com"
           git add index.html
-          git diff --cached --quiet || git commit -m "Improve homepage SEO"
+          git diff --cached --quiet || git commit -m "Expand homepage SEO keyword targeting"
           git push
