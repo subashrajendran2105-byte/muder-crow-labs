@@ -145,3 +145,65 @@
   `;
   document.head.appendChild(style);
 })();
+
+// Murder Crow brand sound: a tiny synthesized crow-like caw on the first real interaction.
+// No external audio file, hotlink, or third-party dependency is required.
+(() => {
+  if (window.__murderCrowSoundReady) return;
+  window.__murderCrowSoundReady = true;
+
+  let played = false;
+
+  const caw = () => {
+    if (played) return;
+    played = true;
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      const now = ctx.currentTime;
+      const master = ctx.createGain();
+      const filter = ctx.createBiquadFilter();
+      master.gain.setValueAtTime(0.0001, now);
+      master.gain.exponentialRampToValueAtTime(0.055, now + 0.025);
+      master.gain.exponentialRampToValueAtTime(0.0001, now + 0.62);
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(1450, now);
+      filter.frequency.exponentialRampToValueAtTime(650, now + 0.5);
+      filter.Q.value = 3.2;
+      filter.connect(master);
+      master.connect(ctx.destination);
+
+      const osc = ctx.createOscillator();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(620, now);
+      osc.frequency.exponentialRampToValueAtTime(255, now + 0.46);
+      osc.connect(filter);
+      osc.start(now);
+      osc.stop(now + 0.64);
+
+      const osc2 = ctx.createOscillator();
+      const gain2 = ctx.createGain();
+      osc2.type = 'triangle';
+      osc2.frequency.setValueAtTime(410, now + 0.03);
+      osc2.frequency.exponentialRampToValueAtTime(185, now + 0.42);
+      gain2.gain.setValueAtTime(0.0001, now);
+      gain2.gain.exponentialRampToValueAtTime(0.45, now + 0.035);
+      gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
+      osc2.connect(gain2);
+      gain2.connect(filter);
+      osc2.start(now);
+      osc2.stop(now + 0.54);
+
+      setTimeout(() => ctx.close().catch(() => {}), 900);
+    } catch (_) {}
+  };
+
+  const firstInteraction = () => {
+    caw();
+    window.removeEventListener('pointerdown', firstInteraction, true);
+    window.removeEventListener('keydown', firstInteraction, true);
+  };
+  window.addEventListener('pointerdown', firstInteraction, true);
+  window.addEventListener('keydown', firstInteraction, true);
+})();
