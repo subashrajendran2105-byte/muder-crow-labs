@@ -4,12 +4,15 @@
     const nav = document.querySelector('.nav');
     if (!nav) return;
 
+    // Keep the header focused: one action only. Course/service CTAs live on their pages.
+    nav.querySelector('.navcta, .btn')?.remove();
+
     const trigger = document.createElement('button');
     trigger.id = 'mc-menu-trigger';
     trigger.className = 'mc-menu-trigger';
     trigger.setAttribute('aria-label','Open menu');
     trigger.setAttribute('aria-expanded','false');
-    trigger.innerHTML = '<span></span>';
+    trigger.innerHTML = '<b>Menu</b><i><span></span></i>';
     nav.appendChild(trigger);
 
     const panel = document.createElement('div');
