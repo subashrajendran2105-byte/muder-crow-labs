@@ -79,31 +79,22 @@
       if (anchor) {
         const section = document.createElement('section');
         section.id = 'mcl-playbook-home';
-        section.className = 'section reveal';
+        section.className = 'section reveal mcl-playbook-home';
         section.innerHTML = `
           <div class="wrap">
-            <div class="section-head">
-              <div>
-                <div class="kicker">09 · THE PLAYBOOK</div>
-                <h2>Keep the growth system with you.</h2>
+            <div class="mcl-playbook-grid">
+              <div class="mcl-playbook-poster" aria-label="Playbook poster space">
+                <div class="mcl-playbook-poster-note">PLAYBOOK COVER</div>
               </div>
-              <p>Our practical Growth Marketing Playbook explains how modern marketing works with AI, search, paid media, creative, analytics and CRM.</p>
-            </div>
-            <div style="display:grid;grid-template-columns:1.15fr .85fr;gap:15px">
-              <article style="background:var(--ink);color:#fff;border-radius:28px;padding:32px;position:relative;overflow:hidden">
-                <div class="kicker" style="color:var(--olive-bright)">GROWTH MARKETING PLAYBOOK</div>
-                <h3 style="font:800 clamp(34px,5vw,58px)/.96 Manrope;letter-spacing:-.06em;margin:12px 0">How growth marketing actually works.</h3>
-                <p style="color:#d4d8cf;max-width:650px">A practical reference for SEO, AEO, GEO, paid media, social, funnels, CRM, automation, AI tools and real-world growth thinking.</p>
-                <div style="font:800 44px Manrope;color:var(--olive-bright);margin:20px 0 4px">₹1,399</div>
-                <div style="font:700 10px 'Space Mono';letter-spacing:.12em;color:#aeb4a9">FREE WITH THE #LABS PROGRAMME</div>
-              </article>
-              <article style="background:var(--olive-bright);border:1px solid var(--ink);border-radius:28px;padding:32px;display:flex;flex-direction:column;justify-content:space-between">
+              <article class="mcl-playbook-offer">
                 <div>
-                  <div class="kicker" style="color:var(--ink)">BUILD · TEST · UNDERSTAND</div>
-                  <h3 style="font:800 30px Manrope;letter-spacing:-.05em;margin:12px 0">Not another collection of hacks.</h3>
-                  <p style="color:#30350f">Understand the decisions behind modern marketing — then use the Playbook while you build.</p>
+                  <div class="kicker">09 · THE PLAYBOOK</div>
+                  <h2>Growth Marketing<br>Playbook.</h2>
+                  <p>How digital marketing, SEO, AEO, GEO, social media, ads, AI tools, funnels and growth actually work.</p>
+                  <div class="mcl-playbook-price">₹1,399</div>
+                  <div class="mcl-playbook-free">FREE WITH YOUR #LABS COURSE</div>
                 </div>
-                <a href="/playbook.html" style="display:inline-flex;align-items:center;justify-content:center;margin-top:22px;padding:14px 18px;border-radius:999px;background:var(--ink);color:#fff;font-weight:900">View Playbook →</a>
+                <button class="btn btn-lime mcl-playbook-reserve" onclick="openReservation()">Reserve your seat →</button>
               </article>
             </div>
           </div>`;
