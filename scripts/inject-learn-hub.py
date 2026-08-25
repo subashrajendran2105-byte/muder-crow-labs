@@ -16,8 +16,9 @@ if 'class="mcl-footer-links"' not in s and '</div></footer>' in s:
 if '<meta name="author" content="Murder Crow Labs">' not in s: s=s.replace('<meta name="description"','<meta name="author" content="Murder Crow Labs">\n<meta name="description"',1)
 
 # Global mobile/three-line menu: About, Services, Skill Up, Learn, Support.
-menu_assets='''<link rel="stylesheet" href="/menu.css"><script defer src="/menu.js"></script>'''
-if '/menu.css' not in s:
-    s=s.replace('</head>',menu_assets+'\n</head>',1)
+if 'href="/menu.css"' not in s:
+    s=s.replace('</head>','<link rel="stylesheet" href="/menu.css">\n</head>',1)
+if 'src="/menu.js"' not in s:
+    s=s.replace('</head>','<script defer src="/menu.js"></script>\n</head>',1)
 
 p.write_text(s,encoding='utf-8')
