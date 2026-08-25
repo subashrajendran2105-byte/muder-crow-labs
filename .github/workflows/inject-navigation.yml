@@ -15,22 +15,45 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Inject menu assets into homepage
+      - name: Inject shared Murder Crow branding
+        shell: python
+        run: |
+          from pathlib import Path
+
+          changed_files = []
+          for p in Path('.').rglob('*.html'):
+              if any(part.startswith('.') for part in p.parts):
+                  continue
+              s = p.read_text(encoding='utf-8')
+              original = s
+
+              # Every page gets the shared brand CSS so inner-page headers use the real logo.
+              if '/menu.css' not in s:
+                  s = s.replace('</head>', '  <link rel="stylesheet" href="/menu.css">\n</head>', 1)
+
+              # Convert the simple Playbook-style text header into the same logo treatment.
+              s = s.replace('<nav class="nav"><span>#MURDERCROW</span></nav>', '<nav class="nav"><a class="brand" href="/">#<span>murdercrow</span></a></nav>')
+
+              if s != original:
+                  p.write_text(s, encoding='utf-8')
+                  changed_files.append(str(p))
+
+          print('updated html files:', len(changed_files))
+          for name in changed_files:
+              print(name)
+
+      - name: Keep homepage menu behaviour
         shell: python
         run: |
           from pathlib import Path
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
           changed = False
-          if '/menu.css' not in s:
-              s = s.replace('</head>', '  <link rel="stylesheet" href="/menu.css">\n</head>', 1)
-              changed = True
           if '/menu.js' not in s:
               s = s.replace('</head>', '  <script defer src="/menu.js"></script>\n</head>', 1)
               changed = True
           if changed:
               p.write_text(s, encoding='utf-8')
-          print('changed:', changed)
 
       - name: Commit navigation wiring
         shell: bash
@@ -41,6 +64,6 @@ jobs:
           fi
           git config user.name "murder-crow-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add index.html
-          git commit -m "Wire global navigation into homepage"
+          git add '*.html' .github/workflows/inject-navigation.yml
+          git commit -m "Wire global Murder Crow branding"
           git push
