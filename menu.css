@@ -13,3 +13,9 @@
 .mcl-playbook-free{margin-top:8px;font:700 10px "Space Mono",monospace;letter-spacing:.13em;color:#cbd0c3}
 .mcl-playbook-reserve{align-self:flex-start;margin-top:28px;min-width:230px}
 @media(max-width:720px){.mcl-playbook-home{padding-top:42px;padding-bottom:42px}.mcl-playbook-grid{grid-template-columns:1fr;gap:12px}.mcl-playbook-poster,.mcl-playbook-offer{min-height:330px}.mcl-playbook-offer{padding:25px}.mcl-playbook-offer h2{font-size:44px}.mcl-playbook-reserve{width:100%;margin-top:24px}}
+
+/* Shared internal-page header: keep the real Murder Crow logo visible everywhere. */
+.nav .brand{display:block;width:184px;height:56px;flex:0 0 184px;background:url('/muder-crow-logo.jpg') center/contain no-repeat;font-size:0;line-height:0;text-decoration:none}
+.nav .brand img{display:none!important}
+.nav .brand span,.nav .brand strong{display:none!important}
+@media(max-width:700px){.nav .brand{width:176px;height:52px;flex-basis:176px}}
