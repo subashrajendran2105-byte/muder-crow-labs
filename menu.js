@@ -1,4 +1,13 @@
 (() => {
+  // Shared favicon: Murder Crow mark on every page that loads the shared menu script.
+  if (!document.querySelector('link[rel="icon"]')) {
+    const favicon = document.createElement('link');
+    favicon.rel = 'icon';
+    favicon.type = 'image/svg+xml';
+    favicon.href = '/favicon.svg';
+    document.head.appendChild(favicon);
+  }
+
   const boot = () => {
     if (document.getElementById('mc-menu-trigger')) return;
     const nav = document.querySelector('.nav');
