@@ -14,44 +14,54 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Apply homepage SEO
+      - name: Apply SEO and brand sound
         shell: python
         run: |
           from pathlib import Path
           import re
-          p = Path('index.html')
-          s = p.read_text(encoding='utf-8')
 
           title = 'Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing'
           description = ('Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.')
           keywords = ('Murder Crow Labs, Murder Crow, Murder Crow digital marketing, Murder Crow digital marketing course, Murder Crow online class, Murder Crow Chennai, digital marketing course, digital marketing online course, digital marketing online class, digital marketing training, digital marketing classes, digital marketing coaching, digital marketing certification, digital marketing course for beginners, practical digital marketing course, live digital marketing classes, digital marketing with live projects, digital marketing course Chennai, digital marketing classes Chennai, digital marketing training Chennai, digital marketing institute Chennai, digital marketing course in Chennai, online digital marketing course Chennai, digital marketing classes Tamil Nadu, learn digital marketing, digital marketing career, digital marketing skills, digital marketing job training, digital marketing course for students, digital marketing course for working professionals, growth marketing course, growth marketing training, AI digital marketing course, AI marketing course, SEO course, AEO course, GEO course, social media marketing, Google Ads, Meta Ads, performance marketing, content marketing, marketing analytics, conversion optimization, sales funnel, CRM, WhatsApp marketing, marketing automation, lead generation')
 
-          s = re.sub(r'<title>.*?</title>', f'<title>{title}</title>', s, count=1, flags=re.S)
-          s = re.sub(r'<meta name="description"[^>]*>', f'<meta name="description" content="{description}">', s, count=1, flags=re.S)
+          index = Path('index.html')
+          if index.exists():
+              s = index.read_text(encoding='utf-8')
+              s = re.sub(r'<title>.*?</title>', f'<title>{title}</title>', s, count=1, flags=re.S)
+              s = re.sub(r'<meta name="description"[^>]*>', f'<meta name="description" content="{description}">', s, count=1, flags=re.S)
+              keyword_tag = f'<meta name="keywords" content="{keywords}">'
+              if '<meta name="keywords"' in s:
+                  s = re.sub(r'<meta name="keywords"[^>]*>', keyword_tag, s, count=1)
+              else:
+                  s = s.replace('</head>', keyword_tag + '\n</head>', 1)
 
-          keyword_tag = f'<meta name="keywords" content="{keywords}">'
-          if '<meta name="keywords"' in s:
-              s = re.sub(r'<meta name="keywords"[^>]*>', keyword_tag, s, count=1)
-          else:
-              s = s.replace('</head>', keyword_tag + '\n</head>', 1)
+              tags = f'''\n<link rel="canonical" href="https://mudercrowlabs.in/">\n<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">\n<meta property="og:type" content="website">\n<meta property="og:url" content="https://mudercrowlabs.in/">\n<meta property="og:title" content="{title}">\n<meta property="og:description" content="{description}">\n<meta property="og:site_name" content="Murder Crow Labs">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="{title}">\n<meta name="twitter:description" content="{description}">\n<script type="application/ld+json">{{"@context":"https://schema.org","@graph":[{{"@type":"Organization","@id":"https://mudercrowlabs.in/#organization","name":"Murder Crow Labs","url":"https://mudercrowlabs.in/","description":"A practical creative and growth lab focused on digital marketing, growth marketing, SEO, AEO, GEO, AI, advertising, analytics and CRM.","knowsAbout":["Digital Marketing","Growth Marketing","SEO","AEO","GEO","AI Marketing","Social Media Marketing","Google Ads","Meta Ads","Performance Marketing","CRM","Marketing Automation"]}},{{"@type":"WebSite","@id":"https://mudercrowlabs.in/#website","url":"https://mudercrowlabs.in/","name":"Murder Crow Labs","publisher":{{"@id":"https://mudercrowlabs.in/#organization"}},"inLanguage":"en-IN","keywords":"{keywords}"}},{{"@type":"WebPage","@id":"https://mudercrowlabs.in/#webpage","url":"https://mudercrowlabs.in/","name":"{title}","isPartOf":{{"@id":"https://mudercrowlabs.in/#website"}},"about":{{"@id":"https://mudercrowlabs.in/#organization"}},"description":"{description}","keywords":"{keywords}","inLanguage":"en-IN"}}]}}</script>\n'''
+              if 'property="og:type"' not in s:
+                  s = s.replace('</head>', tags + '</head>', 1)
+              else:
+                  s = re.sub(r'<script type="application/ld\+json">.*?</script>', tags.strip(), s, count=1, flags=re.S)
 
-          tags = f'''\n<link rel="canonical" href="https://mudercrowlabs.in/">\n<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">\n<meta property="og:type" content="website">\n<meta property="og:url" content="https://mudercrowlabs.in/">\n<meta property="og:title" content="{title}">\n<meta property="og:description" content="{description}">\n<meta property="og:site_name" content="Murder Crow Labs">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="{title}">\n<meta name="twitter:description" content="{description}">\n<script type="application/ld+json">{{"@context":"https://schema.org","@graph":[{{"@type":"Organization","@id":"https://mudercrowlabs.in/#organization","name":"Murder Crow Labs","url":"https://mudercrowlabs.in/","description":"A practical creative and growth lab focused on digital marketing, growth marketing, SEO, AEO, GEO, AI, advertising, analytics and CRM.","knowsAbout":["Digital Marketing","Growth Marketing","SEO","AEO","GEO","AI Marketing","Social Media Marketing","Google Ads","Meta Ads","Performance Marketing","CRM","Marketing Automation"]}},{{"@type":"WebSite","@id":"https://mudercrowlabs.in/#website","url":"https://mudercrowlabs.in/","name":"Murder Crow Labs","publisher":{{"@id":"https://mudercrowlabs.in/#organization"}},"inLanguage":"en-IN","keywords":"{keywords}"}},{{"@type":"WebPage","@id":"https://mudercrowlabs.in/#webpage","url":"https://mudercrowlabs.in/","name":"{title}","isPartOf":{{"@id":"https://mudercrowlabs.in/#website"}},"about":{{"@id":"https://mudercrowlabs.in/#organization"}},"description":"{description}","keywords":"{keywords}","inLanguage":"en-IN"}}]}}</script>\n'''
-          if 'property="og:type"' not in s:
-              s = s.replace('</head>', tags + '</head>', 1)
-          else:
-              s = re.sub(r'<script type="application/ld\+json">.*?</script>', tags.strip(), s, count=1, flags=re.S)
+              if '/menu.css' not in s:
+                  s = s.replace('</head>', '  <link rel="stylesheet" href="/menu.css">\n</head>', 1)
+              if '/favicon.svg' not in s:
+                  s = s.replace('</head>', '  <link rel="icon" href="/favicon.svg" type="image/svg+xml">\n</head>', 1)
+              if '/menu.js' not in s:
+                  s = s.replace('</head>', '  <script defer src="/menu.js"></script>\n</head>', 1)
+              index.write_text(s, encoding='utf-8')
 
-          if '/menu.css' not in s:
-              s = s.replace('</head>', '  <link rel="stylesheet" href="/menu.css">\n</head>', 1)
-          if '/favicon.svg' not in s:
-              s = s.replace('</head>', '  <link rel="icon" href="/favicon.svg" type="image/svg+xml">\n</head>', 1)
-          if '/menu.js' not in s:
-              s = s.replace('</head>', '  <script defer src="/menu.js"></script>\n</head>', 1)
-          p.write_text(s, encoding='utf-8')
-      - name: Commit SEO changes
+          # Load the same real-crow interaction sound on every HTML page.
+          for p in Path('.').rglob('*.html'):
+              if '.git' in p.parts:
+                  continue
+              s = p.read_text(encoding='utf-8')
+              if '/crow-sound.js' not in s:
+                  s = s.replace('</body>', '  <script defer src="/crow-sound.js"></script>\n</body>', 1)
+                  p.write_text(s, encoding='utf-8')
+
+      - name: Commit SEO and sound changes
         run: |
           git config user.name "murder-crow-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add index.html
-          git diff --cached --quiet || git commit -m "Expand homepage SEO keyword targeting"
+          git add index.html '*.html' crow-sound.js
+          git diff --cached --quiet || git commit -m "Add real crow interaction sound"
           git push
