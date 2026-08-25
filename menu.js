@@ -4,7 +4,6 @@
     const nav = document.querySelector('.nav');
     if (!nav) return;
 
-    // Keep the header focused: one action only. Course/service CTAs live on their pages.
     nav.querySelector('.navcta, .btn')?.remove();
 
     const trigger = document.createElement('button');
@@ -70,7 +69,7 @@
     });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 
-    // Homepage only: turn the existing banner slot into ONE integrated Playbook card.
+    // Homepage only: keep the Playbook offer card intact and use its left side as a reusable ad slot.
     // The existing hero, crow animation, hook, timer and reserve CTA remain untouched.
     const isHome = location.pathname === '/' || /\/index\.html$/.test(location.pathname);
     const banner = document.querySelector('.banner');
@@ -79,9 +78,10 @@
       banner.classList.add('mcl-playbook-home');
       banner.innerHTML = `
         <div class="mcl-playbook-card">
-          <div class="mcl-playbook-visual" aria-label="Growth Marketing Playbook cover placeholder">
-            <div class="mcl-playbook-cover-placeholder">
-              <span>YOUR PLAYBOOK COVER</span>
+          <div class="mcl-playbook-visual mcl-ad-slot" aria-label="Murder Crow advertising banner slot">
+            <div class="mcl-ad-placeholder">
+              <span>YOUR AD BANNER</span>
+              <small>Drop campaign artwork here</small>
             </div>
           </div>
           <article class="mcl-playbook-offer">
@@ -98,7 +98,6 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
 
-/* Integrated homepage Playbook banner. The cover and offer live in the same card. */
 (() => {
   if (document.getElementById('mcl-playbook-style')) return;
   const style = document.createElement('style');
@@ -107,9 +106,11 @@
     #mcl-playbook-home{width:min(1180px,calc(100% - 36px));margin:10px auto 70px;padding:0;min-height:0;border:1px solid var(--line);border-radius:30px;background:var(--paper2);overflow:hidden;display:block;box-shadow:var(--shadow)}
     .mcl-playbook-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:540px}
     .mcl-playbook-visual{min-height:540px;padding:34px;background:var(--paper);display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .mcl-playbook-cover-placeholder{width:min(78%,390px);aspect-ratio:4/5;border:1px dashed #b8b8ae;border-radius:18px;background:rgba(255,254,250,.78);display:flex;align-items:center;justify-content:center;position:relative;transform:rotate(-3deg);box-shadow:18px 18px 0 rgba(104,119,43,.10)}
-    .mcl-playbook-cover-placeholder:before{content:"";position:absolute;inset:14px;border:1px solid rgba(104,119,43,.14);border-radius:12px}
-    .mcl-playbook-cover-placeholder span{font:700 10px "Space Mono";letter-spacing:.16em;color:#9a9c92;text-align:center;position:relative}
+    .mcl-ad-slot{position:relative;cursor:pointer}
+    .mcl-ad-placeholder{width:min(78%,390px);aspect-ratio:4/5;border:1px dashed #b8b8ae;border-radius:18px;background:rgba(255,254,250,.78);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;transform:rotate(-3deg);box-shadow:18px 18px 0 rgba(104,119,43,.10);text-align:center}
+    .mcl-ad-placeholder:before{content:"";position:absolute;inset:14px;border:1px solid rgba(104,119,43,.14);border-radius:12px}
+    .mcl-ad-placeholder span{font:700 10px "Space Mono";letter-spacing:.16em;color:#7f836f;position:relative}
+    .mcl-ad-placeholder small{font:500 11px "DM Sans";color:#9a9c92;margin-top:10px;position:relative}
     .mcl-playbook-offer{padding:44px 42px;display:flex;flex-direction:column;justify-content:center;min-width:0}
     .mcl-playbook-kicker{font:700 10px "Space Mono";letter-spacing:.16em;text-transform:uppercase;color:var(--olive)}
     .mcl-playbook-offer h2{font:800 clamp(38px,5vw,64px)/.94 Manrope;letter-spacing:-.065em;margin:15px 0}
@@ -121,7 +122,7 @@
       #mcl-playbook-home{width:calc(100% - 36px);margin:10px auto 48px}
       .mcl-playbook-card{grid-template-columns:1fr;min-height:0}
       .mcl-playbook-visual{min-height:390px;padding:28px}
-      .mcl-playbook-cover-placeholder{width:min(72%,300px)}
+      .mcl-ad-placeholder{width:min(72%,300px)}
       .mcl-playbook-offer{padding:30px 28px 34px}
       .mcl-playbook-offer h2{font-size:48px}
     }
