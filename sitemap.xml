@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://mudercrowlabs.in/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://mudercrowlabs.in/about.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://mudercrowlabs.in/mission.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://mudercrowlabs.in/blog.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://mudercrowlabs.in/support.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mudercrowlabs.in/terms.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://mudercrowlabs.in/blog/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://mudercrowlabs.in/courses/digital-marketing-course.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://mudercrowlabs.in/courses/growth-marketing-course.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
