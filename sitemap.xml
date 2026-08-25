@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://mudercrowlabs.in/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
+  <url><loc>https://mudercrowlabs.in/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://mudercrowlabs.in/blog/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://mudercrowlabs.in/blog/learn-digital-marketing.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://mudercrowlabs.in/blog/digital-marketing-course.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://mudercrowlabs.in/blog/how-ai-tools-work.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://mudercrowlabs.in/blog/ai-tools-for-marketers.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://mudercrowlabs.in/blog/what-is-growth-marketing.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://mudercrowlabs.in/blog/social-media-marketing.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://mudercrowlabs.in/blog/digital-marketing-career.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://mudercrowlabs.in/blog/digital-marketing-portfolio.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
