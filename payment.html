@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Payments · Murder Crow #Labs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+<style>
+:root{--paper:#f7f5ee;--paper2:#fffefa;--ink:#11120f;--muted:#666a61;--line:#d9d8cf;--olive:#68772b;--lime:#d8e92d;--danger:#b9382f;--shadow:0 24px 70px rgba(17,18,15,.10)}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"DM Sans",sans-serif;min-height:100vh}a{color:inherit;text-decoration:none}.wrap{width:min(1050px,calc(100% - 32px));margin:auto}.top{padding:24px 0}.back{font:700 11px "Space Mono";letter-spacing:.12em;text-transform:uppercase;color:var(--olive)}.brand{font:800 24px Manrope;margin-top:20px}.hero{text-align:center;padding:28px 0 42px}.kicker{font:700 11px "Space Mono";letter-spacing:.17em;color:var(--olive);text-transform:uppercase}.hero h1{font:800 clamp(48px,8vw,86px)/.9 Manrope;letter-spacing:-.075em;margin:18px auto;max-width:850px}.hero p{max-width:620px;margin:auto;color:var(--muted);font-size:17px}.products{display:grid;grid-template-columns:1fr 1fr;gap:16px}.product{border:1px solid var(--line);border-radius:28px;background:var(--paper2);padding:30px;box-shadow:var(--shadow)}.product.featured{background:var(--ink);color:#fff;border-color:var(--ink)}.tag{font:700 10px "Space Mono";letter-spacing:.14em;color:var(--olive);text-transform:uppercase}.featured .tag{color:var(--lime)}.product h2{font:800 35px/1 Manrope;letter-spacing:-.055em;margin:14px 0}.product p{color:var(--muted);min-height:70px}.featured p{color:#d8dad1}.price{font:800 50px Manrope;letter-spacing:-.06em;color:var(--olive);margin:18px 0}.featured .price{color:var(--lime)}.choose{width:100%;border:0;border-radius:999px;padding:16px 20px;background:var(--lime);color:var(--ink);font-weight:900;cursor:pointer;box-shadow:5px 5px 0 var(--olive)}.formbox{display:none;margin:24px 0 70px;border:1px solid var(--line);border-radius:28px;background:var(--paper2);padding:28px}.formbox.open{display:block}.formbox h2{font:800 34px Manrope;letter-spacing:-.05em;margin:0 0 8px}.selected{color:var(--olive);font-weight:800;margin-bottom:20px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}.field label{font:700 10px "Space Mono";letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}input{border:1px solid var(--line);background:#fff;border-radius:14px;padding:14px;font:inherit;outline:none}input:focus{border-color:var(--olive)}.pay{margin-top:18px;width:100%;border:0;border-radius:999px;padding:17px;background:var(--ink);color:#fff;font-weight:900;cursor:pointer}.pay:disabled{opacity:.55;cursor:wait}.message{margin-top:14px;padding:14px;border-radius:14px;background:#fbe7e4;color:var(--danger);display:none}.message.show{display:block}.success{display:none;text-align:center;border:1px solid var(--line);border-radius:30px;background:var(--paper2);padding:48px 28px;margin:20px 0 70px;box-shadow:var(--shadow)}.success.show{display:block}.crow{font-size:55px}.success h2{font:800 clamp(40px,7vw,70px)/.95 Manrope;letter-spacing:-.065em;margin:12px 0}.success p{color:var(--muted);max-width:620px;margin:10px auto}.next{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:620px;margin:25px auto}.next div{border:1px solid var(--line);border-radius:18px;padding:18px;text-align:left}.next b{display:block;font:800 16px Manrope}.next span{display:block;color:var(--muted);font-size:12px;margin-top:5px}.small{font:700 9px "Space Mono";letter-spacing:.12em;color:var(--muted);margin-top:20px}.footer{text-align:center;color:var(--muted);font-size:12px;padding:0 0 35px}@media(max-width:700px){.products,.fields,.next{grid-template-columns:1fr}.field.full{grid-column:auto}.product h2{font-size:30px}.hero h1{font-size:56px}.formbox{padding:22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="back" href="/">← Murder Crow #Labs</a><div class="brand">Payments</div></div>
+  <header class="hero"><div class="kicker">Murder Crow · Secure Checkout</div><h1>Choose what you're paying for.</h1><p>Secure payment through Cashfree. Select the Playbook or the full programme, enter your details, and continue.</p></header>
+  <main>
+    <section class="products" id="products">
+      <article class="product">
+        <div class="tag">01 · Digital product</div><h2>Growth Marketing Playbook</h2><p>Practical digital marketing, SEO, AEO, GEO, social media, ads, AI tools, funnels and growth.</p><div class="price">₹1,399</div><button class="choose" data-product="playbook">Pay ₹1,399 →</button>
+      </article>
+      <article class="product featured">
+        <div class="tag">02 · #Labs programme</div><h2>Digital Marketing Programme</h2><p>The full Murder Crow #Labs programme at the one-time offer price.</p><div class="price">₹27,499</div><button class="choose" data-product="full">Pay ₹27,499 →</button>
+      </article>
+    </section>
+
+    <section class="formbox" id="formbox">
+      <h2>Almost there.</h2><div class="selected" id="selected"></div>
+      <div class="fields">
+        <div class="field"><label for="name">Name</label><input id="name" autocomplete="name" required></div>
+        <div class="field"><label for="phone">Phone · 10 digits</label><input id="phone" inputmode="numeric" autocomplete="tel" maxlength="14" required></div>
+        <div class="field full"><label for="email">Email</label><input id="email" type="email" autocomplete="email" required></div>
+      </div>
+      <button class="pay" id="pay">Continue to Cashfree →</button><div class="message" id="message"></div>
+    </section>
+
+    <section class="success" id="success">
+      <div class="crow">🐦‍⬛</div><div class="kicker">Payment confirmed</div><h2>Thank you. You're in.</h2><p id="successText">Your payment has been confirmed successfully.</p>
+      <div class="next"><div><b>🎓 Free demo class</b><span>See how Murder Crow #Labs works before you decide.</span></div><div><b>💬 Free consultation</b><span>Ask your questions and choose what is right for you.</span></div></div>
+      <div class="small">No pressure. Experience it first. Then decide.</div>
+    </section>
+  </main>
+  <div class="footer">Payments are securely processed by Cashfree.</div>
+</div>
+<script>
+const cashfree = Cashfree({mode:'sandbox'});
+const products={playbook:{type:'playbook',amount:139900,label:'Growth Marketing Playbook · ₹1,399'},full:{type:'full',amount:2749900,label:'Digital Marketing Programme · ₹27,499'}};
+let selected=null;
+const $=id=>document.getElementById(id);
+function showMessage(text){$('message').textContent=text;$('message').classList.add('show')}
+function hideMessage(){$('message').classList.remove('show')}
+document.querySelectorAll('.choose').forEach(btn=>btn.addEventListener('click',()=>{selected=products[btn.dataset.product];$('selected').textContent=selected.label;$('formbox').classList.add('open');$('formbox').scrollIntoView({behavior:'smooth',block:'center'});$('name').focus();hideMessage()}));
+function phone10(v){return String(v||'').replace(/\D/g,'').replace(/^91(?=\d{10}$)/,'')}
+async function verify(orderId){const r=await fetch('/api/verify-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({order_id:orderId})});const d=await r.json().catch(()=>({}));return d}
+$('pay').addEventListener('click',async()=>{
+  hideMessage();
+  if(!selected)return showMessage('Please choose a payment first.');
+  const name=$('name').value.trim(), phone=phone10($('phone').value), email=$('email').value.trim();
+  if(!name)return showMessage('Please enter your name.');
+  if(!/^\d{10}$/.test(phone))return showMessage('Please enter a valid 10-digit phone number.');
+  if(!/^\S+@\S+\.\S+$/.test(email))return showMessage('Please enter a valid email address.');
+  const btn=$('pay');btn.disabled=true;btn.textContent='Creating secure payment…';
+  try{
+    const r=await fetch('/api/create-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount:selected.amount,order_type:selected.type,currency:'INR',customer_name:name,customer_phone:phone,customer_email:email})});
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok||!d.payment_session_id)throw new Error(d.error||'Unable to create payment.');
+    btn.textContent='Opening Cashfree…';
+    const result=await cashfree.checkout({paymentSessionId:d.payment_session_id});
+    if(result?.error)throw new Error(result.error.message||'Cashfree checkout could not open.');
+    btn.disabled=false;btn.textContent='Continue to Cashfree →';
+  }catch(e){btn.disabled=false;btn.textContent='Continue to Cashfree →';showMessage(e.message||'Payment could not be started.');}
+});
+async function finishFromReturn(){
+  const params=new URLSearchParams(location.search),orderId=params.get('order_id');
+  if(!orderId)return;
+  $('products').style.display='none';$('formbox').classList.remove('open');
+  let attempts=0;
+  const check=async()=>{attempts++;try{const d=await verify(orderId);if(d.success){$('successText').textContent=`Your payment for ${d.order_id?.includes('_playbook_')?'the Growth Marketing Playbook':'the Murder Crow #Labs programme'} is confirmed. Keep this page as your payment confirmation.`;$('success').classList.add('show');return;}if(attempts<8)setTimeout(check,2500);else{showMessage(d.error||'Payment is still being confirmed. Please check again shortly.');$('formbox').classList.add('open');}}catch(_){if(attempts<8)setTimeout(check,2500)}};
+  check();
+}
+finishFromReturn();
+</script>
+</body></html>
