@@ -187,7 +187,6 @@
 
   const mountCrowChat = () => {
     if (document.getElementById('mcl-crow-chat')) return;
-
     const style = document.createElement('style');
     style.textContent = `
       #mcl-crow-chat{position:fixed;right:18px;bottom:18px;z-index:1200;font-family:"DM Sans",sans-serif}
@@ -210,7 +209,6 @@
       @media(max-width:600px){#mcl-crow-chat{right:12px;bottom:12px}#mcl-crow-panel{height:min(650px,calc(100vh - 90px))}}
     `;
     document.head.appendChild(style);
-
     const root = document.createElement('div');
     root.id = 'mcl-crow-chat';
     root.innerHTML = `
@@ -221,48 +219,25 @@
       </div>
       <button id="mcl-crow-toggle" aria-label="Open Ask the Crow" aria-expanded="false"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="currentColor" d="M11 31c-2-6 0-14 6-18 7-5 17-4 22 2l-3 5 5 2-6 5c-1 8-7 12-15 11l-3 5-4-7c-2-1-2-3-2-5Z"/><circle cx="31" cy="19" r="2.2" fill="#d8e92d"/><path d="M37 25l8 2-8 3Z" fill="#d8e92d"/></svg></button>`;
     document.body.appendChild(root);
-
     const panel = root.querySelector('#mcl-crow-panel');
     const toggle = root.querySelector('#mcl-crow-toggle');
     const close = root.querySelector('.mcl-crow-close');
     const messages = root.querySelector('#mcl-crow-messages');
     const input = root.querySelector('#mcl-crow-input');
     const send = root.querySelector('#mcl-crow-send');
-
-    const addMessage = (text, who='bot') => {
-      const div = document.createElement('div');
-      div.className = `mcl-msg ${who}`;
-      div.textContent = text;
-      messages.appendChild(div);
-      messages.scrollTop = messages.scrollHeight;
-      return div;
-    };
-    const addQuick = (items) => {
-      const wrap = document.createElement('div');
-      wrap.className='mcl-quick';
-      items.forEach(item => { const b=document.createElement('button'); b.textContent=item.label; b.onclick=()=>handle(item.prompt || item.label); wrap.appendChild(b); });
-      messages.appendChild(wrap); messages.scrollTop=messages.scrollHeight;
-    };
+    const addMessage = (text, who='bot') => { const div=document.createElement('div'); div.className=`mcl-msg ${who}`; div.textContent=text; messages.appendChild(div); messages.scrollTop=messages.scrollHeight; return div; };
+    const addQuick = items => { const wrap=document.createElement('div'); wrap.className='mcl-quick'; items.forEach(item=>{const b=document.createElement('button');b.textContent=item.label;b.onclick=()=>handle(item.prompt||item.label);wrap.appendChild(b);});messages.appendChild(wrap);messages.scrollTop=messages.scrollHeight; };
     const openQuery = (prefill='') => {
-      if (root.querySelector('.mcl-query')) return;
-      const q=document.createElement('div'); q.className='mcl-query show'; q.innerHTML=`<b>Send your query to Subash</b><input id="mcl-q-name" placeholder="Your name"><input id="mcl-q-email" type="email" placeholder="Your email"><input id="mcl-q-phone" placeholder="Phone (optional)"><textarea id="mcl-q-text" placeholder="Your query">${escape(prefill)}</textarea><button id="mcl-q-send">Send Query →</button>`;
-      messages.appendChild(q); messages.scrollTop=messages.scrollHeight;
-      q.querySelector('#mcl-q-send').onclick=()=>{
-        const name=q.querySelector('#mcl-q-name').value.trim(), email=q.querySelector('#mcl-q-email').value.trim(), phone=q.querySelector('#mcl-q-phone').value.trim(), text=q.querySelector('#mcl-q-text').value.trim();
-        if(!name||!email||!text){alert('Please enter your name, email and query.');return;}
-        const subject=encodeURIComponent(`Murder Crow website query — ${name}`);
-        const body=encodeURIComponent(`New query from Murder Crow website\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}\n\nQuery:\n${text}`);
-        window.location.href=`mailto:subash@mudercrowlabs.in?subject=${subject}&body=${body}`;
-        q.querySelector('#mcl-q-send').textContent='Opening email…';
-      };
+      if(root.querySelector('.mcl-query')) return;
+      const q=document.createElement('div');q.className='mcl-query show';q.innerHTML=`<b>Send your query to Subash</b><input id="mcl-q-name" placeholder="Your name"><input id="mcl-q-email" type="email" placeholder="Your email"><input id="mcl-q-phone" placeholder="Phone (optional)"><textarea id="mcl-q-text" placeholder="Your query">${escape(prefill)}</textarea><button id="mcl-q-send">Send Query →</button>`;messages.appendChild(q);messages.scrollTop=messages.scrollHeight;
+      q.querySelector('#mcl-q-send').onclick=()=>{const name=q.querySelector('#mcl-q-name').value.trim(),email=q.querySelector('#mcl-q-email').value.trim(),phone=q.querySelector('#mcl-q-phone').value.trim(),text=q.querySelector('#mcl-q-text').value.trim();if(!name||!email||!text){alert('Please enter your name, email and query.');return;}const subject=encodeURIComponent(`Murder Crow website query — ${name}`);const body=encodeURIComponent(`New query from Murder Crow website\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone||'Not provided'}\n\nQuery:\n${text}`);window.location.href=`mailto:subash@mudercrowlabs.in?subject=${subject}&body=${body}`;q.querySelector('#mcl-q-send').textContent='Opening email…';};
     };
-
     const knowledge = [
       {keys:['digital marketing','what is digital marketing'],answer:'Digital marketing is marketing through digital channels to attract, engage and convert people. At Murder Crow #Labs, the learning path is practical and connects strategy, content, SEO/AEO/GEO, social media, paid ads, analytics, CRM, automation and AI.'},
       {keys:['course','program','programme','what do i learn','learn in course','modules'],answer:'The Digital Marketing Programme is practical: marketing fundamentals, SEO/AEO/GEO, content, social media, Meta Ads, Google Ads, analytics, funnels, CRM/automation and AI-assisted marketing, with real practical work.'},
       {keys:['beginner','beginner friendly','no experience','experience'],answer:'Yep — beginners are welcome. You do not need previous marketing experience to start. If you tell me your background or career goal, I can point you in the right direction.'},
       {keys:['coding','do i need coding','programming'],answer:'Nope. You do not need to be a programmer to learn digital marketing. Some technical concepts are useful, but the focus is marketing, growth, tools and practical execution.'},
-      {keys:['online','offline','class location','classes'],answer:'The classes are online. Any offline sessions, if offered, will be announced separately to the learners.'},
+      {keys:['online','offline','class location','classes'],answer:'The classes are online. Any offline sessions, if offered, will be announced separately to the learners. Check the Course page on the site for the current programme details.'},
       {keys:['seo','search engine optimization'],answer:'SEO is about improving a website and its content so it can earn relevant visibility in search engines. It is taught as part of a wider search and growth strategy.'},
       {keys:['aeo','answer engine'],answer:'AEO means Answer Engine Optimization — making useful information easier for answer-focused search experiences to understand and surface.'},
       {keys:['geo','generative engine'],answer:'GEO means Generative Engine Optimization — preparing useful, trustworthy content so AI-powered discovery and answer systems can understand and reference it.'},
@@ -271,14 +246,14 @@
       {keys:['ai','artificial intelligence','ai tools'],answer:'AI is used as a practical marketing assistant for research, ideation, content workflows, analysis, automation and productivity — with marketing judgement, not blind copy-paste.'},
       {keys:['crm','automation'],answer:'CRM and automation help businesses organize leads, customer information and follow-ups. They are part of the practical growth-systems side of the course.'},
       {keys:['playbook','1399','1,399','1599','1,599'],answer:'The Growth Marketing Playbook is ₹1,399 when purchased separately. In the programme offer, it is presented as a complimentary value of ₹1,599.'},
-      {keys:['27499','27,499','programme price','program price','programme fee','program fee'],answer:'The Digital Marketing Programme offer is ₹27,499, presented against a stated ₹45,000 course value. You can reserve the offer with ₹10, and that reservation is intended to be adjusted against the programme fee.'},
+      {keys:['27499','27,499','27000','27,000','programme price','program price','programme fee','program fee'],answer:'The Digital Marketing Programme offer is ₹27,499, presented against a stated ₹45,000 course value. ₹27,000 is not the listed programme price. You can reserve the offer with ₹10, and that reservation is intended to be adjusted against the programme fee. See the payment page on the site for the current checkout.'},
       {keys:['45000','45,000','course value'],answer:'The programme offer is presented with a stated ₹45,000 course value and a ₹27,499 offer price.'},
       {keys:['10','₹10','reserve','reservation','claim'],answer:'The ₹10 is a reservation payment. A successful reservation confirms the offer journey, and the ₹10 is intended to be adjusted against the ₹27,499 programme fee.'},
       {keys:['demo','demo class'],answer:'You can choose a free demo class as one of the complimentary next steps after the programme reservation flow. Class details and dates are announced to learners through WhatsApp.'},
       {keys:['consultation','consult'],answer:'You can choose a free consultation as a complimentary next step in the programme offer flow. For a specific question, send a query to Subash.'},
       {keys:['job','job guarantee','guaranteed job','placement','career','employment'],answer:'There is no guaranteed-job promise. What Murder Crow #Labs does is support you in becoming job-ready: profile improvement, applications, positioning and practical guidance. If an employer is interested, we will support you through the process — but the final hiring decision is always with the employer.'},
       {keys:['compare','comparison','other course','other brand','other marketing course','competitor','why you','special','different'],answer:'The Crow will not trash other brands or make up competitor prices. What is special here is the practical, growth-focused approach: SEO/AEO/GEO, content, social, paid ads, analytics, CRM/automation and AI are connected instead of being taught as isolated buzzwords. Compare the syllabus, practical work, support and what you actually get — not just the headline price.'},
-      {keys:['services','service','social media','branding','advertising','digital marketing services','paid media','event'],answer:'Murder Crow #Labs also provides business and growth services, including digital marketing/growth, brand development, CRM & automation, advertising/paid media and event/experience-related work. Service pricing depends on scope, so I will not invent a quote.'},
+      {keys:['services','service','social media','branding','advertising','digital marketing services','paid media','event'],answer:'Murder Crow #Labs also provides business and growth services, including digital marketing/growth, brand development, CRM & automation, advertising/paid media and event/experience-related work. Open the Services page on the site to explore them. Pricing depends on scope, so I will not invent a quote.'},
       {keys:['refund','refund policy','money back','cancel','cancellation'],answer:'Important: payments are non-refundable after successful payment. Please review the offer and payment details before paying. If there is a genuine payment/technical issue, contact support with your payment screenshot and reference details.'},
       {keys:['whatsapp','group','community','dates','class dates','reminder','reminders'],answer:'After payment, the relevant WhatsApp group/community details will be provided. Class dates and updates will be announced there, and reminders will be sent so you do not have to keep checking. For extra-session doubts, you can approach Subash directly on WhatsApp once the support channel is active.'},
       {keys:['extra session','one to one','1-1','one on one','private session','5000','5k'],answer:'Extra 1-to-1 sessions are available separately for ₹5,000. This is an additional paid session, not part of the standard programme fee.'},
@@ -286,32 +261,14 @@
       {keys:['paid','payment done','payment successful','payment failed','cashfree','cashfree payment'],answer:'Payments on the site use Cashfree. If your payment succeeded but the confirmation/receipt did not arrive, send the payment screenshot plus your order/reference details to subash@mudercrowlabs.in and the team can check it.'},
       {keys:['email','mail','contact','talk to','human','subash','support','query'],answer:'For a specific question or human support, use “Send my query”. It prepares a message for Subash at subash@mudercrowlabs.in. For payment/receipt issues, include your payment screenshot and order/reference details.'}
     ];
-
-    const handle = (raw) => {
-      const question=String(raw||'').trim(); if(!question) return;
-      addMessage(question,'user');
-      const q=question.toLowerCase();
-      const hit=knowledge.find(item=>item.keys.some(k=>q.includes(k)));
-      window.setTimeout(()=>{
-        if(hit){ addMessage('🐦‍⬛ '+hit.answer); addQuick([{label:'Ask another question',prompt:''},{label:'Send my query',prompt:'I have a specific question for the Murder Crow team.'}]); }
-        else { addMessage('🐦‍⬛ Hmm, that one is a little too specific for me. I do not want to guess and give you the wrong answer. Send your query and Subash can help.'); addQuick([{label:'Course basics',prompt:'What will I learn in the digital marketing course?'},{label:'Services',prompt:'What services does Murder Crow #Labs provide?'},{label:'Send my query',prompt:'I have a specific question for the Murder Crow team.'}]); }
-        if(q.includes('specific question')||q.includes('send my query')) openQuery(question);
-      },180);
-    };
-
-    const welcome=()=>{ if(messages.children.length) return; addMessage('🐦‍⬛ Yo, I’m the Crow. Ask me about the Digital Marketing course, services, Playbook, programme offer, payments or what happens after you join. If your question is too specific, I’ll send it to Subash — no guessing, no corporate waffle.'); addQuick([{label:'Digital Marketing course',prompt:'What will I learn in the digital marketing course?'},{label:'Services',prompt:'What services does Murder Crow #Labs provide?'},{label:'₹27,499 offer',prompt:'How does the ₹27,499 programme offer work?'},{label:'₹1,399 Playbook',prompt:'What is the ₹1,399 Playbook?'},{label:'Job support',prompt:'Do I get a job guarantee?'},{label:'Refund policy',prompt:'What is your refund policy?'}]);};
+    const handle = raw => {const question=String(raw||'').trim();if(!question)return;addMessage(question,'user');const q=question.toLowerCase();const hit=knowledge.find(item=>item.keys.some(k=>q.includes(k)));window.setTimeout(()=>{if(hit){addMessage('🐦‍⬛ '+hit.answer);addQuick([{label:'Ask another question',prompt:''},{label:'Send my query',prompt:'I have a specific question for the Murder Crow team.'}]);}else{addMessage('🐦‍⬛ Hmm, that one is a little too specific for me. I do not want to guess and give you the wrong answer. Send your query and Subash can help.');addQuick([{label:'Course basics',prompt:'What will I learn in the digital marketing course?'},{label:'Services',prompt:'What services does Murder Crow #Labs provide?'},{label:'Send my query',prompt:'I have a specific question for the Murder Crow team.'}]);}if(q.includes('specific question')||q.includes('send my query'))openQuery(question);},180);};
+    const welcome=()=>{if(messages.children.length)return;addMessage('🐦‍⬛ Yo, I’m the Crow. Ask me about the Digital Marketing course, services, Playbook, programme offer, payments or what happens after you join. If your question is too specific, I’ll send it to Subash — no guessing, no corporate waffle.');addQuick([{label:'Digital Marketing course',prompt:'What will I learn in the digital marketing course?'},{label:'Services',prompt:'What services does Murder Crow #Labs provide?'},{label:'₹27,499 offer',prompt:'How does the ₹27,499 programme offer work?'},{label:'₹1,399 Playbook',prompt:'What is the ₹1,399 Playbook?'},{label:'Job support',prompt:'Do I get a job guarantee?'},{label:'Refund policy',prompt:'What is your refund policy?'}]);};
     toggle.onclick=()=>{const open=panel.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));if(open){welcome();input.focus();}};
     close.onclick=()=>{panel.classList.remove('open');toggle.setAttribute('aria-expanded','false');};
     send.onclick=()=>{const v=input.value;input.value='';handle(v);};
     input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send.click();}});
   };
 
-  const smoothCrowAnimation = () => {
-    const s=document.createElement('style');
-    s.textContent='.crow3d{will-change:transform;backface-visibility:hidden;transform:translate3d(0,0,0);animation-timing-function:cubic-bezier(.45,.05,.55,.95)}.crow3d:hover{will-change:transform}.crow3d.pooping{animation-timing-function:cubic-bezier(.2,.8,.2,1)}';
-    document.head.appendChild(s);
-  };
-
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>{mountCrowChat();smoothCrowAnimation();});
-  else {mountCrowChat();smoothCrowAnimation();}
+  const smoothCrowAnimation = () => { const s=document.createElement('style'); s.textContent='.crow3d{will-change:transform;backface-visibility:hidden;transform:translate3d(0,0,0);animation-timing-function:cubic-bezier(.45,.05,.55,.95)}.crow3d:hover{will-change:transform}.crow3d.pooping{animation-timing-function:cubic-bezier(.2,.8,.2,1)}'; document.head.appendChild(s); };
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>{mountCrowChat();smoothCrowAnimation();}); else {mountCrowChat();smoothCrowAnimation();}
 })();
