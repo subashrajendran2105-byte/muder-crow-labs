@@ -3,9 +3,9 @@ function sendJson(res, status, body) {
 }
 
 function getCashfreeConfig() {
-  const appId = process.env.CASHFREE_CLIENT_ID;
-  const secretKey = process.env.CASHFREE_CLIENT_SECRET;
-  const mode = (process.env.CASHFREE_ENV || 'sandbox').toLowerCase();
+  const appId = String(process.env.CASHFREE_CLIENT_ID || '').trim();
+  const secretKey = String(process.env.CASHFREE_CLIENT_SECRET || '').trim();
+  const mode = String(process.env.CASHFREE_ENV || 'sandbox').trim().toLowerCase();
   const baseUrl = mode === 'production'
     ? 'https://api.cashfree.com/pg'
     : 'https://sandbox.cashfree.com/pg';
@@ -30,7 +30,6 @@ module.exports = async function handler(req, res) {
   const customerEmail = String(req.body?.customer_email || '').trim();
   const customerName = String(req.body?.customer_name || 'Murder Crow Learner').trim();
 
-  // ₹10 reservation = 1,000 paise; ₹27,499 full enrolment = 2,749,900 paise.
   if (![1000, 2749900].includes(amount) || currency !== 'INR') {
     return sendJson(res, 400, { error: 'Invalid payment amount or currency.' });
   }
@@ -73,9 +72,20 @@ module.exports = async function handler(req, res) {
     const data = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      console.error('Cashfree create-order error:', data);
+      console.error('Cashfree create-order error:', {
+        status: response.status,
+        type: data?.type,
+        code: data?.code,
+        message: data?.message,
+        baseUrl,
+        mode
+      });
       return sendJson(res, response.status, {
-        error: data?.message || data?.type || 'Unable to create Cashfree order.'
+        error: data?.message || data?.type || 'Unable to create Cashfree order.',
+        cashfree_type: data?.type || null,
+        cashfree_code: data?.code || null,
+        cashfree_status: response.status,
+        environment: mode
       });
     }
 
