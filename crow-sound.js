@@ -1,53 +1,35 @@
-/* Murder Crow — real crow interaction sound.
-   Source: American Crow.ogg by G McGrane, Wikimedia Commons, public domain.
-   https://commons.wikimedia.org/wiki/File:American_Crow.ogg
-*/
+/* Murder Crow — crow sound only on the About menu item. */
 (() => {
-  if (window.__murderCrowRealSound) return;
-  window.__murderCrowRealSound = true;
+  if (window.__murderCrowSoundLoaded) return;
+  window.__murderCrowSoundLoaded = true;
 
-  const SOURCE = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/American_Crow.ogg';
-  const clip = new Audio(SOURCE);
+  const clip = new Audio('https://commons.wikimedia.org/wiki/Special:Redirect/file/American_Crow.ogg');
   clip.preload = 'auto';
   clip.volume = 0.22;
 
-  let flightPlayed = false;
-  let clickBusy = false;
-
-  const playOne = (duration = 1050) => {
+  const playCrow = () => {
     try {
       clip.pause();
       clip.currentTime = 0;
       const p = clip.play();
-      if (p && p.catch) p.catch(() => {});
-      window.setTimeout(() => { try { clip.pause(); } catch (_) {} }, duration);
+      if (p?.catch) p.catch(() => {});
+      window.setTimeout(() => { try { clip.pause(); } catch (_) {} }, 1050);
     } catch (_) {}
   };
 
-  const playThree = () => {
-    if (clickBusy) return;
-    clickBusy = true;
-    playOne();
-    window.setTimeout(() => playOne(), 1250);
-    window.setTimeout(() => { playOne(); window.setTimeout(() => { clickBusy = false; }, 1050); }, 2500);
-  };
-
-  const playFlightOnce = () => {
-    if (flightPlayed) return;
-    flightPlayed = true;
-    playOne(1250);
-  };
-
-  document.addEventListener('click', (event) => {
-    const crow = event.target.closest?.('.crow3d');
-    if (crow) { playFlightOnce(); return; }
-    const interactive = event.target.closest?.('a, button, .btn, .navcta, [role="button"]');
-    if (interactive) playThree();
+  // ONLY the About item triggers the crow sound.
+  document.addEventListener('click', event => {
+    const el = event.target.closest?.('a,button,[role="button"]');
+    if (!el) return;
+    const text = (el.textContent || '').trim().toLowerCase();
+    const aria = (el.getAttribute('aria-label') || '').trim().toLowerCase();
+    const href = (el.getAttribute('href') || '').toLowerCase();
+    if (text === 'about' || aria === 'about' || href.includes('#about') || href.includes('/about')) playCrow();
   }, true);
 
-  // Cashfree migration bridge: keep the existing page markup/button working.
+  // Cashfree migration bridge.
   let lead = {};
-
+  const expectedFormId = 'eb9a7aa6-e191-4f23-913d-cf24348cb7c2';
   const transitionToPayment = () => {
     const leadStep = document.getElementById('leadStep');
     const paymentStep = document.getElementById('paymentStep');
@@ -57,15 +39,8 @@
 
   window.addEventListener('hs-form-event:on-submission:success', async event => {
     const detail = event.detail || {};
-    const expectedFormId = 'eb9a7aa6-e191-4f23-913d-cf24348cb7c2';
-    // HubSpot has used slightly different event detail shapes across versions.
-    // If a formId is supplied, make sure it is our reservation form; otherwise
-    // still handle the success event because this page has one reservation form.
     if (detail.formId && detail.formId !== expectedFormId) return;
-
-    // Move to the payment step immediately. Do not wait for HubSpot field reads.
     transitionToPayment();
-
     try {
       const form = window.HubSpotFormsV4?.getFormFromEvent(event);
       const values = form ? await form.getFormFieldValues() : [];
@@ -81,8 +56,8 @@
     if (typeof window.Cashfree === 'function') return resolve();
     const existing = document.querySelector('script[data-mcl-cashfree]');
     if (existing) {
-      existing.addEventListener('load', resolve, { once: true });
-      existing.addEventListener('error', () => reject(new Error('Cashfree Checkout failed to load.')), { once: true });
+      existing.addEventListener('load', resolve, {once:true});
+      existing.addEventListener('error', () => reject(new Error('Cashfree Checkout failed to load.')), {once:true});
       return;
     }
     const script = document.createElement('script');
@@ -94,24 +69,15 @@
     document.head.appendChild(script);
   });
 
-  const escape = value => String(value).replace(/[&<>\"']/g, c => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;', "'": '&#039;'
-  }[c]));
-
-  const verify = async orderId => {
-    const response = await fetch('/api/verify-payment', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ order_id: orderId })
-    });
-    return response.json();
-  };
-
+  const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
   const showError = message => {
     const box = document.getElementById('paymentError');
     if (box) box.innerHTML = message ? `<div class="error">${escape(message)}</div>` : '';
   };
-
+  const verify = async orderId => {
+    const r = await fetch('/api/verify-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({order_id:orderId})});
+    return r.json();
+  };
   const showSuccess = () => {
     const paymentStep = document.getElementById('paymentStep');
     const thankyouStep = document.getElementById('thankyouStep');
@@ -119,78 +85,56 @@
     if (thankyouStep) thankyouStep.hidden = false;
   };
 
-  window.startRazorpay = async function startCashfreeBridge() {
+  // Keep the old inline onclick name so the existing button still works.
+  window.startRazorpay = async function startCashfree() {
     const button = document.getElementById('payButton');
     if (!button) return;
     button.disabled = true;
     button.textContent = 'Creating secure order…';
     showError('');
-
     try {
-      const phone = String(lead.phone || '').replace(/\D/g, '');
+      const phone = String(lead.phone || lead.mobilephone || lead.mobile_phone || lead.phone_number || lead.whatsapp || '').replace(/\D/g,'');
       const email = String(lead.email || '').trim();
-      const first = lead.firstname || lead.firstName || '';
-      const last = lead.lastname || lead.lastName || '';
+      const first = lead.firstname || lead.first_name || '';
+      const last = lead.lastname || lead.last_name || '';
       if (!/^\d{10}$/.test(phone)) throw new Error('Please include a valid 10-digit phone number in the reservation form before paying.');
-
       await loadCashfree();
-      const orderResponse = await fetch('/api/create-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          amount: 1000,
-          currency: 'INR',
-          order_type: 'reserve',
-          customer_phone: phone,
-          customer_email: email,
-          customer_name: [first, last].filter(Boolean).join(' ') || 'Murder Crow Learner'
-        })
-      });
+      const orderResponse = await fetch('/api/create-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount:1000,currency:'INR',order_type:'reserve',customer_phone:phone,customer_email:email,customer_name:[first,last].filter(Boolean).join(' ')||'Murder Crow Learner'})});
       const order = await orderResponse.json();
       if (!orderResponse.ok) throw new Error(order.error || 'Could not create the Cashfree order.');
       if (!order.payment_session_id) throw new Error('Cashfree did not return a payment session. Please try again.');
-
-      const cashfree = Cashfree({ mode: order.mode || 'sandbox' });
+      const cashfree = Cashfree({mode:order.mode || 'sandbox'});
       let settled = false;
       let attempts = 0;
       const timer = window.setInterval(async () => {
         if (settled) return;
-        attempts += 1;
+        attempts++;
         try {
           const result = await verify(order.order_id);
-          if (result.success) {
-            settled = true;
-            window.clearInterval(timer);
-            showSuccess();
-          }
+          if (result.success) { settled = true; window.clearInterval(timer); showSuccess(); }
         } catch (_) {}
         if (attempts >= 45) {
           window.clearInterval(timer);
-          if (!settled) {
-            button.disabled = false;
-            button.textContent = 'Pay ₹10 & Reserve →';
-            showError('Payment confirmation is taking longer than expected. Please try again.');
-          }
+          if (!settled) { button.disabled=false; button.textContent='Pay ₹10 & Reserve →'; showError('Payment confirmation is taking longer than expected. Please try again.'); }
         }
-      }, 2000);
-
-      button.textContent = 'Opening Cashfree…';
-      await cashfree.checkout({ paymentSessionId: order.payment_session_id });
-      if (!settled) button.textContent = 'Waiting for payment confirmation…';
+      },2000);
+      button.textContent='Opening Cashfree…';
+      await cashfree.checkout({paymentSessionId:order.payment_session_id});
+      if (!settled) button.textContent='Waiting for payment confirmation…';
     } catch (error) {
-      button.disabled = false;
-      button.textContent = 'Pay ₹10 & Reserve →';
+      button.disabled=false;
+      button.textContent='Pay ₹10 & Reserve →';
       showError(error.message || 'Unable to start Cashfree Checkout.');
     }
   };
 
-  // Keep visible provider copy aligned without changing the layout.
-  const updateCashfreeCopy = () => {
+  // Remove any stale Razorpay wording from the rendered payment step.
+  const updateProviderCopy = () => {
     document.querySelectorAll('body *').forEach(node => {
-      if (node.children.length === 0 && node.textContent.includes('Razorpay')) {
-        node.textContent = node.textContent.replace(/Razorpay/g, 'Cashfree');
-      }
+      if (node.children.length === 0 && /Razorpay/i.test(node.textContent || '')) node.textContent = node.textContent.replace(/Razorpay/gi,'Cashfree');
     });
   };
-  window.setTimeout(updateCashfreeCopy, 0);
+  updateProviderCopy();
+  setTimeout(updateProviderCopy,250);
+  setTimeout(updateProviderCopy,1000);
 })();
