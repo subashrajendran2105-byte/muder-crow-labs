@@ -10,66 +10,31 @@
 
   const calmMotion = () => {
     const s = document.createElement('style');
-    s.textContent = `
-      .crow3d,.crow3d:hover,.crow3d.pooping{animation:none!important;will-change:auto!important}
-      .crow3d .poop,.crow3d.pooping .poop{animation:none!important}
-      #mcl-crow-panel.open{animation:none!important}
-      .mcl-crow-toggle,.mcl-crow-panel,.mcl-crow-quick button{transition:none!important}
-      @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
-    `;
+    s.textContent = `.crow3d,.crow3d:hover,.crow3d.pooping{animation:none!important;will-change:auto!important}.crow3d .poop,.crow3d.pooping .poop{animation:none!important}#mcl-crow-panel.open{animation:none!important}.mcl-crow-toggle,.mcl-crow-panel,.mcl-crow-quick button{transition:none!important}@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}`;
     document.head.appendChild(s);
   };
 
   const clip = new Audio('https://commons.wikimedia.org/wiki/Special:Redirect/file/American_Crow.ogg');
   clip.preload = 'auto'; clip.volume = 0.22;
   document.addEventListener('click', event => {
-    const el = event.target.closest?.('a,button,[role="button"]');
-    if (!el) return;
-    const text = (el.textContent || '').trim().toLowerCase();
-    const aria = (el.getAttribute('aria-label') || '').trim().toLowerCase();
-    const href = (el.getAttribute('href') || '').toLowerCase();
-    if (text === 'about' || aria === 'about' || href.includes('#about') || href.includes('/about')) {
-      try { clip.pause(); clip.currentTime = 0; const p = clip.play(); p?.catch?.(() => {}); setTimeout(() => { try { clip.pause(); } catch (_) {} }, 1050); } catch (_) {}
-    }
+    const el = event.target.closest?.('a,button,[role="button"]'); if (!el) return;
+    const text = (el.textContent || '').trim().toLowerCase(); const aria = (el.getAttribute('aria-label') || '').trim().toLowerCase(); const href = (el.getAttribute('href') || '').toLowerCase();
+    if (text === 'about' || aria === 'about' || href.includes('#about') || href.includes('/about')) { try { clip.pause(); clip.currentTime = 0; const p = clip.play(); p?.catch?.(() => {}); setTimeout(() => { try { clip.pause(); } catch (_) {} }, 1050); } catch (_) {} }
   }, true);
 
-  const normalizePhone = value => {
-    let digits = String(value ?? '').replace(/\D/g, '');
-    if (digits.length === 12 && digits.startsWith('91')) digits = digits.slice(2);
-    if (digits.length > 10) digits = digits.slice(-10);
-    return digits;
-  };
+  const normalizePhone = value => { let digits = String(value ?? '').replace(/\D/g, ''); if (digits.length === 12 && digits.startsWith('91')) digits = digits.slice(2); if (digits.length > 10) digits = digits.slice(-10); return digits; };
   const normalizeKey = value => String(value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
   const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 
   const readHubSpotValues = async event => {
-    const form = window.HubSpotFormsV4?.getFormFromEvent(event);
-    if (!form?.getFormFieldValues) return;
+    const form = window.HubSpotFormsV4?.getFormFromEvent(event); if (!form?.getFormFieldValues) return;
     for (let attempt = 0; attempt < 8; attempt++) {
-      try {
-        const values = await form.getFormFieldValues();
-        values.forEach(item => {
-          const key = normalizeKey(String(item?.name || '').split('/').pop());
-          const value = Array.isArray(item?.value) ? item.value.join(',') : String(item?.value ?? '');
-          if (key) lead[key] = value;
-        });
-        lead.phone = normalizePhone(lead.phone || lead.mobilephone || lead.mobile || lead.phonenumber || lead.mobilenumber || lead.whatsapp || lead.whatsappnumber);
-        if (/^\d{10}$/.test(lead.phone)) return;
-      } catch (_) {}
+      try { const values = await form.getFormFieldValues(); values.forEach(item => { const key = normalizeKey(String(item?.name || '').split('/').pop()); const value = Array.isArray(item?.value) ? item.value.join(',') : String(item?.value ?? ''); if (key) lead[key] = value; }); lead.phone = normalizePhone(lead.phone || lead.mobilephone || lead.mobile || lead.phonenumber || lead.mobilenumber || lead.whatsapp || lead.whatsappnumber); if (/^\d{10}$/.test(lead.phone)) return; } catch (_) {}
       await new Promise(r => setTimeout(r, 250));
     }
   };
-
-  const transitionToPayment = () => {
-    document.getElementById('leadStep')?.setAttribute('hidden', 'hidden');
-    const payment = document.getElementById('paymentStep');
-    if (payment) payment.removeAttribute('hidden');
-  };
-  window.addEventListener('hs-form-event:on-submission:success', event => {
-    const detail = event.detail || {};
-    if (detail.formId && detail.formId !== expectedFormId) return;
-    transitionToPayment(); readHubSpotValues(event);
-  });
+  const transitionToPayment = () => { document.getElementById('leadStep')?.setAttribute('hidden', 'hidden'); const payment = document.getElementById('paymentStep'); if (payment) payment.removeAttribute('hidden'); };
+  window.addEventListener('hs-form-event:on-submission:success', event => { const detail = event.detail || {}; if (detail.formId && detail.formId !== expectedFormId) return; transitionToPayment(); readHubSpotValues(event); });
 
   const loadCashfree = () => new Promise((resolve, reject) => {
     if (typeof window.Cashfree === 'function') return resolve();
@@ -86,9 +51,7 @@
     button.disabled = true; button.textContent = 'Creating secure order…'; showError('');
     try {
       if (!/^\d{10}$/.test(normalizePhone(lead.phone))) await readHubSpotValues({});
-      const phone = normalizePhone(lead.phone || lead.mobilephone || lead.mobile || lead.phonenumber || lead.mobilenumber || lead.whatsapp || lead.whatsappnumber);
-      const email = String(lead.email || '').trim();
-      const first = lead.firstname || lead.first_name || ''; const last = lead.lastname || lead.last_name || '';
+      const phone = normalizePhone(lead.phone || lead.mobilephone || lead.mobile || lead.phonenumber || lead.mobilenumber || lead.whatsapp || lead.whatsappnumber); const email = String(lead.email || '').trim(); const first = lead.firstname || lead.first_name || ''; const last = lead.lastname || lead.last_name || '';
       if (!/^\d{10}$/.test(phone)) throw new Error('Please go back, enter your 10-digit mobile number, and submit the form again.');
       await loadCashfree();
       const response = await fetch('/api/create-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount:1000,currency:'INR',order_type:'reserve',customer_phone:phone,customer_email:email,customer_name:[first,last].filter(Boolean).join(' ')||'Murder Crow Learner'})});
@@ -99,20 +62,9 @@
     } catch (error) { button.disabled=false; button.textContent='Pay ₹10 & Reserve →'; showError(error.message || 'Unable to start Cashfree Checkout.'); }
   };
 
-  const cleanProviderCopy=()=>document.querySelectorAll('body *').forEach(node=>{if(node.children.length===0&&/Razorpay/i.test(node.textContent||''))node.textContent=node.textContent.replace(/Razorpay/gi,'Cashfree')});
-  cleanProviderCopy(); setTimeout(cleanProviderCopy,300);
+  const cleanProviderCopy=()=>document.querySelectorAll('body *').forEach(node=>{if(node.children.length===0&&/Razorpay/i.test(node.textContent||''))node.textContent=node.textContent.replace(/Razorpay/gi,'Cashfree')}); cleanProviderCopy(); setTimeout(cleanProviderCopy,300);
 
-  const addStyle = () => {
-    const style=document.createElement('style'); style.textContent=`
-      #mcl-crow-chat{position:fixed;right:18px;bottom:18px;z-index:1200;font-family:"DM Sans",sans-serif}
-      #mcl-crow-toggle{width:58px;height:58px;border:1px solid #11120f;border-radius:50%;background:#d8e92d;color:#11120f;display:grid;place-items:center;cursor:pointer;box-shadow:5px 5px 0 #11120f}
-      #mcl-crow-toggle svg{width:31px;height:31px}
-      #mcl-crow-panel{width:min(390px,calc(100vw - 28px));height:min(610px,calc(100vh - 105px));background:#fffefa;border:1px solid #11120f;border-radius:25px;box-shadow:0 24px 70px rgba(17,18,15,.2);overflow:hidden;display:none;flex-direction:column;margin-bottom:14px}
-      #mcl-crow-panel.open{display:flex}
-      .mcl-crow-head{background:#11120f;color:#fff;padding:17px 18px;display:flex;align-items:center;gap:12px}.mcl-crow-head-icon{width:38px;height:38px;border-radius:50%;background:#d8e92d;color:#11120f;display:grid;place-items:center;font-size:21px}.mcl-crow-head b{display:block;font:800 16px Manrope}.mcl-crow-head small{color:#c9cbc2;font-size:11px}.mcl-crow-close{margin-left:auto;background:transparent;border:0;color:#fff;font-size:22px;cursor:pointer}
-      .mcl-crow-messages{flex:1;overflow:auto;padding:17px;background:#f7f5ee}.mcl-msg{max-width:88%;padding:11px 13px;border-radius:16px;margin:0 0 10px;font-size:13px;line-height:1.45;white-space:pre-wrap}.mcl-msg.bot{background:#fffefa;border:1px solid #d9d8cf;border-bottom-left-radius:5px}.mcl-msg.user{margin-left:auto;background:#d8e92d;border:1px solid #68772b;border-bottom-right-radius:5px}.mcl-quick{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.mcl-quick button{border:1px solid #b8baaf;background:#fff;border-radius:999px;padding:8px 10px;font-size:11px;font-weight:800;cursor:pointer}.mcl-quick button:hover{background:#d8e92d}.mcl-crow-form{border-top:1px solid #d9d8cf;background:#fffefa;padding:11px;display:flex;gap:8px}.mcl-crow-form textarea{flex:1;resize:none;min-height:44px;max-height:100px;border:1px solid #c5c6bd;border-radius:14px;padding:11px;font:13px "DM Sans";outline:none}.mcl-crow-send{width:45px;border:0;border-radius:13px;background:#11120f;color:#fff;cursor:pointer;font-size:17px}.mcl-payment-link{display:inline-flex;margin-top:8px;border:1px solid #11120f;background:#d8e92d;color:#11120f;border-radius:999px;padding:9px 13px;font-size:11px;font-weight:900;text-decoration:none}.mcl-query{display:none;margin:9px 0 2px;padding:12px;border:1px solid #d9d8cf;border-radius:16px;background:#fffefa}.mcl-query.show{display:block}.mcl-query input,.mcl-query textarea{width:100%;border:1px solid #c5c6bd;border-radius:10px;padding:9px;margin:5px 0;font:12px "DM Sans"}.mcl-query textarea{min-height:70px;resize:vertical}.mcl-query button{border:0;border-radius:999px;background:#11120f;color:#fff;padding:10px 14px;font-weight:800;cursor:pointer}@media(max-width:600px){#mcl-crow-chat{right:12px;bottom:12px}#mcl-crow-panel{height:min(650px,calc(100vh - 90px))}}
-    `; document.head.appendChild(style);
-  };
+  const addStyle = () => { const style=document.createElement('style'); style.textContent=`#mcl-crow-chat{position:fixed;right:18px;bottom:18px;z-index:1200;font-family:"DM Sans",sans-serif}#mcl-crow-toggle{width:58px;height:58px;border:1px solid #11120f;border-radius:50%;background:#d8e92d;color:#11120f;display:grid;place-items:center;cursor:pointer;box-shadow:5px 5px 0 #11120f}#mcl-crow-toggle svg{width:31px;height:31px}#mcl-crow-panel{width:min(390px,calc(100vw - 28px));height:min(610px,calc(100vh - 105px));background:#fffefa;border:1px solid #11120f;border-radius:25px;box-shadow:0 24px 70px rgba(17,18,15,.2);overflow:hidden;display:none;flex-direction:column;margin-bottom:14px}#mcl-crow-panel.open{display:flex}.mcl-crow-head{background:#11120f;color:#fff;padding:17px 18px;display:flex;align-items:center;gap:12px}.mcl-crow-head-icon{width:38px;height:38px;border-radius:50%;background:#d8e92d;color:#11120f;display:grid;place-items:center;font-size:21px}.mcl-crow-head b{display:block;font:800 16px Manrope}.mcl-crow-head small{color:#c9cbc2;font-size:11px}.mcl-crow-close{margin-left:auto;background:transparent;border:0;color:#fff;font-size:22px;cursor:pointer}.mcl-crow-messages{flex:1;overflow:auto;padding:17px;background:#f7f5ee}.mcl-msg{max-width:88%;padding:11px 13px;border-radius:16px;margin:0 0 10px;font-size:13px;line-height:1.45;white-space:pre-wrap}.mcl-msg.bot{background:#fffefa;border:1px solid #d9d8cf;border-bottom-left-radius:5px}.mcl-msg.user{margin-left:auto;background:#d8e92d;border:1px solid #68772b;border-bottom-right-radius:5px}.mcl-quick{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.mcl-quick button{border:1px solid #b8baaf;background:#fff;border-radius:999px;padding:8px 10px;font-size:11px;font-weight:800;cursor:pointer}.mcl-quick button:hover{background:#d8e92d}.mcl-crow-form{border-top:1px solid #d9d8cf;background:#fffefa;padding:11px;display:flex;gap:8px}.mcl-crow-form textarea{flex:1;resize:none;min-height:44px;max-height:100px;border:1px solid #c5c6bd;border-radius:14px;padding:11px;font:13px "DM Sans";outline:none}.mcl-crow-send{width:45px;border:0;border-radius:13px;background:#11120f;color:#fff;cursor:pointer;font-size:17px}.mcl-payment-link{display:inline-flex;margin-top:8px;border:1px solid #11120f;background:#d8e92d;color:#11120f;border-radius:999px;padding:9px 13px;font-size:11px;font-weight:900;text-decoration:none}.mcl-query{display:none;margin:9px 0 2px;padding:12px;border:1px solid #d9d8cf;border-radius:16px;background:#fffefa}.mcl-query.show{display:block}.mcl-query input,.mcl-query textarea{width:100%;border:1px solid #c5c6bd;border-radius:10px;padding:9px;margin:5px 0;font:12px "DM Sans"}.mcl-query textarea{min-height:70px;resize:vertical}.mcl-query button{border:0;border-radius:999px;background:#11120f;color:#fff;padding:10px 14px;font-weight:800;cursor:pointer}@media(max-width:600px){#mcl-crow-chat{right:12px;bottom:12px}#mcl-crow-panel{height:min(650px,calc(100vh - 90px))}}`; document.head.appendChild(style); };
 
   const mountCrowChat=()=>{
     if(document.getElementById('mcl-crow-chat'))return; addStyle();
@@ -121,18 +73,7 @@
     const addMessage=(text,who='bot')=>{const div=document.createElement('div');div.className=`mcl-msg ${who}`;div.textContent=text;messages.appendChild(div);messages.scrollTop=messages.scrollHeight;return div};
     const addPaymentButton=()=>{const a=document.createElement('a');a.className='mcl-payment-link';a.href=PAYMENT_URL;a.textContent='Open payment page →';messages.appendChild(a);messages.scrollTop=messages.scrollHeight};
     const addQuick=items=>{const wrap=document.createElement('div');wrap.className='mcl-quick';items.forEach(item=>{const b=document.createElement('button');b.textContent=item.label;b.onclick=()=>handle(item.prompt||item.label);wrap.appendChild(b)});messages.appendChild(wrap);messages.scrollTop=messages.scrollHeight};
-    const openQuery = (prefill='') => {
-      if (root.querySelector('.mcl-query')) return;
-      const q = document.createElement('div'); q.className = 'mcl-query show';
-      q.innerHTML = `<b>Send your query to Subash</b><input id="mcl-q-name" placeholder="Your name"><input id="mcl-q-email" type="email" placeholder="Your email"><input id="mcl-q-phone" placeholder="Phone (optional)"><textarea id="mcl-q-text" placeholder="Your query">${escape(prefill)}</textarea><button id="mcl-q-send">Send Query →</button>`;
-      messages.appendChild(q); messages.scrollTop = messages.scrollHeight;
-      q.querySelector('#mcl-q-send').onclick = () => {
-        const name=q.querySelector('#mcl-q-name').value.trim(), email=q.querySelector('#mcl-q-email').value.trim(), phone=q.querySelector('#mcl-q-phone').value.trim(), text=q.querySelector('#mcl-q-text').value.trim();
-        if(!name||!email||!text){alert('Please enter your name, email and query.');return;}
-        const subject=encodeURIComponent(`Murder Crow website query — ${name}`), body=encodeURIComponent(`New query from Murder Crow website\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone||'Not provided'}\n\nQuery:\n${text}`);
-        location.href=`mailto:${SUPPORT_EMAIL}?subject=${subject}&body=${body}`;
-      };
-    };
+    const openQuery=(prefill='')=>{if(root.querySelector('.mcl-query'))return;const q=document.createElement('div');q.className='mcl-query show';q.innerHTML=`<b>Send your query to Subash</b><input id="mcl-q-name" placeholder="Your name"><input id="mcl-q-email" type="email" placeholder="Your email"><input id="mcl-q-phone" placeholder="Phone (optional)"><textarea id="mcl-q-text" placeholder="Your query">${escape(prefill)}</textarea><button id="mcl-q-send">Send Query →</button>`;messages.appendChild(q);messages.scrollTop=messages.scrollHeight;q.querySelector('#mcl-q-send').onclick=()=>{const name=q.querySelector('#mcl-q-name').value.trim(),email=q.querySelector('#mcl-q-email').value.trim(),phone=q.querySelector('#mcl-q-phone').value.trim(),text=q.querySelector('#mcl-q-text').value.trim();if(!name||!email||!text){alert('Please enter your name, email and query.');return;}const subject=encodeURIComponent(`Murder Crow website query — ${name}`),body=encodeURIComponent(`New query from Murder Crow website\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone||'Not provided'}\n\nQuery:\n${text}`);location.href=`mailto:${SUPPORT_EMAIL}?subject=${subject}&body=${body}`;};};
     const knowledge=[
       {keys:['digital marketing','what is digital marketing'],answer:'Digital marketing is marketing through digital channels to attract, engage and convert people. Murder Crow connects strategy, content, SEO/AEO/GEO, social media, paid ads, analytics, CRM, automation and AI.'},
       {keys:['course','program','programme','what do i learn','learn in course','modules'],answer:'The programme covers practical digital marketing and growth: fundamentals, SEO/AEO/GEO, content, social media, Meta Ads, Google Ads, analytics, funnels, CRM/automation and AI-assisted marketing.'},
@@ -161,29 +102,20 @@
       {keys:['services','service','social media','branding','advertising','digital marketing services','paid media','event'],answer:'Murder Crow also provides business and growth services including digital marketing/growth, brand development, CRM & automation, advertising/paid media and event/experience-related work. Pricing depends on scope.'}
     ];
     const paymentIntent=q=>['where do i pay','where can i pay','how do i pay','payment link','payment page','make a payment','pay now','i want to pay','want to pay','where to pay','how can i pay'].some(k=>q.includes(k));
-    const handle = raw => {
-      const question = String(raw || '').trim(); if (!question) return; addMessage(question,'user'); const q=question.toLowerCase();
-      if(paymentIntent(q)){addMessage(`🐦‍⬛ Yep — all payments are here. The same page has the ₹10 reservation, ₹27,499 full programme payment and ₹1,399 Playbook.\n\nPayment page: ${location.origin}${PAYMENT_URL}`);addPaymentButton();return;}
-      const hit=knowledge.find(item=>item.keys.some(k=>q.includes(k)));
-      setTimeout(()=>{if(hit){addMessage('🐦‍⬛ '+hit.answer);addQuick([{label:'Ask another question',prompt:''},{label:'Open payment page',prompt:'Where do I pay?'}]);}else{addMessage(`🐦‍⬛ I don't want to guess on that one. Send your query to Subash at ${SUPPORT_EMAIL}.`);addQuick([{label:'Open payment page',prompt:'Where do I pay?'},{label:'Send my query',prompt:'I have a specific question for the Murder Crow team.'}]);}if(q.includes('specific question')||q.includes('send my query'))openQuery(question)},180);
-    };
+    const handle=raw=>{const question=String(raw||'').trim();if(!question)return;addMessage(question,'user');const q=question.toLowerCase();if(paymentIntent(q)){addMessage(`🐦‍⬛ Yep — all payments are here. The same page has the ₹10 reservation, ₹27,499 full programme payment and ₹1,399 Playbook.\n\nPayment page: ${location.origin}${PAYMENT_URL}`);addPaymentButton();return;}const hit=knowledge.find(item=>item.keys.some(k=>q.includes(k)));setTimeout(()=>{if(hit){addMessage('🐦‍⬛ '+hit.answer);addQuick([{label:'Ask another question',prompt:''},{label:'Open payment page',prompt:'Where do I pay?'}]);}else{addMessage(`🐦‍⬛ I don't want to guess on that one. Send your query to Subash at ${SUPPORT_EMAIL}.`);addQuick([{label:'Open payment page',prompt:'Where do I pay?'},{label:'Send my query',prompt:'I have a specific question for the Murder Crow team.'}]);}if(q.includes('specific question')||q.includes('send my query'))openQuery(question)},180);};
     const welcome=()=>{if(messages.children.length)return;addMessage('🐦‍⬛ Yo, I’m the Crow. Ask me about the course, services, programme offer, payments or what happens after you join. No guessing, no corporate waffle.');addQuick([{label:'Course basics',prompt:'What will I learn in the digital marketing course?'},{label:'Job support',prompt:'Do I get a job guarantee?'},{label:'Compare with other brands',prompt:'Why is Murder Crow different from other marketing courses?'},{label:'Open payment page',prompt:'Where do I pay?'},{label:'Refund policy',prompt:'What is your refund policy?'}])};
     toggle.onclick=()=>{const open=panel.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));if(open){welcome();input.focus()}};close.onclick=()=>{panel.classList.remove('open');toggle.setAttribute('aria-expanded','false')};send.onclick=()=>{const v=input.value;input.value='';handle(v)};input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send.click()}});
   };
 
-  const fixPaymentPage = () => {
-    if (!/\/payment\.html$/i.test(location.pathname)) return;
-    const button = document.getElementById('pay');
-    if (!button || button.dataset.mclPaymentFixed) return;
-    button.dataset.mclPaymentFixed = 'true';
-    button.addEventListener('click', async event => {
-      event.preventDefault(); event.stopImmediatePropagation();
-      const name=document.getElementById('name')?.value.trim()||''; const email=document.getElementById('email')?.value.trim()||''; const phone=normalizePhone(document.getElementById('phone')?.value||''); const selected=document.getElementById('selected')?.textContent.toLowerCase()||''; const queryProduct=new URLSearchParams(location.search).get('product'); const type=queryProduct==='full'||selected.includes('27,499')?'full':selected.includes('playbook')?'playbook':'reserve'; const amount=type==='full'?2749900:type==='playbook'?139900:1000; const message=document.getElementById('message'); const setMessage=text=>{if(message){message.textContent=text;message.classList.add('show')}};
-      if(!name)return setMessage('Please enter your name.'); if(!/^\d{10}$/.test(phone))return setMessage('Please enter a valid 10-digit phone number.'); if(!/^\S+@\S+\.\S+$/.test(email))return setMessage('Please enter a valid email address.');
-      button.disabled=true;button.textContent='Creating secure payment…';
-      try{await loadCashfree();const response=await fetch('/api/create-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount,currency:'INR',order_type:type,customer_phone:phone,customer_email:email,customer_name:name})});const order=await response.json();if(!response.ok||!order.payment_session_id)throw new Error(order.error||'Unable to create payment.');const checkout=Cashfree({mode:order.mode||'sandbox'});button.textContent='Opening Cashfree…';const result=await checkout.checkout({paymentSessionId:order.payment_session_id});if(result?.error)throw new Error(result.error.message||'Cashfree checkout could not open.');button.disabled=false;button.textContent='Continue to Cashfree →';}catch(error){button.disabled=false;button.textContent='Continue to Cashfree →';setMessage(error.message||'Payment could not be started.')}} , true);
+  const fixPaymentPage=()=>{
+    if(!/\/payment\.html$/i.test(location.pathname))return; const button=document.getElementById('pay'); if(!button||button.dataset.mclPaymentFixed)return; button.dataset.mclPaymentFixed='true';
+    const supportLink=document.querySelector('#success a[href="/support.html"]'); if(supportLink){supportLink.href=`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('Murder Crow support')}`;}
+    button.addEventListener('click',async event=>{
+      event.preventDefault();event.stopImmediatePropagation(); const name=document.getElementById('name')?.value.trim()||'';const email=document.getElementById('email')?.value.trim()||'';const phone=normalizePhone(document.getElementById('phone')?.value||'');const selected=document.getElementById('selected')?.textContent.toLowerCase()||'';const queryProduct=new URLSearchParams(location.search).get('product');const type=queryProduct==='full'||selected.includes('27,499')?'full':selected.includes('playbook')?'playbook':'reserve';const amount=type==='full'?2749900:type==='playbook'?139900:1000;const message=document.getElementById('message');const setMessage=text=>{if(message){message.textContent=text;message.classList.add('show')}};
+      if(!name)return setMessage('Please enter your name.');if(!/^\d{10}$/.test(phone))return setMessage('Please enter a valid 10-digit phone number.');if(!/^\S+@\S+\.\S+$/.test(email))return setMessage('Please enter a valid email address.');button.disabled=true;button.textContent='Creating secure payment…';
+      try{await loadCashfree();const response=await fetch('/api/create-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount,currency:'INR',order_type:type,customer_phone:phone,customer_email:email,customer_name:name})});const order=await response.json();if(!response.ok||!order.payment_session_id)throw new Error(order.error||'Unable to create payment.');const checkout=Cashfree({mode:order.mode||'sandbox'});button.textContent='Opening Cashfree…';const result=await checkout.checkout({paymentSessionId:order.payment_session_id});if(result?.error)throw new Error(result.error.message||'Cashfree checkout could not open.');button.disabled=false;button.textContent='Continue to Cashfree →';}catch(error){button.disabled=false;button.textContent='Continue to Cashfree →';setMessage(error.message||'Payment could not be started.');}
+    },true);
   };
 
-  const boot=()=>{calmMotion();if(document.body){mountCrowChat();fixPaymentPage()}};
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+  const boot=()=>{calmMotion();if(document.body){mountCrowChat();fixPaymentPage()}}; if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
