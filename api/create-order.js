@@ -51,8 +51,7 @@ module.exports = async function handler(req, res) {
       ...(customerEmail ? { customer_email: customerEmail } : {})
     },
     order_meta: {
-      return_url: 'https://mudercrowlabs.in/?payment=return',
-      notify_url: 'https://mudercrowlabs.in/api/cashfree-webhook'
+      return_url: 'https://mudercrowlabs.in/?payment=return'
     },
     order_note: orderType === 'full'
       ? 'Murder Crow #Labs full enrolment'
