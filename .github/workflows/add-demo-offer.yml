@@ -1,0 +1,51 @@
+name: Add Murder Crow demo offer
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '*.html'
+
+permissions:
+  contents: write
+
+jobs:
+  offer:
+    if: ${{ !contains(github.event.head_commit.message, 'Add ₹10 demo offer') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add ₹10 demo and consultation offer
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          marker = '<div class="countdown" aria-label="Offer countdown">'
+          if 'mcl-demo-offer' not in s and marker in s:
+              start = s.index(marker)
+              end = s.index('</div>', start) + len('</div>')
+              offer = '''
+<div class="mcl-demo-offer" id="mcl-demo-offer">
+  <div class="mcl-demo-kicker">₹10 · TRY THE LAB FIRST</div>
+  <h3>Claim your ₹10 Demo Session.</h3>
+  <p>Get a live demo class + growth consultation. No pressure to join.</p>
+  <div class="mcl-demo-points"><span>Live demo class</span><span>Growth consultation</span><span>₹10 adjusted if you join</span></div>
+  <small>₹10 to experience the Lab. ₹27,499 only if you decide to continue.</small>
+</div>'''
+              s = s[:end] + offer + s[end:]
+              s = s.replace('Reserve your seat for ₹10 →','Claim Your ₹10 Demo Session →',1)
+              css = '''
+<style id="mcl-demo-offer-css">
+.mcl-demo-offer{width:min(680px,100%);margin:18px auto 0;padding:18px 20px;border:1px solid var(--line);border-radius:22px;background:rgba(255,254,250,.9);box-shadow:0 12px 30px rgba(17,18,15,.06);text-align:left}.mcl-demo-kicker{font:800 9px "Space Mono";letter-spacing:.15em;color:var(--olive)}.mcl-demo-offer h3{font:800 24px Manrope;letter-spacing:-.04em;margin:6px 0}.mcl-demo-offer p{font-size:13px!important;margin:0!important}.mcl-demo-points{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}.mcl-demo-points span{border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:#f7f5ee;font:700 9px "Space Mono";color:var(--ink)}.mcl-demo-offer small{display:block;color:var(--muted);font-size:10px}.mcl-demo-offer small::first-line{font-weight:700;color:var(--olive)}@media(max-width:600px){.mcl-demo-offer{padding:16px}.mcl-demo-offer h3{font-size:22px}}
+</style>
+'''
+              s = s.replace('</head>', css + '</head>', 1)
+              p.write_text(s, encoding='utf-8')
+      - name: Commit
+        run: |
+          git config user.name "murder-crow-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html .github/workflows/add-demo-offer.yml
+          git diff --cached --quiet || git commit -m "Add ₹10 demo offer"
+          git push
