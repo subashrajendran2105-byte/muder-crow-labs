@@ -1,5 +1,14 @@
 from pathlib import Path
-p=Path('index.html'); s=p.read_text(encoding='utf-8')
+import re
+
+p=Path('index.html')
+s=p.read_text(encoding='utf-8')
+
+# Put the uploaded Banner.JPG into the existing homepage ad/banner slot.
+if Path('Banner.JPG').exists() and 'src="/Banner.JPG"' not in s:
+    banner_img='<img src="/Banner.JPG" alt="Murder Crow Labs digital marketing banner" loading="eager" fetchpriority="high">'
+    s=s.replace('<div class="banner">','<div class="banner has-image">'+banner_img,1)
+
 nav_css='''<style id="mcl-seo-nav-css">.mcl-seo-nav{display:flex;align-items:center;gap:9px;margin-left:auto;margin-right:14px;font:800 11px "Space Mono",sans-serif}.mcl-seo-nav a{padding:9px 11px;border:1px solid var(--line);border-radius:999px;background:#fffefa;color:var(--ink);transition:.18s ease}.mcl-seo-nav a:hover{background:var(--olive-bright);transform:translateY(-1px)}@media(max-width:900px){.mcl-seo-nav{display:none}}</style>'''
 if '<nav class="mcl-seo-nav"' not in s:
  s=s.replace('</style>\n</head>',nav_css+'\n</style>\n</head>',1)
@@ -14,11 +23,6 @@ if 'id="mcl-footer-links-css"' not in s:
 if 'class="mcl-footer-links"' not in s and '</div></footer>' in s:
  s=s.replace('</div></footer>',footer_links+'</div></footer>',1)
 if '<meta name="author" content="Murder Crow Labs">' not in s: s=s.replace('<meta name="description"','<meta name="author" content="Murder Crow Labs">\n<meta name="description"',1)
-
-# Global mobile/three-line menu: About, Services, Skill Up, Learn, Support.
-if 'href="/menu.css"' not in s:
-    s=s.replace('</head>','<link rel="stylesheet" href="/menu.css">\n</head>',1)
-if 'src="/menu.js"' not in s:
-    s=s.replace('</head>','<script defer src="/menu.js"></script>\n</head>',1)
-
+if 'href="/menu.css"' not in s: s=s.replace('</head>','<link rel="stylesheet" href="/menu.css">\n</head>',1)
+if 'src="/menu.js"' not in s: s=s.replace('</head>','<script defer src="/menu.js"></script>\n</head>',1)
 p.write_text(s,encoding='utf-8')
