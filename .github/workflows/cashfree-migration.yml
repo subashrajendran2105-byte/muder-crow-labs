@@ -1,0 +1,77 @@
+name: Cashfree migration
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    if: ${{ !contains(github.event.head_commit.message, 'Cashfree migration complete') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Patch checkout
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          index = Path('index.html')
+          text = index.read_text(encoding='utf-8')
+
+          replacements = {
+              'then pay ₹10 securely through Razorpay.': 'then pay ₹10 securely through Cashfree.',
+              'Custom UI · Razorpay Standard Checkout': 'Custom UI · Cashfree Checkout',
+              'Payment happens separately through Razorpay.': 'Payment happens separately through Cashfree.',
+              'STEP 02 · RAZORPAY': 'STEP 02 · CASHFREE',
+              'Secure payment via Razorpay Standard Checkout.': 'Secure payment via Cashfree Checkout.',
+              'onclick="startRazorpay()"': 'onclick="startCashfree()"',
+              '<script src="https://checkout.razorpay.com/v1/checkout.js"></script>': '<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>'
+          }
+          for old, new in replacements.items():
+              text = text.replace(old, new)
+
+          old_fn = re.compile(r'async function startRazorpay\(\)\{.*?\}\n// growth phase', re.S)
+          new_fn = r'''async function startCashfree(){const button=document.getElementById('payButton'),errorBox=document.getElementById('paymentError');errorBox.innerHTML='';button.disabled=true;button.textContent='Creating secure order…';let pollTimer=null,finished=false;const finishSuccess=()=>{if(finished)return;finished=true;if(pollTimer)clearInterval(pollTimer);paymentStep.hidden=true;thankyouStep.hidden=false;button.disabled=false;button.textContent='Pay ₹10 & Reserve →'};const checkStatus=async(orderId)=>{try{const res=await fetch('/api/verify-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({order_id:orderId})});const data=await res.json();if(data.success)finishSuccess();return data}catch(e){return null}};try{const phone=(mclLead.phone||'').replace(/\D/g,'');const email=(mclLead.email||'').trim();const first=mclLead.firstname||mclLead.firstName||'';const last=mclLead.lastname||mclLead.lastName||'';if(!/^\d{10}$/.test(phone))throw new Error('Please include a valid 10-digit phone number in the form before payment.');const orderRes=await fetch('/api/create-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount:1000,currency:'INR',order_type:'reserve',customer_phone:phone,customer_email:email,customer_name:[first,last].filter(Boolean).join(' ')||'Murder Crow Learner'})});const order=await orderRes.json();if(!orderRes.ok)throw new Error(order.error||'Could not create the Cashfree payment order.');if(!order.payment_session_id)throw new Error('Cashfree did not return a payment session. Please try again.');if(typeof window.Cashfree!=='function')throw new Error('Cashfree Checkout did not load. Please refresh.');const cashfree=Cashfree({mode:order.mode||'sandbox'});pollTimer=setInterval(()=>{if(!finished)checkStatus(order.order_id)},2000);button.textContent='Opening Cashfree…';await cashfree.checkout({paymentSessionId:order.payment_session_id});if(!finished)button.textContent='Waiting for payment confirmation…';setTimeout(()=>{if(!finished){if(pollTimer)clearInterval(pollTimer);errorBox.innerHTML='<div class="error">Payment confirmation is taking longer than expected. Please check your Cashfree status and try again.</div>';button.disabled=false;button.textContent='Pay ₹10 & Reserve →'}},120000)}catch(err){if(pollTimer)clearInterval(pollTimer);errorBox.innerHTML='<div class="error">'+escapeHtml(err.message)+'</div>';button.disabled=false;button.textContent='Pay ₹10 & Reserve →'}}
+// growth phase'''
+          text, count = old_fn.subn(new_fn, text, count=1)
+          if count != 1:
+              raise SystemExit('Could not locate the Razorpay checkout function')
+
+          old_listener = '''window.addEventListener('hs-form-event:on-submission:success', event => { const detail = event.detail || {}; if (detail.formId === 'eb9a7aa6-e191-4f23-913d-cf24348cb7c2') { leadStep.hidden = true; paymentStep.hidden = false; } });'''
+          new_listener = '''let mclLead={};window.addEventListener('hs-form-event:on-submission:success',async event=>{const detail=event.detail||{};if(detail.formId!=='eb9a7aa6-e191-4f23-913d-cf24348cb7c2')return;try{const form=window.HubSpotFormsV4?.getFormFromEvent(event);const values=form?await form.getFormFieldValues():[];mclLead={};values.forEach(item=>{const key=String(item.name||'').split('/').pop().toLowerCase();mclLead[key]=Array.isArray(item.value)?item.value.join(','):String(item.value??'')})}catch(e){console.warn('Could not read HubSpot form values',e)}leadStep.hidden=true;paymentStep.hidden=false;});'''
+          if old_listener not in text:
+              raise SystemExit('Could not locate HubSpot success listener')
+          text = text.replace(old_listener,new_listener,1)
+
+          # If Cashfree redirects back with order_id, resume verification automatically.
+          marker = "function escapeHtml(v){return String(v).replace(/[&<>\\\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\\\"':'&quot;',\"'\":'&#039;'}[c]))}"
+          recovery = marker + "\nasync function resumeCashfreePayment(){const orderId=new URLSearchParams(location.search).get('order_id');if(!orderId)return;openReservation();leadStep.hidden=true;paymentStep.hidden=false;const button=document.getElementById('payButton'),errorBox=document.getElementById('paymentError');button.disabled=true;button.textContent='Checking payment…';let attempts=0;const timer=setInterval(async()=>{attempts++;try{const res=await fetch('/api/verify-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({order_id:orderId})});const data=await res.json();if(data.success){clearInterval(timer);paymentStep.hidden=true;thankyouStep.hidden=false;history.replaceState({},'',location.pathname);return}}catch(e){}if(attempts>=30){clearInterval(timer);button.disabled=false;button.textContent='Pay ₹10 & Reserve →';errorBox.innerHTML='<div class=\\\"error\\\">We could not confirm this payment yet. Please try again.</div>'}},2000)}window.addEventListener('load',resumeCashfreePayment)"
+          if marker not in text:
+              raise SystemExit('Could not locate escapeHtml marker')
+          text = text.replace(marker,recovery,1)
+
+          index.write_text(text,encoding='utf-8')
+
+          package_path=Path('package.json')
+          package_text=package_path.read_text(encoding='utf-8')
+          package_text=package_text.replace('"description":"Murder Crow #Labs landing page with HubSpot and Razorpay Standard Checkout"','"description":"Murder Crow #Labs landing page with HubSpot and Cashfree Checkout"')
+          package_text=package_text.replace(',"dependencies":{"razorpay":"^2.9.6"}','')
+          package_path.write_text(package_text,encoding='utf-8')
+
+          env=Path('_env.example')
+          env.write_text('CASHFREE_CLIENT_ID=YOUR_TEST_CLIENT_ID\nCASHFREE_CLIENT_SECRET=YOUR_TEST_CLIENT_SECRET\nCASHFREE_ENV=sandbox\n',encoding='utf-8')
+          PY
+
+      - name: Commit migrated files and remove migration workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html package.json _env.example
+          git rm .github/workflows/cashfree-migration.yml
+          git commit -m "Cashfree migration complete" || exit 0
+          git push
