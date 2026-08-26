@@ -122,9 +122,9 @@
   style.id = 'mcl-playbook-style';
   style.textContent = `
     #mcl-playbook-home{width:min(1180px,calc(100% - 36px));margin:10px auto 70px;padding:0;min-height:0;border:1px solid var(--line);border-radius:30px;background:var(--paper2);overflow:hidden;display:block;box-shadow:var(--shadow)}
-    .mcl-playbook-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:540px}
-    .mcl-ad-slot{min-height:540px;background:var(--paper);position:relative;overflow:hidden}
-    .mcl-ad-slot img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;z-index:1}
+    .mcl-playbook-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;min-height:0}
+    .mcl-ad-slot{width:100%;aspect-ratio:1000 / 160;background:var(--paper);position:relative;overflow:hidden}
+    .mcl-ad-slot img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:contain;z-index:1}
     .mcl-ad-slot:after{content:"AD SPACE";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:700 10px "Space Mono";letter-spacing:.16em;color:rgba(120,125,108,.18);pointer-events:none;z-index:2}
     .mcl-ad-slot:has(img):after{display:none}
     .mcl-playbook-offer{padding:44px 42px;display:flex;flex-direction:column;justify-content:center;min-width:0}
@@ -137,7 +137,7 @@
     @media(max-width:700px){
       #mcl-playbook-home{width:calc(100% - 36px);margin:10px auto 48px}
       .mcl-playbook-card{grid-template-columns:1fr;min-height:0}
-      .mcl-ad-slot{min-height:360px}
+      .mcl-ad-slot{aspect-ratio:1000 / 160}
       .mcl-playbook-offer{padding:30px 28px 34px}
       .mcl-playbook-offer h2{font-size:48px}
     }
