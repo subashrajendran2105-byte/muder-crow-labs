@@ -1,4 +1,4 @@
-/* Murder Crow — crow sound only on the About menu item. */
+/* Murder Crow — crow sound, Cashfree reservation flow, and Ask the Crow assistant. */
 (() => {
   if (window.__murderCrowSoundLoaded) return;
   window.__murderCrowSoundLoaded = true;
@@ -17,7 +17,6 @@
     } catch (_) {}
   };
 
-  // ONLY the About item triggers the crow sound.
   document.addEventListener('click', event => {
     const el = event.target.closest?.('a,button,[role="button"]');
     if (!el) return;
@@ -186,11 +185,6 @@
   setTimeout(updateProviderCopy,250);
   setTimeout(updateProviderCopy,1000);
 
-  /* ================================================================
-     MURDER CROW — lightweight website assistant + query support
-     No API key is exposed in the browser. It answers verified basics
-     from the site's own content and routes specific questions to email.
-     ================================================================ */
   const mountCrowChat = () => {
     if (document.getElementById('mcl-crow-chat')) return;
 
@@ -236,11 +230,16 @@
     const send = root.querySelector('#mcl-crow-send');
 
     const addMessage = (text, who='bot') => {
-      const div = document.createElement('div'); div.className = `mcl-msg ${who}`; div.textContent = text; messages.appendChild(div); messages.scrollTop = messages.scrollHeight;
+      const div = document.createElement('div');
+      div.className = `mcl-msg ${who}`;
+      div.textContent = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
       return div;
     };
     const addQuick = (items) => {
-      const wrap = document.createElement('div'); wrap.className='mcl-quick';
+      const wrap = document.createElement('div');
+      wrap.className='mcl-quick';
       items.forEach(item => { const b=document.createElement('button'); b.textContent=item.label; b.onclick=()=>handle(item.prompt || item.label); wrap.appendChild(b); });
       messages.appendChild(wrap); messages.scrollTop=messages.scrollHeight;
     };
@@ -260,25 +259,32 @@
 
     const knowledge = [
       {keys:['digital marketing','what is digital marketing'],answer:'Digital marketing is marketing through digital channels to attract, engage and convert people. At Murder Crow #Labs, the learning path is practical and connects strategy, content, SEO/AEO/GEO, social media, paid ads, analytics, CRM, automation and AI.'},
-      {keys:['course','program','programme','what do i learn','learn in course','modules'],answer:'The Digital Marketing Programme is designed around practical marketing and growth skills: fundamentals, SEO/AEO/GEO, content, social media, Meta Ads, Google Ads, analytics, funnels, CRM/automation and AI-assisted marketing, with practical work.'},
-      {keys:['beginner','beginner friendly','no experience','experience'],answer:'Yes, the programme is designed to be approachable for learners who are building their marketing foundation. If you have a specific background or career goal, send a query and the team can guide you.'},
-      {keys:['coding','do i need coding','programming'],answer:'You do not need to be a programmer to start learning digital marketing. Some technical concepts are useful, but the focus is marketing, growth, tools and practical execution.'},
-      {keys:['seo','search engine optimization'],answer:'SEO is the practice of improving a website and its content so it can earn relevant visibility in search engines. The course covers SEO as part of a broader search and growth strategy.'},
-      {keys:['aeo','answer engine'],answer:'AEO means Answer Engine Optimization: structuring useful information so answer-focused search experiences can understand and surface it.'},
-      {keys:['geo','generative engine'],answer:'GEO is Generative Engine Optimization: preparing useful, trustworthy content so AI-powered discovery and answer systems can understand and reference it.'},
-      {keys:['meta ads','facebook ads','instagram ads'],answer:'Meta Ads are paid campaigns across Meta platforms such as Facebook and Instagram. The course covers paid-media thinking, campaign structure, creative, targeting and measurement.'},
-      {keys:['google ads','google advertising'],answer:'Google Ads is paid search and advertising on Google properties. The course covers paid advertising as part of practical digital marketing and growth.'},
-      {keys:['ai','artificial intelligence','ai tools'],answer:'AI is used as a practical marketing assistant: research, ideation, content workflows, analysis, automation and productivity. The goal is to use AI with marketing judgement, not blindly.'},
-      {keys:['crm','automation'],answer:'CRM and automation help businesses organize leads, customer information and follow-ups. Murder Crow #Labs covers CRM and automation as part of building repeatable growth systems.'},
-      {keys:['playbook','1399','1,399'],answer:'The Growth Marketing Playbook is available as a separate ₹1,399 purchase. The programme offer can also include the Playbook as a stated complimentary value of ₹1,599.'},
-      {keys:['27499','27,499','programme price','program price','fee'],answer:'The Digital Marketing Programme has an offer price of ₹27,499. The current offer presentation states a ₹45,000 course value. The separate ₹10 reservation is used to reserve the offer and is intended to be adjusted against the programme fee.'},
-      {keys:['45000','45,000','value'],answer:'The programme offer is presented with a stated course value of ₹45,000 and an offer price of ₹27,499. For the exact current offer terms, use the payment page or contact the team.'},
-      {keys:['10','₹10','reserve','reservation','claim'],answer:'The ₹10 option is a separate reservation flow. After a successful payment, the reservation confirms the offer journey and the ₹10 is intended to be adjusted against the ₹27,499 programme fee.'},
-      {keys:['demo','demo class'],answer:'The programme offer includes a choice of a free demo class or free consultation as the next step. You can choose the route after reserving, subject to the current offer terms.'},
-      {keys:['consultation','consult'],answer:'You can request a free consultation through the programme offer flow. If your question is specific, use “Send a query” and Subash can respond.'},
-      {keys:['services','service','social media','branding','advertising','digital marketing services','paid media','event'],answer:'Murder Crow #Labs also provides business and growth services. The site includes digital marketing/growth, brand development, CRM & automation, advertising/paid media and event/experience-related services. Pricing depends on scope, so the Crow will not invent a quote.'},
-      {keys:['contact','talk to','human','subash','support'],answer:'For a specific question or human support, send a query and it will be prepared for Subash at subash@mudercrowlabs.in. Payment and receipt support can also be directed there.'},
-      {keys:['payment','cashfree','receipt','paid','payment failed'],answer:'Payments on the site use Cashfree. For a payment or receipt issue, keep your order/reference details and send a query to Subash at subash@mudercrowlabs.in.'}
+      {keys:['course','program','programme','what do i learn','learn in course','modules'],answer:'The Digital Marketing Programme is practical: marketing fundamentals, SEO/AEO/GEO, content, social media, Meta Ads, Google Ads, analytics, funnels, CRM/automation and AI-assisted marketing, with real practical work.'},
+      {keys:['beginner','beginner friendly','no experience','experience'],answer:'Yep — beginners are welcome. You do not need previous marketing experience to start. If you tell me your background or career goal, I can point you in the right direction.'},
+      {keys:['coding','do i need coding','programming'],answer:'Nope. You do not need to be a programmer to learn digital marketing. Some technical concepts are useful, but the focus is marketing, growth, tools and practical execution.'},
+      {keys:['online','offline','class location','classes'],answer:'The classes are online. Any offline sessions, if offered, will be announced separately to the learners.'},
+      {keys:['seo','search engine optimization'],answer:'SEO is about improving a website and its content so it can earn relevant visibility in search engines. It is taught as part of a wider search and growth strategy.'},
+      {keys:['aeo','answer engine'],answer:'AEO means Answer Engine Optimization — making useful information easier for answer-focused search experiences to understand and surface.'},
+      {keys:['geo','generative engine'],answer:'GEO means Generative Engine Optimization — preparing useful, trustworthy content so AI-powered discovery and answer systems can understand and reference it.'},
+      {keys:['meta ads','facebook ads','instagram ads'],answer:'Meta Ads are paid campaigns across platforms such as Facebook and Instagram. The course covers campaign structure, creative, targeting and measurement.'},
+      {keys:['google ads','google advertising'],answer:'Google Ads is paid advertising across Google properties. The course covers paid advertising as part of practical digital marketing and growth.'},
+      {keys:['ai','artificial intelligence','ai tools'],answer:'AI is used as a practical marketing assistant for research, ideation, content workflows, analysis, automation and productivity — with marketing judgement, not blind copy-paste.'},
+      {keys:['crm','automation'],answer:'CRM and automation help businesses organize leads, customer information and follow-ups. They are part of the practical growth-systems side of the course.'},
+      {keys:['playbook','1399','1,399','1599','1,599'],answer:'The Growth Marketing Playbook is ₹1,399 when purchased separately. In the programme offer, it is presented as a complimentary value of ₹1,599.'},
+      {keys:['27499','27,499','programme price','program price','programme fee','program fee'],answer:'The Digital Marketing Programme offer is ₹27,499, presented against a stated ₹45,000 course value. You can reserve the offer with ₹10, and that reservation is intended to be adjusted against the programme fee.'},
+      {keys:['45000','45,000','course value'],answer:'The programme offer is presented with a stated ₹45,000 course value and a ₹27,499 offer price.'},
+      {keys:['10','₹10','reserve','reservation','claim'],answer:'The ₹10 is a reservation payment. A successful reservation confirms the offer journey, and the ₹10 is intended to be adjusted against the ₹27,499 programme fee.'},
+      {keys:['demo','demo class'],answer:'You can choose a free demo class as one of the complimentary next steps after the programme reservation flow. Class details and dates are announced to learners through WhatsApp.'},
+      {keys:['consultation','consult'],answer:'You can choose a free consultation as a complimentary next step in the programme offer flow. For a specific question, send a query to Subash.'},
+      {keys:['job','job guarantee','guaranteed job','placement','career','employment'],answer:'There is no guaranteed-job promise. What Murder Crow #Labs does is support you in becoming job-ready: profile improvement, applications, positioning and practical guidance. If an employer is interested, we will support you through the process — but the final hiring decision is always with the employer.'},
+      {keys:['compare','comparison','other course','other brand','other marketing course','competitor','why you','special','different'],answer:'The Crow will not trash other brands or make up competitor prices. What is special here is the practical, growth-focused approach: SEO/AEO/GEO, content, social, paid ads, analytics, CRM/automation and AI are connected instead of being taught as isolated buzzwords. Compare the syllabus, practical work, support and what you actually get — not just the headline price.'},
+      {keys:['services','service','social media','branding','advertising','digital marketing services','paid media','event'],answer:'Murder Crow #Labs also provides business and growth services, including digital marketing/growth, brand development, CRM & automation, advertising/paid media and event/experience-related work. Service pricing depends on scope, so I will not invent a quote.'},
+      {keys:['refund','refund policy','money back','cancel','cancellation'],answer:'Important: payments are non-refundable after successful payment. Please review the offer and payment details before paying. If there is a genuine payment/technical issue, contact support with your payment screenshot and reference details.'},
+      {keys:['whatsapp','group','community','dates','class dates','reminder','reminders'],answer:'After payment, the relevant WhatsApp group/community details will be provided. Class dates and updates will be announced there, and reminders will be sent so you do not have to keep checking. For extra-session doubts, you can approach Subash directly on WhatsApp once the support channel is active.'},
+      {keys:['extra session','one to one','1-1','one on one','private session','5000','5k'],answer:'Extra 1-to-1 sessions are available separately for ₹5,000. This is an additional paid session, not part of the standard programme fee.'},
+      {keys:['receipt','receipt not received','receipt missing','invoice','bill'],answer:'If you paid but did not receive your receipt, email Subash at subash@mudercrowlabs.in with your payment screenshot, payment/order/reference details, name and email. The issue can then be checked and resolved.'},
+      {keys:['paid','payment done','payment successful','payment failed','cashfree','cashfree payment'],answer:'Payments on the site use Cashfree. If your payment succeeded but the confirmation/receipt did not arrive, send the payment screenshot plus your order/reference details to subash@mudercrowlabs.in and the team can check it.'},
+      {keys:['email','mail','contact','talk to','human','subash','support','query'],answer:'For a specific question or human support, use “Send my query”. It prepares a message for Subash at subash@mudercrowlabs.in. For payment/receipt issues, include your payment screenshot and order/reference details.'}
     ];
 
     const handle = (raw) => {
@@ -288,19 +294,18 @@
       const hit=knowledge.find(item=>item.keys.some(k=>q.includes(k)));
       window.setTimeout(()=>{
         if(hit){ addMessage('🐦‍⬛ '+hit.answer); addQuick([{label:'Ask another question',prompt:''},{label:'Send my query',prompt:'I have a specific question for the Murder Crow team.'}]); }
-        else { addMessage('🐦‍⬛ I can help with basic questions about the Digital Marketing course, services, Playbook, programme offer and payments. For a specific question I do not want to guess — I can send it to Subash.'); addQuick([{label:'Course basics',prompt:'What will I learn in the digital marketing course?'},{label:'Services',prompt:'What services does Murder Crow #Labs provide?'},{label:'Send my query',prompt:'I have a specific question for the Murder Crow team.'}]); }
+        else { addMessage('🐦‍⬛ Hmm, that one is a little too specific for me. I do not want to guess and give you the wrong answer. Send your query and Subash can help.'); addQuick([{label:'Course basics',prompt:'What will I learn in the digital marketing course?'},{label:'Services',prompt:'What services does Murder Crow #Labs provide?'},{label:'Send my query',prompt:'I have a specific question for the Murder Crow team.'}]); }
         if(q.includes('specific question')||q.includes('send my query')) openQuery(question);
       },180);
     };
 
-    const welcome=()=>{ if(messages.children.length) return; addMessage('🐦‍⬛ Hey. I’m the Crow. Ask me a basic question about the Digital Marketing course, Murder Crow services, Playbook, programme offer or payments. If it’s too specific, I’ll help you send it to Subash.'); addQuick([{label:'Digital Marketing course',prompt:'What will I learn in the digital marketing course?'},{label:'Services',prompt:'What services does Murder Crow #Labs provide?'},{label:'₹27,499 offer',prompt:'How does the ₹27,499 programme offer work?'},{label:'₹1,399 Playbook',prompt:'What is the ₹1,399 Playbook?'}]);};
+    const welcome=()=>{ if(messages.children.length) return; addMessage('🐦‍⬛ Yo, I’m the Crow. Ask me about the Digital Marketing course, services, Playbook, programme offer, payments or what happens after you join. If your question is too specific, I’ll send it to Subash — no guessing, no corporate waffle.'); addQuick([{label:'Digital Marketing course',prompt:'What will I learn in the digital marketing course?'},{label:'Services',prompt:'What services does Murder Crow #Labs provide?'},{label:'₹27,499 offer',prompt:'How does the ₹27,499 programme offer work?'},{label:'₹1,399 Playbook',prompt:'What is the ₹1,399 Playbook?'},{label:'Job support',prompt:'Do I get a job guarantee?'},{label:'Refund policy',prompt:'What is your refund policy?'}]);};
     toggle.onclick=()=>{const open=panel.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));if(open){welcome();input.focus();}};
     close.onclick=()=>{panel.classList.remove('open');toggle.setAttribute('aria-expanded','false');};
     send.onclick=()=>{const v=input.value;input.value='';handle(v);};
     input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send.click();}});
   };
 
-  // Smooth the existing hero crow animation without changing its playful motion.
   const smoothCrowAnimation = () => {
     const s=document.createElement('style');
     s.textContent='.crow3d{will-change:transform;backface-visibility:hidden;transform:translate3d(0,0,0);animation-timing-function:cubic-bezier(.45,.05,.55,.95)}.crow3d:hover{will-change:transform}.crow3d.pooping{animation-timing-function:cubic-bezier(.2,.8,.2,1)}';
