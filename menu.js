@@ -22,12 +22,9 @@
     trigger.setAttribute('aria-expanded','false');
     trigger.innerHTML = '<b>Menu</b><i><span></span></i>';
 
-    // Keep the shared header geometry consistent: logo on the left,
-    // menu control on the right, both inside the same aligned wrapper.
     const headerWrap = nav.querySelector('.wrap');
     (headerWrap || nav).appendChild(trigger);
 
-    // Every inner page uses the real Murder Crow logo asset, never a text substitute.
     const brand = nav.querySelector('.brand');
     if (brand) {
       brand.textContent = '';
@@ -95,8 +92,6 @@
     });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 
-    // Homepage only: use the left half of the Playbook card as a clean reusable ad area.
-    // The existing hero, crow animation, hook, timer and reserve CTA remain untouched.
     const isHome = location.pathname === '/' || /\/index\.html$/.test(location.pathname);
     const banner = document.querySelector('.banner');
     if (isHome && banner && !document.getElementById('mcl-playbook-home')) {
@@ -146,64 +141,52 @@
   document.head.appendChild(style);
 })();
 
-// Murder Crow brand sound: a tiny synthesized crow-like caw on the first real interaction.
-// No external audio file, hotlink, or third-party dependency is required.
+// Murder Crow brand sound: a tiny synthesized fallback for first interaction.
 (() => {
   if (window.__murderCrowSoundReady) return;
   window.__murderCrowSoundReady = true;
-
   let played = false;
-
   const caw = () => {
     if (played) return;
     played = true;
     try {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       if (!AudioCtx) return;
-      const ctx = new AudioCtx();
-      const now = ctx.currentTime;
-      const master = ctx.createGain();
-      const filter = ctx.createBiquadFilter();
+      const ctx = new AudioCtx(), now = ctx.currentTime;
+      const master = ctx.createGain(), filter = ctx.createBiquadFilter();
       master.gain.setValueAtTime(0.0001, now);
       master.gain.exponentialRampToValueAtTime(0.055, now + 0.025);
       master.gain.exponentialRampToValueAtTime(0.0001, now + 0.62);
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(1450, now);
-      filter.frequency.exponentialRampToValueAtTime(650, now + 0.5);
-      filter.Q.value = 3.2;
-      filter.connect(master);
-      master.connect(ctx.destination);
-
-      const osc = ctx.createOscillator();
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(620, now);
-      osc.frequency.exponentialRampToValueAtTime(255, now + 0.46);
-      osc.connect(filter);
-      osc.start(now);
-      osc.stop(now + 0.64);
-
-      const osc2 = ctx.createOscillator();
-      const gain2 = ctx.createGain();
-      osc2.type = 'triangle';
-      osc2.frequency.setValueAtTime(410, now + 0.03);
-      osc2.frequency.exponentialRampToValueAtTime(185, now + 0.42);
-      gain2.gain.setValueAtTime(0.0001, now);
-      gain2.gain.exponentialRampToValueAtTime(0.45, now + 0.035);
-      gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
-      osc2.connect(gain2);
-      gain2.connect(filter);
-      osc2.start(now);
-      osc2.stop(now + 0.54);
-
+      filter.type = 'lowpass'; filter.frequency.setValueAtTime(1450, now); filter.frequency.exponentialRampToValueAtTime(650, now + 0.5); filter.Q.value = 3.2;
+      filter.connect(master); master.connect(ctx.destination);
+      const osc = ctx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(620, now); osc.frequency.exponentialRampToValueAtTime(255, now + 0.46); osc.connect(filter); osc.start(now); osc.stop(now + 0.64);
+      const osc2 = ctx.createOscillator(), gain2 = ctx.createGain(); osc2.type = 'triangle'; osc2.frequency.setValueAtTime(410, now + 0.03); osc2.frequency.exponentialRampToValueAtTime(185, now + 0.42); gain2.gain.setValueAtTime(0.0001, now); gain2.gain.exponentialRampToValueAtTime(0.45, now + 0.035); gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.5); osc2.connect(gain2); gain2.connect(filter); osc2.start(now); osc2.stop(now + 0.54);
       setTimeout(() => ctx.close().catch(() => {}), 900);
     } catch (_) {}
   };
+  const firstInteraction = () => { caw(); window.removeEventListener('pointerdown', firstInteraction, true); window.removeEventListener('keydown', firstInteraction, true); };
+  window.addEventListener('pointerdown', firstInteraction, true); window.addEventListener('keydown', firstInteraction, true);
+})();
 
-  const firstInteraction = () => {
-    caw();
-    window.removeEventListener('pointerdown', firstInteraction, true);
-    window.removeEventListener('keydown', firstInteraction, true);
+// Murder Crow offer countdown — reset to a fresh 72-hour window.
+(() => {
+  const target = new Date('2026-08-29T01:07:00Z').getTime();
+  const tick = () => {
+    const box = document.querySelector('.countdown');
+    if (!box) return;
+    let left = Math.max(0, target - Date.now());
+    const h = Math.floor(left / 3600000);
+    left %= 3600000;
+    const m = Math.floor(left / 60000);
+    left %= 60000;
+    const s = Math.floor(left / 1000);
+    const values = box.querySelectorAll('span b');
+    if (values.length >= 3) {
+      values[0].textContent = String(h).padStart(2,'0');
+      values[1].textContent = String(m).padStart(2,'0');
+      values[2].textContent = String(s).padStart(2,'0');
+    }
   };
-  window.addEventListener('pointerdown', firstInteraction, true);
-  window.addEventListener('keydown', firstInteraction, true);
+  tick();
+  setInterval(tick, 1000);
 })();
