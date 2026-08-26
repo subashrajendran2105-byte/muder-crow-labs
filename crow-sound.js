@@ -45,12 +45,27 @@
     if (interactive) playThree();
   }, true);
 
-  // Cashfree migration bridge: the existing page calls startRazorpay(),
-  // so replace that global after the original inline script has loaded.
+  // Cashfree migration bridge: keep the existing page markup/button working.
   let lead = {};
+
+  const transitionToPayment = () => {
+    const leadStep = document.getElementById('leadStep');
+    const paymentStep = document.getElementById('paymentStep');
+    if (leadStep) leadStep.hidden = true;
+    if (paymentStep) paymentStep.hidden = false;
+  };
+
   window.addEventListener('hs-form-event:on-submission:success', async event => {
     const detail = event.detail || {};
-    if (detail.formId !== 'eb9a7aa6-e191-4f23-913d-cf24348cb7c2') return;
+    const expectedFormId = 'eb9a7aa6-e191-4f23-913d-cf24348cb7c2';
+    // HubSpot has used slightly different event detail shapes across versions.
+    // If a formId is supplied, make sure it is our reservation form; otherwise
+    // still handle the success event because this page has one reservation form.
+    if (detail.formId && detail.formId !== expectedFormId) return;
+
+    // Move to the payment step immediately. Do not wait for HubSpot field reads.
+    transitionToPayment();
+
     try {
       const form = window.HubSpotFormsV4?.getFormFromEvent(event);
       const values = form ? await form.getFormFieldValues() : [];
@@ -79,8 +94,8 @@
     document.head.appendChild(script);
   });
 
-  const escape = value => String(value).replace(/[&<>"']/g, c => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+  const escape = value => String(value).replace(/[&<>\"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;', "'": '&#039;'
   }[c]));
 
   const verify = async orderId => {
