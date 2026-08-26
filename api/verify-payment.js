@@ -1,7 +1,15 @@
-const crypto = require('crypto');
-
 function sendJson(res, status, body) {
   res.status(status).json(body);
+}
+
+function getCashfreeConfig() {
+  const appId = process.env.CASHFREE_CLIENT_ID;
+  const secretKey = process.env.CASHFREE_CLIENT_SECRET;
+  const mode = (process.env.CASHFREE_ENV || 'sandbox').toLowerCase();
+  const baseUrl = mode === 'production'
+    ? 'https://api.cashfree.com/pg'
+    : 'https://sandbox.cashfree.com/pg';
+  return { appId, secretKey, mode, baseUrl };
 }
 
 module.exports = async function handler(req, res) {
@@ -10,44 +18,56 @@ module.exports = async function handler(req, res) {
     return sendJson(res, 405, { error: 'Method not allowed' });
   }
 
-  const keySecret = process.env.RAZORPAY_KEY_SECRET;
-
-  if (!keySecret) {
-    return sendJson(res, 500, { error: 'Razorpay server configuration is missing.' });
+  const { appId, secretKey, baseUrl } = getCashfreeConfig();
+  if (!appId || !secretKey) {
+    return sendJson(res, 500, { error: 'Cashfree server configuration is missing.' });
   }
 
-  const {
-    razorpay_order_id,
-    razorpay_payment_id,
-    razorpay_signature
-  } = req.body || {};
-
-  if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
-    return sendJson(res, 400, { error: 'Missing payment verification fields.' });
+  const orderId = String(req.body?.order_id || '').trim();
+  if (!orderId) {
+    return sendJson(res, 400, { success: false, error: 'Missing Cashfree order ID.' });
   }
 
-  const generatedSignature = crypto
-    .createHmac('sha256', keySecret)
-    .update(`${razorpay_order_id}|${razorpay_payment_id}`)
-    .digest('hex');
-
-  const expected = Buffer.from(generatedSignature, 'utf8');
-  const received = Buffer.from(String(razorpay_signature), 'utf8');
-
-  const matches =
-    expected.length === received.length &&
-    crypto.timingSafeEqual(expected, received);
-
-  if (!matches) {
-    return sendJson(res, 400, {
-      success: false,
-      error: 'Payment signature mismatch. Payment was not marked as paid.'
+  try {
+    const response = await fetch(`${baseUrl}/orders/${encodeURIComponent(orderId)}/payments`, {
+      method: 'GET',
+      headers: {
+        'x-client-id': appId,
+        'x-client-secret': secretKey,
+        'x-api-version': '2025-01-01'
+      }
     });
-  }
 
-  return sendJson(res, 200, {
-    success: true,
-    payment_id: razorpay_payment_id,
-    order_id: razorpay_order_id
-  });
+    const payments = await response.json().catch(() => []);
+    if (!response.ok) {
+      console.error('Cashfree payment-status error:', payments);
+      return sendJson(res, response.status, {
+        success: false,
+        error: payments?.message || 'Unable to verify Cashfree payment.'
+      });
+    }
+
+    const list = Array.isArray(payments) ? payments : [];
+    const successful = list.find(payment => payment?.payment_status === 'SUCCESS');
+    const latest = list[0] || {};
+
+    if (successful) {
+      return sendJson(res, 200, {
+        success: true,
+        order_id: orderId,
+        payment_id: successful.cf_payment_id || successful.payment_id || null,
+        payment_status: successful.payment_status
+      });
+    }
+
+    return sendJson(res, 200, {
+      success: false,
+      order_id: orderId,
+      payment_status: latest.payment_status || 'PENDING',
+      error: latest.payment_message || 'Payment is not successful yet.'
+    });
+  } catch (error) {
+    console.error('Cashfree verification request failed:', error);
+    return sendJson(res, 500, { success: false, error: 'Unable to connect to Cashfree.' });
+  }
 };
