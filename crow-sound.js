@@ -27,9 +27,58 @@
     if (text === 'about' || aria === 'about' || href.includes('#about') || href.includes('/about')) playCrow();
   }, true);
 
-  // Cashfree migration bridge.
   let lead = {};
   const expectedFormId = 'eb9a7aa6-e191-4f23-913d-cf24348cb7c2';
+
+  const normalizePhone = value => {
+    let digits = String(value ?? '').replace(/\D/g, '');
+    // Accept Indian numbers entered as +91XXXXXXXXXX or 91XXXXXXXXXX.
+    if (digits.length === 12 && digits.startsWith('91')) digits = digits.slice(2);
+    if (digits.length > 10) digits = digits.slice(-10);
+    return digits;
+  };
+
+  const normalizeKey = value => String(value || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '');
+
+  const readHubSpotValues = async event => {
+    const form = window.HubSpotFormsV4?.getFormFromEvent(event);
+    if (!form?.getFormFieldValues) return false;
+
+    for (let attempt = 0; attempt < 6; attempt++) {
+      try {
+        const values = await form.getFormFieldValues();
+        const next = {};
+        values.forEach(item => {
+          const rawName = String(item?.name || '');
+          const key = normalizeKey(rawName.split('/').pop());
+          const value = Array.isArray(item?.value)
+            ? item.value.join(',')
+            : String(item?.value ?? '');
+          if (key) next[key] = value;
+        });
+
+        lead = {...lead, ...next};
+
+        // Explicitly recognize HubSpot's phone field and common variants.
+        const phoneCandidate = next.phone || next.mobilephone || next.mobile ||
+          next.mobilephone || next.phonenumber || next.mobilenumber ||
+          next.whatsapp || next.whatsappnumber || '';
+        const normalized = normalizePhone(phoneCandidate);
+        if (/^\d{10}$/.test(normalized)) {
+          lead.phone = normalized;
+          return true;
+        }
+      } catch (_) {}
+
+      // HubSpot can finish the success event before the form API exposes
+      // the submitted values, so give it a moment and retry.
+      await new Promise(resolve => setTimeout(resolve, 250));
+    }
+    return false;
+  };
+
   const transitionToPayment = () => {
     const leadStep = document.getElementById('leadStep');
     const paymentStep = document.getElementById('paymentStep');
@@ -37,19 +86,14 @@
     if (paymentStep) paymentStep.hidden = false;
   };
 
-  window.addEventListener('hs-form-event:on-submission:success', async event => {
+  window.addEventListener('hs-form-event:on-submission:success', event => {
     const detail = event.detail || {};
     if (detail.formId && detail.formId !== expectedFormId) return;
+
     transitionToPayment();
-    try {
-      const form = window.HubSpotFormsV4?.getFormFromEvent(event);
-      const values = form ? await form.getFormFieldValues() : [];
-      lead = {};
-      values.forEach(item => {
-        const key = String(item.name || '').split('/').pop().toLowerCase();
-        lead[key] = Array.isArray(item.value) ? item.value.join(',') : String(item.value ?? '');
-      });
-    } catch (_) {}
+    // Read the submitted values asynchronously; payment is blocked until
+    // the actual submitted phone number has been captured.
+    readHubSpotValues(event);
   });
 
   const loadCashfree = () => new Promise((resolve, reject) => {
@@ -93,11 +137,39 @@
     button.textContent = 'Creating secure order…';
     showError('');
     try {
-      const phone = String(lead.phone || lead.mobilephone || lead.mobile_phone || lead.phone_number || lead.whatsapp || '').replace(/\D/g,'');
+      // If HubSpot has not exposed the submitted values yet, wait briefly
+      // instead of immediately rejecting a perfectly valid phone number.
+      if (!/^\d{10}$/.test(normalizePhone(lead.phone))) {
+        const formFrame = document.querySelector('.hs-form-frame');
+        if (formFrame) {
+          const formId = formFrame.getAttribute('data-form-id');
+          if (formId === expectedFormId && window.HubSpotFormsV4?.getForms) {
+            for (let attempt = 0; attempt < 8 && !/^\d{10}$/.test(normalizePhone(lead.phone)); attempt++) {
+              try {
+                const forms = window.HubSpotFormsV4.getForms();
+                const form = forms?.find(f => f?.getFormFieldValues);
+                if (form) {
+                  const values = await form.getFormFieldValues();
+                  values.forEach(item => {
+                    const key = normalizeKey(String(item?.name || '').split('/').pop());
+                    const value = Array.isArray(item?.value) ? item.value.join(',') : String(item?.value ?? '');
+                    if (key) lead[key] = value;
+                  });
+                  lead.phone = normalizePhone(lead.phone || lead.mobilephone || lead.mobile || lead.phonenumber || lead.mobilenumber || lead.whatsapp || lead.whatsappnumber);
+                }
+              } catch (_) {}
+              if (!/^\d{10}$/.test(normalizePhone(lead.phone))) await new Promise(resolve => setTimeout(resolve, 250));
+            }
+          }
+        }
+      }
+
+      const phone = normalizePhone(lead.phone || lead.mobilephone || lead.mobile || lead.phonenumber || lead.mobilenumber || lead.whatsapp || lead.whatsappnumber);
       const email = String(lead.email || '').trim();
       const first = lead.firstname || lead.first_name || '';
       const last = lead.lastname || lead.last_name || '';
-      if (!/^\d{10}$/.test(phone)) throw new Error('Please include a valid 10-digit phone number in the reservation form before paying.');
+      if (!/^\d{10}$/.test(phone)) throw new Error('We could not read the phone number from the submitted form. Please go back, enter your 10-digit mobile number, and submit the form again.');
+
       await loadCashfree();
       const orderResponse = await fetch('/api/create-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount:1000,currency:'INR',order_type:'reserve',customer_phone:phone,customer_email:email,customer_name:[first,last].filter(Boolean).join(' ')||'Murder Crow Learner'})});
       const order = await orderResponse.json();
