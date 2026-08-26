@@ -25,4 +25,7 @@ if 'class="mcl-footer-links"' not in s and '</div></footer>' in s:
 if '<meta name="author" content="Murder Crow Labs">' not in s: s=s.replace('<meta name="description"','<meta name="author" content="Murder Crow Labs">\n<meta name="description"',1)
 if 'href="/menu.css"' not in s: s=s.replace('</head>','<link rel="stylesheet" href="/menu.css">\n</head>',1)
 if 'src="/menu.js"' not in s: s=s.replace('</head>','<script defer src="/menu.js"></script>\n</head>',1)
+
+# Keep this generator as the source of truth for the homepage banner.
+# Banner asset: /Banner.JPG
 p.write_text(s,encoding='utf-8')
