@@ -99,7 +99,9 @@
       banner.classList.add('mcl-playbook-home');
       banner.innerHTML = `
         <div class="mcl-playbook-card">
-          <div class="mcl-ad-slot" aria-label="Murder Crow advertising banner slot"></div>
+          <div class="mcl-ad-slot" aria-label="Murder Crow advertising banner slot">
+            <img src="/Banner.JPG" alt="Murder Crow Labs banner" loading="eager" fetchpriority="high">
+          </div>
           <article class="mcl-playbook-offer">
             <div class="mcl-playbook-kicker">09 · MURDER CROW #LABS · PLAYBOOK</div>
             <h2>The Growth<br>Marketing Playbook.</h2>
@@ -122,7 +124,9 @@
     #mcl-playbook-home{width:min(1180px,calc(100% - 36px));margin:10px auto 70px;padding:0;min-height:0;border:1px solid var(--line);border-radius:30px;background:var(--paper2);overflow:hidden;display:block;box-shadow:var(--shadow)}
     .mcl-playbook-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:540px}
     .mcl-ad-slot{min-height:540px;background:var(--paper);position:relative;overflow:hidden}
-    .mcl-ad-slot:after{content:"AD SPACE";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:700 10px "Space Mono";letter-spacing:.16em;color:rgba(120,125,108,.18);pointer-events:none}
+    .mcl-ad-slot img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;z-index:1}
+    .mcl-ad-slot:after{content:"AD SPACE";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:700 10px "Space Mono";letter-spacing:.16em;color:rgba(120,125,108,.18);pointer-events:none;z-index:2}
+    .mcl-ad-slot:has(img):after{display:none}
     .mcl-playbook-offer{padding:44px 42px;display:flex;flex-direction:column;justify-content:center;min-width:0}
     .mcl-playbook-kicker{font:700 10px "Space Mono";letter-spacing:.16em;text-transform:uppercase;color:var(--olive)}
     .mcl-playbook-offer h2{font:800 clamp(38px,5vw,64px)/.94 Manrope;letter-spacing:-.065em;margin:15px 0}
