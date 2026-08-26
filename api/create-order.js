@@ -25,12 +25,20 @@ module.exports = async function handler(req, res) {
 
   const amount = Number(req.body?.amount);
   const currency = req.body?.currency || 'INR';
-  const orderType = req.body?.order_type === 'full' ? 'full' : 'reserve';
+  const orderType = ['reserve', 'full', 'playbook'].includes(req.body?.order_type)
+    ? req.body.order_type
+    : 'reserve';
   const customerPhone = String(req.body?.customer_phone || '').replace(/\D/g, '');
   const customerEmail = String(req.body?.customer_email || '').trim();
   const customerName = String(req.body?.customer_name || 'Murder Crow Learner').trim();
 
-  if (![1000, 2749900].includes(amount) || currency !== 'INR') {
+  const allowedAmounts = {
+    reserve: 1000,
+    playbook: 139900,
+    full: 2749900
+  };
+
+  if (amount !== allowedAmounts[orderType] || currency !== 'INR') {
     return sendJson(res, 400, { error: 'Invalid payment amount or currency.' });
   }
 
@@ -39,6 +47,12 @@ module.exports = async function handler(req, res) {
   }
 
   const orderId = `mcl_${orderType}_${Date.now()}`;
+  const productLabel = orderType === 'playbook'
+    ? 'Murder Crow Growth Marketing Playbook'
+    : orderType === 'full'
+      ? 'Murder Crow #Labs full enrolment'
+      : 'Murder Crow #Labs seat reservation';
+
   const payload = {
     order_id: orderId,
     order_amount: amount / 100,
@@ -50,11 +64,9 @@ module.exports = async function handler(req, res) {
       ...(customerEmail ? { customer_email: customerEmail } : {})
     },
     order_meta: {
-      return_url: 'https://mudercrowlabs.in/?payment=return'
+      return_url: `https://mudercrowlabs.in/payment.html?payment=return&order_id=${encodeURIComponent(orderId)}`
     },
-    order_note: orderType === 'full'
-      ? 'Murder Crow #Labs full enrolment'
-      : 'Murder Crow #Labs seat reservation'
+    order_note: productLabel
   };
 
   try {
@@ -94,6 +106,7 @@ module.exports = async function handler(req, res) {
       payment_session_id: data.payment_session_id,
       amount,
       currency,
+      order_type: orderType,
       mode
     });
   } catch (error) {
