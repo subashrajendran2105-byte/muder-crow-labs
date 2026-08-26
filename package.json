@@ -2,6 +2,5 @@
   "name":"murder-crow-labs",
   "private":true,
   "version":"2.0.0",
-  "description":"Murder Crow #Labs landing page with HubSpot and Razorpay Standard Checkout",
-  "dependencies":{"razorpay":"^2.9.6"}
+  "description":"Murder Crow #Labs landing page with HubSpot and Cashfree Checkout"
 }
