@@ -51,6 +51,11 @@ jobs:
                   if 'property="og:type"' not in s:
                       s = s.replace('</head>', tags + '</head>', 1)
 
+                  # Put the uploaded Banner.JPG into the existing homepage banner/ads space.
+                  banner_img = '<img src="/Banner.JPG" alt="Murder Crow Labs digital marketing banner" loading="eager" decoding="async">'
+                  if 'src="/Banner.JPG"' not in s and '<div class="banner">' in s:
+                      s = s.replace('<div class="banner">', '<div class="banner has-image">' + banner_img, 1)
+
               p.write_text(s, encoding='utf-8')
 
       - name: Ensure homepage menu script
