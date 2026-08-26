@@ -4,10 +4,14 @@ import re
 p=Path('index.html')
 s=p.read_text(encoding='utf-8')
 
-# Put the uploaded Banner.JPG into the existing homepage ad/banner slot.
-if Path('Banner.JPG').exists() and 'src="/Banner.JPG"' not in s:
+# Always make the uploaded Banner.JPG the source for the homepage ad/banner slot.
+# This is deliberately robust to an existing class list on the banner container.
+if Path('Banner.JPG').exists():
     banner_img='<img src="/Banner.JPG" alt="Murder Crow Labs digital marketing banner" loading="eager" fetchpriority="high">'
-    s=s.replace('<div class="banner">','<div class="banner has-image">'+banner_img,1)
+    if 'src="/Banner.JPG"' not in s:
+        s,n=re.subn(r'<div class="banner(?:\s+[^>]*)?">', lambda m: m.group(0)+banner_img, s, count=1)
+    if 'src="/Banner.JPG"' in s:
+        s=re.sub(r'<div class="banner(?![^>]*\bhas-image\b)(?:\s+[^>]*)?>', lambda m: m.group(0)[:-1]+' has-image">', s, count=1)
 
 nav_css='''<style id="mcl-seo-nav-css">.mcl-seo-nav{display:flex;align-items:center;gap:9px;margin-left:auto;margin-right:14px;font:800 11px "Space Mono",sans-serif}.mcl-seo-nav a{padding:9px 11px;border:1px solid var(--line);border-radius:999px;background:#fffefa;color:var(--ink);transition:.18s ease}.mcl-seo-nav a:hover{background:var(--olive-bright);transform:translateY(-1px)}@media(max-width:900px){.mcl-seo-nav{display:none}}</style>'''
 if '<nav class="mcl-seo-nav"' not in s:
@@ -26,6 +30,4 @@ if '<meta name="author" content="Murder Crow Labs">' not in s: s=s.replace('<met
 if 'href="/menu.css"' not in s: s=s.replace('</head>','<link rel="stylesheet" href="/menu.css">\n</head>',1)
 if 'src="/menu.js"' not in s: s=s.replace('</head>','<script defer src="/menu.js"></script>\n</head>',1)
 
-# Keep this generator as the source of truth for the homepage banner.
-# Banner asset: /Banner.JPG
 p.write_text(s,encoding='utf-8')
