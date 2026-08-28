@@ -1,3 +1,676 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Murder Crow Labs</title><style>body{margin:0;font-family:Arial,sans-serif} .mcl-bubble{position:fixed;z-index:99999;width:78px;height:78px;border-radius:50%;right:18%;top:35%;cursor:pointer;pointer-events:auto;background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.9),rgba(255,255,255,.18) 28%,rgba(180,220,215,.12) 58%,rgba(255,255,255,.5));border:1px solid rgba(255,255,255,.9);box-shadow:inset -10px -12px 18px rgba(30,60,55,.12),inset 8px 7px 13px rgba(255,255,255,.8),0 12px 30px rgba(0,0,0,.16);backdrop-filter:blur(3px);animation:mclFloat 5s ease-in-out infinite}.mcl-bubble:before{content:"";position:absolute;width:25px;height:10px;left:16px;top:14px;border-radius:50%;background:rgba(255,255,255,.8);filter:blur(2px);transform:rotate(-25deg)}@keyframes mclFloat{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(-28px,-24px,0)}}.mcl-bubble.pop{animation:mclPop .38s ease-out forwards}@keyframes mclPop{0%{transform:scale(1);opacity:1}35%{transform:scale(1.25);opacity:.8}100%{transform:scale(.05);opacity:0}}@media(max-width:700px){.mcl-bubble{width:64px;height:64px;right:14%;top:38%}}</style><link rel="stylesheet" href="/menu.css">
-<script defer src="/menu.js"></script>
-</head><body><div class="mcl-bubble" aria-label="Interactive bubble"></div><script>const b=document.querySelector('.mcl-bubble');let popped=false;function pop(){if(popped)return;popped=true;b.classList.add('pop');setTimeout(()=>{b.classList.remove('pop');popped=false},900)}b.addEventListener('click',pop);window.addEventListener('scroll',()=>{if(window.scrollY+innerHeight>=document.documentElement.scrollHeight-180)pop()},{passive:true});</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing</title>
+<meta name="author" content="Murder Crow Labs">
+<meta name="description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{ --paper:#f7f5ee;--paper2:#fffefa;--ink:#11120f;--muted:#666a61;--line:#d9d8cf; --olive:#68772b;--olive-bright:#d8e92d;--lav:#d9d6ff;--blue:#5660ea;--danger:#b9382f; --shadow:0 24px 70px rgba(17,18,15,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:"DM Sans",sans-serif;line-height:1.55;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.42;background-image:radial-gradient(#b8b9b0 0.8px,transparent .8px);background-size:8px 8px;z-index:-1}
+a{text-decoration:none;color:inherit}button{font:inherit}img{max-width:100%;display:block}
+.wrap{width:min(1180px,calc(100% - 36px));margin:auto}
+.nav{height:82px;background:#fff;backdrop-filter:blur(16px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:900}
+.logo{display:flex;align-items:center;text-decoration:none;line-height:0}.logo-image{display:block;width:190px;height:auto;max-height:58px;object-fit:contain;object-position:left center}.nav .logo-image{width:190px;height:auto;max-height:58px;object-fit:contain;object-position:left center;background:transparent;mix-blend-mode:normal}footer .logo-image{mix-blend-mode:normal;background:transparent}@media(max-width:700px){.nav .logo-image{width:155px;max-height:50px}}.logo small{display:block;color:#777b72;font:700 10px "Space Mono";letter-spacing:.14em;text-transform:uppercase;margin-top:2px}.navlinks{display:flex;gap:25px;font-size:13px;color:#555950}.navlinks a:hover{color:var(--olive)}
+.navcta{border:1px solid var(--ink);background:var(--ink);color:#fff;padding:13px 20px;border-radius:999px;font-weight:800;cursor:pointer}.navcta:hover{transform:translateY(-2px)}
+.hero{padding:68px 0 25px;text-align:center;overflow:hidden}.kicker,.step,.num{font:700 11px "Space Mono";letter-spacing:.17em;text-transform:uppercase;color:var(--olive)}
+h1{font:800 clamp(48px,8vw,98px)/.9 Manrope;letter-spacing:-.075em;max-width:1050px;margin:18px auto}h1 em{font-style:normal;color:var(--olive)}.hero p{max-width:720px;margin:auto;color:var(--muted);font-size:18px}.actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:28px 0 14px}.btn{border:0;border-radius:999px;padding:15px 22px;font-weight:800;cursor:pointer;transition:transform .2s,box-shadow .2s}.btn:hover{transform:translateY(-2px)}.btn-lime{background:var(--olive-bright);color:var(--ink);box-shadow:6px 6px 0 var(--olive)}.btn-dark{background:var(--ink);color:#fff}.btn-light{background:transparent;border:1px solid #a9aa9f}.hero-price{font:800 clamp(34px,6vw,64px) Manrope;letter-spacing:-.06em;color:var(--olive);margin-top:18px}.hero-price small{display:block;font:700 10px "Space Mono";letter-spacing:.15em;color:var(--muted);text-transform:uppercase;margin-top:4px} .countdown{display:inline-flex;align-items:center;gap:10px;margin:18px auto 0;padding:9px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(255,254,250,.8);box-shadow:0 10px 25px rgba(17,18,15,.05)}.countdown span{min-width:44px;text-align:center}.countdown b{display:block;font:800 18px Manrope;line-height:1;color:var(--ink)}.countdown small{display:block;font:700 7px "Space Mono";letter-spacing:.12em;color:var(--olive);margin-top:4px}.countdown i{font-style:normal;color:#9b9d95;font-weight:800}
+/* playful crow */
+.crow-stage{height:185px;position:relative;max-width:900px;margin:8px auto 0;overflow:visible}.crow3d{position:absolute;width:130px;left:10%;top:28px;cursor:pointer;z-index:4;filter:drop-shadow(0 22px 15px rgba(0,0,0,.16));animation:birdFloat 4.8s ease-in-out infinite}.crow3d svg{width:100%;overflow:visible}.crow3d:hover{animation-play-state:paused;transform:scale(1.04)}.poop{position:absolute;left:50%;top:90px;width:18px;height:25px;border-radius:60% 60% 48% 48%;background:#7a563b;opacity:0;transform:translate(-50%,-10px) scale(.3);z-index:5;box-shadow:inset 4px 4px 0 rgba(255,255,255,.12)}.poop:after{content:"";position:absolute;width:7px;height:7px;background:#9b704c;border-radius:50%;bottom:-4px;left:6px}.crow3d.pooping .poop{animation:poopDrop .9s cubic-bezier(.2,.8,.2,1) forwards}.crow3d.pooping{animation:birdBonk .55s ease}.crow-speech{position:absolute;right:8%;top:28px;background:var(--olive-bright);border:1px solid var(--ink);border-radius:999px;padding:10px 16px;font:700 10px "Space Mono";letter-spacing:.12em;transform:rotate(-3deg);box-shadow:4px 4px 0 var(--ink)}.orbit{position:absolute;left:23%;right:23%;top:58px;height:80px;border:1px solid rgba(86,96,234,.28);border-radius:50%;transform:rotate(-7deg)}
+@keyframes birdFloat{0%,100%{transform:translate(0,0) rotate(-2deg)}50%{transform:translate(80px,-17px) rotate(4deg)}}@keyframes birdBonk{50%{transform:translateY(-20px) rotate(-8deg) scale(1.08)}}@keyframes poopDrop{0%{opacity:0;transform:translate(-50%,-10px) scale(.3)}35%{opacity:1}100%{opacity:0;transform:translate(-50%,72px) scale(1.05)}}
+.banner{margin:10px auto 70px;min-height:300px;border:1px solid var(--line);border-radius:30px;background:var(--paper2);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;box-shadow:var(--shadow)}.banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}.banner-placeholder{position:relative;z-index:2;padding:50px 24px;max-width:760px}.banner.has-image .banner-placeholder{display:none}.banner h2{font:800 clamp(34px,5vw,62px)/.98 Manrope;letter-spacing:-.06em}.banner p{color:var(--muted);margin:13px auto 20px;max-width:570px}.banner-note{display:inline-block;padding:8px 12px;border:1px dashed #aaa99e;border-radius:999px;font:700 10px "Space Mono";color:var(--olive)}
+.section{padding:76px 0;border-top:1px solid var(--line)}.section-head{display:flex;justify-content:space-between;gap:30px;align-items:end;margin-bottom:30px}.section h2{font:800 clamp(35px,5.2vw,62px)/.95 Manrope;letter-spacing:-.065em;max-width:760px}.section-head p{max-width:400px;color:var(--muted);font-size:16px}.infogrid{display:grid;grid-template-columns:1.15fr .85fr;gap:15px}.card{border:1px solid var(--line);border-radius:26px;background:var(--paper2);padding:30px;min-height:270px;overflow:hidden;position:relative}.card.dark{background:var(--ink);color:#fff;border-color:var(--ink)}.card.lime{background:var(--olive-bright);border-color:var(--olive-bright)}.card h3{font:800 28px/1.04 Manrope;letter-spacing:-.04em;margin:10px 0}.card p{color:var(--muted);max-width:500px}.dark p{color:#d8dad1}.big-num{font:800 88px/.8 Manrope;letter-spacing:-.09em;margin:5px 0 16px}.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:25px}.flow div{background:rgba(255,255,255,.65);border:1px solid rgba(0,0,0,.12);border-radius:15px;padding:14px 8px;text-align:center;font-size:11px}.flow b{display:block}.flow span{color:#71756c;font-size:9px}.chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}.chip{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.76);border:1px solid rgba(0,0,0,.10);border-radius:12px;padding:9px 11px;font-size:11px;font-weight:800}.dark .chip{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);color:#fff}.icon{width:25px;height:25px;border-radius:8px;display:grid;place-items:center;background:var(--olive);color:#fff;font-size:10px}.dark .icon{background:var(--olive-bright);color:var(--ink)}
+/* old/new marketing */
+.shift{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:26px;overflow:hidden;background:var(--paper2);box-shadow:var(--shadow)}.shift-head{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;background:var(--ink);color:#fff;font:700 11px "Space Mono";letter-spacing:.12em}.shift-head div{padding:16px 20px}.shift-head div:last-child{color:var(--olive-bright)}.shift-row{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}.shift-row>div{padding:18px 20px;min-height:92px}.shift-row>div:first-child{border-right:1px solid var(--line);background:#f0eee7}.shift-row>div:last-child{background:#fbfbea}.shift-row b{display:block;font:800 22px Manrope;letter-spacing:-.04em}.shift-row span{display:block;color:var(--muted);margin-top:7px;font-size:13px}.oldmark{color:#7c7e76}.oldmark:before{content:"×";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#dedbd2;margin-right:9px;color:#66685f}.newmark{color:var(--olive)}.newmark:before{content:"✓";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--olive-bright);margin-right:9px;color:var(--ink)}
+/* roadmap cards */
+.roadmap{position:relative;padding-top:20px}.road-tabs{display:flex;gap:9px;overflow:auto;padding:4px 2px 15px;scrollbar-width:none}.road-tabs button{flex:0 0 auto;border:1px solid var(--line);background:var(--paper2);border-radius:999px;padding:11px 15px;font-weight:800;cursor:pointer}.road-tabs button.active{background:var(--ink);color:var(--olive-bright);border-color:var(--ink)}.road-stage{position:relative;height:430px;perspective:1200px;overflow:hidden;border-radius:28px;border:1px solid var(--line);background:linear-gradient(135deg,#fffefa,#efeee7);box-shadow:var(--shadow)}.road-card{position:absolute;inset:35px;opacity:0;transform:translateX(140px) rotateY(-14deg) scale(.9);transition:.65s cubic-bezier(.2,.8,.2,1);pointer-events:none;border:1px solid var(--line);border-radius:24px;background:#fffefa;padding:30px;display:flex;flex-direction:column;justify-content:space-between}.road-card.active{opacity:1;transform:none;pointer-events:auto}.road-card.prev{opacity:.18;transform:translateX(-220px) rotateY(18deg) scale(.82)}.road-card.next{opacity:.18;transform:translateX(220px) rotateY(-18deg) scale(.82)}.road-card .phase{font:700 10px "Space Mono";color:var(--olive);letter-spacing:.14em}.road-card h3{font:800 clamp(36px,5vw,60px) Manrope;letter-spacing:-.06em}.road-card>p{max-width:760px;color:var(--muted)}.lesson-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.lesson{border:1px solid var(--line);border-radius:17px;padding:15px;background:#f8f6ef;min-height:132px}.lesson b{font:700 11px "Space Mono";color:var(--olive)}.lesson h4{font:800 15px/1.15 Manrope;margin:7px 0}.lesson p{font-size:11px;color:var(--muted)}.lesson small{display:block;margin-top:10px;font:700 8px "Space Mono";color:#85887d;letter-spacing:.08em}.road-hint{text-align:center;color:var(--muted);font-size:11px;margin-top:12px}
+.modules{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.module{background:var(--paper2);border:1px solid var(--line);border-radius:22px;padding:24px;min-height:180px;transition:.25s}.module:hover{transform:translateY(-5px);box-shadow:var(--shadow)}.module .num{font-size:10px}.module h3{font:800 22px Manrope;margin:10px 0}.module p{font-size:13px;color:var(--muted)}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.stat{background:var(--paper2);border:1px solid var(--line);border-radius:24px;padding:25px;min-height:175px;position:relative;overflow:hidden}.stat:after{content:"";position:absolute;width:130px;height:130px;border-radius:50%;right:-55px;top:-55px;background:var(--lav)}.stat strong{font:800 clamp(42px,5vw,64px)/.9 Manrope;letter-spacing:-.07em;position:relative;z-index:1}.stat strong.olive{color:var(--olive)}.stat span{display:block;margin-top:13px;font:700 10px "Space Mono";letter-spacing:.12em;color:#7a7d74;max-width:170px}.stat p{color:var(--muted);font-size:12px;margin-top:8px;max-width:230px}
+/* career */
+.career-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.career-card{background:var(--paper2);border:1px solid var(--line);border-radius:26px;padding:30px}.career-card.dark{background:var(--ink);color:#fff;border-color:var(--ink)}.career-card h3{font:800 34px Manrope;letter-spacing:-.05em;margin-bottom:9px}.career-card p{color:var(--muted)}.dark p{color:#d4d7cf}.roles{display:grid;gap:9px;margin-top:22px}.role{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:14px;padding:13px 14px;background:#faf8f2}.role b{font-size:13px}.role span{font:700 11px "Space Mono";color:var(--olive)}.dark .role{background:#191a16;border-color:#303229}.dark .role span{color:var(--olive-bright)}.fine{font-size:10px!important;color:#85887d!important;margin-top:12px}
+/* community + addons */
+.community-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:15px}.community-card{background:var(--olive-bright);border:1px solid var(--ink);border-radius:28px;padding:32px;min-height:300px}.community-card h3{font:800 44px/.98 Manrope;letter-spacing:-.06em;margin:12px 0}.community-card p{max-width:600px}.ratio{font:800 92px/.8 Manrope;letter-spacing:-.09em;margin:20px 0;color:var(--ink)}.addon-card{background:var(--paper2);border:1px solid var(--line);border-radius:28px;padding:30px}.addon-card h3{font:800 32px Manrope;letter-spacing:-.05em}.addons{display:grid;gap:9px;margin-top:20px}.addon{display:flex;justify-content:space-between;gap:15px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:15px;background:#faf8f2}.addon b{font-size:13px}.addon strong{font:800 15px Manrope;color:var(--olive)}
+/* pricing */
+.pricing{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}.price-main{background:var(--ink);color:#fff;border-radius:30px;padding:38px;position:relative;overflow:hidden}.price-main:after{content:"";position:absolute;width:380px;height:380px;border-radius:50%;background:var(--olive);right:-200px;bottom:-220px;opacity:.35}.price-main h2{font:800 clamp(42px,5vw,70px)/.94 Manrope;letter-spacing:-.07em;position:relative;z-index:2}.price-main p{color:#c8cbc0;max-width:620px;margin:15px 0}.price-value{font:800 clamp(60px,8vw,96px)/.85 Manrope;letter-spacing:-.08em;color:var(--olive-bright);position:relative;z-index:2}.price-value del{display:block;font:700 20px DM Sans;color:#777b71;margin-top:9px}.offer-label{font:700 10px "Space Mono";letter-spacing:.15em;color:var(--olive-bright);text-transform:uppercase;margin-top:8px}.price-list{margin:25px 0;display:grid;gap:9px;position:relative;z-index:2}.price-list div{display:flex;gap:10px;align-items:center;color:#d9dcd3;font-size:14px}.check{width:22px;height:22px;border-radius:50%;background:var(--olive-bright);color:var(--ink);display:grid;place-items:center;font-weight:900;font-size:12px}.pay-side{background:var(--paper2);border:1px solid var(--line);border-radius:30px;padding:28px;display:flex;flex-direction:column;justify-content:flex-start;align-self:start}.pay-side h3{font:800 30px Manrope;letter-spacing:-.04em}.pay-side p{color:var(--muted);margin:9px 0 20px}.pay-side .btn{width:100%}.safe{font-size:11px;color:#7a7d72;margin-top:12px;text-align:center}
+.feel-slider{position:relative;min-height:290px;border:1px solid var(--line);border-radius:28px;background:var(--paper2);overflow:hidden;box-shadow:var(--shadow)}.feel-card{position:absolute;inset:0;padding:34px;opacity:0;transform:translateX(35px);transition:.55s ease;display:flex;flex-direction:column;justify-content:center}.feel-card.active{opacity:1;transform:none}.feel-mark{font:700 11px "Space Mono";color:var(--olive);letter-spacing:.14em}.feel-card h3{font:800 clamp(34px,5vw,58px)/1 Manrope;letter-spacing:-.06em;max-width:850px;margin:12px 0}.feel-card p{max-width:650px;color:var(--muted);font-size:17px}.feel-dots{display:flex;justify-content:center;gap:7px;margin-top:13px}.feel-dots button{width:8px;height:8px;border:0;border-radius:50%;background:#c8c9c0;cursor:pointer}.feel-dots button.active{width:24px;border-radius:99px;background:var(--olive)}
+/* whatsapp */
+.whatsapp-box{border:1px solid var(--line);border-radius:28px;background:var(--paper2);padding:34px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:24px}.whatsapp-box h3{font:800 36px Manrope;letter-spacing:-.05em}.whatsapp-box p{color:var(--muted);max-width:650px;margin-top:8px}.wa-btn{background:#182016;color:#fff;border:0;border-radius:999px;padding:15px 22px;font-weight:800;cursor:pointer}.wa-btn span{color:var(--olive-bright)}
+/* final */
+.final{text-align:center;padding:105px 0 130px;position:relative;overflow:hidden}.final h2{font:800 clamp(48px,8vw,92px)/.91 Manrope;letter-spacing:-.075em;max-width:1000px;margin:15px auto}.final h2 em{font-style:normal;color:var(--olive)}.final .callout{font-size:20px;color:var(--muted)}.final-price{font:800 clamp(55px,8vw,100px) Manrope;letter-spacing:-.08em;color:var(--olive);margin:28px 0 4px}.final-price small{display:block;font:700 10px "Space Mono";letter-spacing:.14em;color:var(--muted);text-transform:uppercase}.final-crow{position:absolute;left:50%;top:55px;width:100px;transform:translateX(190px);opacity:.96;cursor:pointer;filter:drop-shadow(0 20px 14px rgba(0,0,0,.15));animation:birdFloat 4.5s ease-in-out infinite}.final-crow svg{width:100%}
+/* modal */
+.reservation{display:none;position:fixed;inset:0;background:rgba(15,16,12,.62);backdrop-filter:blur(10px);z-index:1000;padding:18px;overflow:auto}.modal{width:min(680px,100%);margin:auto;background:var(--paper2);border:1px solid var(--line);border-radius:29px;padding:30px;box-shadow:0 30px 100px rgba(0,0,0,.28);position:relative}.close{position:absolute;right:18px;top:13px;border:0;background:transparent;font-size:30px;cursor:pointer;color:#696c62}.modal h2{font:800 38px Manrope;letter-spacing:-.06em;margin:7px 0}.modal p{color:var(--muted);font-size:14px}.hsbox{margin:18px 0;padding:15px;border:1px solid var(--line);border-radius:18px;background:#f1eee5}.hs-form-frame{min-height:180px}.hs-form-shell{margin-top:18px}.hs-form-shell .form-note{margin-top:12px}.hs-form-frame{--hsf-global__font-family:Manrope,Arial,sans-serif;--hsf-global__font-size:15px;--hsf-global__color:#171813;--hsf-background__background-color:transparent;--hsf-global-error__color:#a42d24}.hs-form-frame input,.hs-form-frame select,.hs-form-frame textarea{font:500 16px Manrope,Arial,sans-serif!important;color:#171813!important;background:#f1eee5!important;border:1px solid #d8d7cf!important;border-radius:15px!important;min-height:54px!important;padding:14px 16px!important;box-shadow:none!important}.hs-form-frame input:focus,.hs-form-frame select:focus,.hs-form-frame textarea:focus{outline:2px solid #68772b!important;outline-offset:1px!important;border-color:#68772b!important}.hs-form-frame label{font:800 14px Manrope,Arial,sans-serif!important;color:#171813!important;margin-bottom:7px!important}.hs-form-frame .hs-button,.hs-form-frame input[type=submit],.hs-form-frame button[type=submit]{width:100%!important;border:0!important;border-radius:999px!important;background:#d7ee1d!important;color:#171813!important;font:800 17px Manrope,Arial,sans-serif!important;min-height:58px!important;padding:15px 20px!important;box-shadow:6px 6px 0 #68772b!important;cursor:pointer!important}.hs-form-frame .hs-button:hover,.hs-form-frame input[type=submit]:hover,.hs-form-frame button[type=submit]:hover{transform:translateY(-2px)!important}.hs-form-frame .hs-error-msg{font-size:12px!important;color:#a42d24!important}.hs-form-frame .hs-form-required{color:#68772b!important}.hs-form-frame .hs-form-field{margin-bottom:16px!important}.continue{width:100%;margin-top:10px}.payment{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}.payment[hidden],#thankyouStep[hidden],#paymentStep[hidden],#leadStep[hidden]{display:none}.pay-summary{border:1px solid var(--line);border-radius:18px;background:#faf8f2;padding:18px;margin:18px 0}.pay-line{display:flex;justify-content:space-between;gap:15px;padding:9px 0}.pay-line strong{font:800 20px Manrope}.strike{color:#8b8e84;text-decoration:line-through}.error{margin-top:12px;padding:11px 12px;border-radius:12px;background:#ffe8e5;color:#a42d24;font-size:12px}.success{background:#eef6c8;border:1px solid #d5df81;border-radius:18px;padding:20px;margin-top:18px}.success b{display:block;margin-bottom:5px}.modal-note{font-size:11px!important;margin-top:10px}.hs-next{opacity:.45;pointer-events:none}.hs-next.ready{opacity:1;pointer-events:auto}
+footer{background:var(--ink);color:#fff;padding:48px 0}footer .logo small{color:#aeb1a7}footer p{color:#aeb1a7;font-size:12px;max-width:540px;margin-top:10px}
+.reveal{opacity:0;transform:translateY(22px);transition:.7s ease}.reveal.in{opacity:1;transform:none}
+@media(max-width:900px){.navlinks{display:none}.section-head{display:block}.section-head p{margin-top:12px}.infogrid,.pricing,.career-grid,.community-grid{grid-template-columns:1fr}.lesson-grid{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}.road-stage{height:560px}.shift-row>div{min-height:100px}}
+@media(max-width:620px){.wrap{width:min(100% - 28px,1180px)}.nav{height:70px}.logo-mark{width:42px;height:42px}.navcta{padding:10px 13px;font-size:12px}.hero{padding-top:48px}.hero p{font-size:16px}.crow-stage{height:160px}.crow3d{width:105px;left:2%;top:34px}.crow-speech{right:0;top:18px;font-size:9px}.banner{border-radius:22px;min-height:250px}.section{padding:58px 0}.flow{grid-template-columns:1fr 1fr}.modules,.stats{grid-template-columns:1fr}.card,.price-main,.pay-side,.career-card,.community-card,.addon-card{padding:24px}.shift{font-size:12px}.shift-row>div{padding:14px 12px;min-height:96px}.shift-row b{font-size:17px}.shift-row span{font-size:11px}.road-stage{height:700px}.road-card{inset:18px;padding:22px}.lesson-grid{grid-template-columns:1fr 1fr}.lesson{min-height:165px}.whatsapp-box{grid-template-columns:1fr}.final-crow{transform:translateX(110px);top:40px;width:72px}.modal{padding:23px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none}.crow3d,.final-crow{animation:none}.road-card{transition:none}}
+
+/* final flying crow */
+.final{position:relative;overflow:hidden}.final-crow-flight{height:74px;position:relative;max-width:760px;margin:0 auto 8px;pointer-events:none;overflow:visible}.final-crow{position:absolute;left:-90px;top:8px;width:72px;animation:finalCrowFly 9s linear infinite;filter:drop-shadow(0 9px 8px rgba(0,0,0,.16))}.final-crow svg{width:100%;height:auto}.final-crow .eye{fill:var(--olive-bright)}@keyframes finalCrowFly{0%{left:-90px;transform:translateY(10px) rotate(-3deg)}18%{transform:translateY(-7px) rotate(2deg)}38%{transform:translateY(7px) rotate(-2deg)}58%{transform:translateY(-5px) rotate(2deg)}78%{transform:translateY(5px) rotate(-2deg)}100%{left:calc(100% + 90px);transform:translateY(-2px) rotate(3deg)}}
+</style> <style id="mcl-final-polish">
+:root{ --paper:#f7f5ee;--paper2:#fffefa;--ink:#10110e;--muted:#676b62;--line:#d9d8cf; --olive:#68772b;--olive-bright:#d8e92d;--lav:#d9d6ff;--blue:#5962ea; --orange:#e4a84d;--shadow:0 26px 80px rgba(17,18,15,.10);
+}
+body:before{opacity:.34}
+.btn{transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+.kicker,.step,.num{color:var(--olive)}
+.hero{padding-top:58px}
+.hero-price{color:var(--olive)}
+.hero-price small{color:var(--olive)}
+.hero-price small::first-letter{color:var(--olive)}
+/* Big hero Crow — art directed, more dimensional and always readable */
+.crow-stage{ height:245px;max-width:1080px;margin:12px auto 0;position:relative;overflow:visible;
+}
+.crow3d{ position:absolute;width:245px;left:50%;top:18px;transform:translateX(-50%); cursor:pointer;z-index:5;filter:drop-shadow(0 32px 22px rgba(0,0,0,.18)); animation:heroCrowFloat 4.6s ease-in-out infinite;
+}
+.crow3d svg{width:100%;height:auto;overflow:visible}
+.crow3d .crow-wing{ transform-box:fill-box;transform-origin:center; animation:wingBeat 1.35s ease-in-out infinite;
+}
+.crow3d .crow-tail{ transform-box:fill-box;transform-origin:right center; animation:tailSway 2.2s ease-in-out infinite;
+}
+.crow3d:hover{animation-play-state:paused}
+.crow-stage::before,.crow-stage::after{ content:"";position:absolute;left:15%;right:15%;height:1px; border-top:1px solid rgba(86,96,234,.28);border-radius:50%; transform:rotate(-6deg);top:118px;pointer-events:none;
+}
+.crow-stage::after{left:27%;right:27%;top:160px;transform:rotate(8deg);border-color:rgba(104,119,43,.26)}
+.orbit{display:none}
+.crow-speech{ position:absolute;right:11%;top:30px;background:var(--olive-bright); border:1px solid var(--ink);border-radius:999px;padding:12px 18px; font:700 10px "Space Mono";letter-spacing:.12em;box-shadow:5px 5px 0 var(--ink); transform:rotate(-3deg);z-index:7;
+}
+.poop{top:152px;width:19px;height:25px}
+@keyframes heroCrowFloat{ 0%,100%{transform:translate(-50%,0) rotate(-2deg)} 50%{transform:translate(calc(-50% + 90px),-18px) rotate(3deg)}
+}
+@keyframes wingBeat{0%,100%{transform:rotate(0deg)}50%{transform:rotate(-11deg)}}
+@keyframes tailSway{0%,100%{transform:rotate(0)}50%{transform:rotate(5deg)}}
+@keyframes birdBonk{50%{transform:translate(-50%,-20px) rotate(-8deg) scale(1.08)}} /* Line motion across cards */
+.card::after,.stat::after,.module::after,.role::after,.community-card::after,.career-support-card::after{ content:"";position:absolute;left:-25%;right:-25%;height:1px;top:18%; background:linear-gradient(90deg,transparent,rgba(104,119,43,.38),transparent); transform:translateX(-35%) rotate(-4deg);animation:lineSweep 7s linear infinite; pointer-events:none;
+}
+.card.dark::after,.community-card::after{background:linear-gradient(90deg,transparent,rgba(216,233,45,.42),transparent)}
+@keyframes lineSweep{0%{transform:translateX(-35%) rotate(-4deg)}100%{transform:translateX(35%) rotate(-4deg)}} /* The old/new shift gets faster and punchier */
+.shift-row>div{transition:background .2s ease,transform .2s ease}
+.shift-row>div:hover{transform:translateY(-2px)}
+.newmark{color:var(--olive);font-weight:900}
+.oldmark{color:#7b7e76} /* 4-column numbers */
+.stats{grid-template-columns:repeat(4,1fr);gap:14px}
+.stat{min-height:175px}
+.stat strong{font-size:clamp(46px,5vw,74px)}
+.stat:nth-child(5),.stat:nth-child(6){grid-column:auto}
+.stat span{font-size:10px} /* Full career detail */
+.career-full{background:var(--ink);color:#fff;border-radius:30px;padding:36px;position:relative;overflow:hidden}
+.career-full::before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;right:-280px;top:-250px;background:var(--olive);opacity:.25}
+.career-full h3{font:800 clamp(38px,5vw,62px)/.96 Manrope;letter-spacing:-.06em;position:relative;z-index:1}
+.career-full p{color:#d5d8cf;max-width:720px;position:relative;z-index:1}
+.career-intro{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:25px;position:relative;z-index:1}
+.career-use,.career-role{ background:#181a15;border:1px solid #30332b;border-radius:20px;padding:21px;
+}
+.career-use h4,.career-role h4{font:800 18px Manrope;margin-bottom:6px}
+.career-use p,.career-role p{font-size:12px;color:#bfc4b9}
+.role-grid{ display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px;position:relative;z-index:1;
+}
+.role{ position:relative;overflow:hidden;background:#181a15!important;border-color:#30332b!important; padding:15px 16px;
+}
+.role b{font-size:13px;color:#fff}
+.role span{font:800 11px "Space Mono";color:var(--olive-bright)!important;white-space:nowrap}
+.career-note{margin-top:14px!important;font-size:10px!important;color:#9ea497!important;position:relative;z-index:1} /* Career support, before end card */
+.career-support{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.career-support-card{position:relative;overflow:hidden;background:var(--paper2);border:1px solid var(--line);border-radius:26px;padding:28px}
+.career-support-card.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.career-support-card h3{font:800 31px Manrope;letter-spacing:-.05em;margin:8px 0}
+.support-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:18px}
+.support-item{border:1px solid var(--line);background:#faf8f2;border-radius:15px;padding:12px}
+.dark .support-item{border-color:#30332b;background:#181a15}
+.support-item b{display:block;font-size:12px}.support-item span{display:block;color:var(--muted);font-size:11px;margin-top:4px}.dark .support-item span{color:#aeb4a9} /* Community upgrade */
+.community-grid{grid-template-columns:1.15fr .85fr}
+.community-card{position:relative;overflow:hidden}
+.community-visual{ background:#fffefa;border:1px solid var(--line);border-radius:28px;padding:26px;position:relative;overflow:hidden;min-height:390px;
+}
+.community-visual h3{font:800 34px Manrope;letter-spacing:-.05em}
+.student-stage{height:240px;position:relative;margin-top:10px}
+.student{ position:absolute;left:50%;bottom:4px;transform:translateX(-50%); width:235px;animation:studentFloat 4.8s ease-in-out infinite;
+}
+.student .laptop{animation:laptopPulse 2.6s ease-in-out infinite}
+.student .screenline{animation:screenScan 2.2s linear infinite}
+@keyframes studentFloat{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-8px)}}
+@keyframes laptopPulse{50%{transform:scale(1.02)}}
+@keyframes screenScan{0%{transform:translateX(-22px);opacity:.2}50%{transform:translateX(22px);opacity:1}100%{transform:translateX(-22px);opacity:.2}}
+.community-join{display:inline-flex;align-items:center;gap:9px;margin-top:14px;padding:12px 15px;border-radius:999px;background:var(--ink);color:#fff;font-weight:800} /* WhatsApp = in-page mini chat, not a generic CTA */
+.whatsapp-box{ display:grid;grid-template-columns:1.15fr .85fr;gap:18px; border:1px solid var(--line);border-radius:28px;background:var(--paper2);padding:26px;
+}
+.chat-mock{border:1px solid var(--line);border-radius:22px;background:#f4f1e8;padding:16px;display:grid;gap:10px}
+.chat-bubble{max-width:88%;border-radius:16px;padding:11px 13px;font-size:12px}
+.chat-bubble.crow{justify-self:start;background:var(--ink);color:#fff}.chat-bubble.you{justify-self:end;background:var(--olive-bright);color:var(--ink)}
+.chat-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.chat-chip{border:1px solid var(--line);background:#fffefa;border-radius:999px;padding:8px 10px;font-weight:700;font-size:10px;cursor:pointer}
+.chat-chip:hover{border-color:var(--olive)}
+.wa-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 17px;border-radius:999px;background:var(--ink);color:#fff;font-weight:800;margin-top:10px} /* Feel shift faster */
+.feel-card{transition:.34s cubic-bezier(.2,.85,.2,1)}
+.feel-card h3{max-width:920px}
+.feel-card p{font-size:17px} /* Roadmap: stacked cards */
+.roadmap{padding-top:12px}
+.road-stage{height:520px}
+.stack-wrap{position:absolute;inset:25px;display:flex;align-items:center;justify-content:center}
+.road-stack-card{ position:absolute;width:min(760px,88%);min-height:355px;padding:28px;border:1px solid var(--line); border-radius:25px;background:#fffefa;box-shadow:0 18px 50px rgba(17,18,15,.08); transition:transform .62s cubic-bezier(.2,.85,.2,1),opacity .62s ease,filter .62s ease;
+}
+.road-stack-card::after{ content:"";position:absolute;left:-20%;right:-20%;top:20%;height:1px; background:linear-gradient(90deg,transparent,rgba(104,119,43,.35),transparent); transform:rotate(-5deg);animation:lineSweep 6s linear infinite;
+}
+.road-stack-card.s0{transform:translateY(0) scale(1);opacity:1;z-index:8}
+.road-stack-card.s1{transform:translateY(22px) translateX(18px) scale(.96);opacity:.55;z-index:7}
+.road-stack-card.s2{transform:translateY(40px) translateX(32px) scale(.92);opacity:.32;z-index:6}
+.road-stack-card.s3{transform:translateY(55px) translateX(42px) scale(.88);opacity:.18;z-index:5}
+.road-stack-card.exit{transform:translate(-55%, -85px) rotate(-7deg) scale(.82);opacity:0;z-index:9}
+.stack-top{display:flex;align-items:center;justify-content:space-between;gap:15px}
+.stack-no{font:800 12px "Space Mono";color:var(--olive)}
+.stack-phase{font:700 10px "Space Mono";letter-spacing:.12em;color:#7b7e76}
+.road-stack-card h3{font:800 clamp(36px,5vw,56px)/.96 Manrope;letter-spacing:-.06em;margin:18px 0 9px}
+.road-stack-card p{color:var(--muted);max-width:640px}
+.stack-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.stack-meta span{border:1px solid var(--line);border-radius:999px;padding:7px 10px;background:#f7f4ec;font:700 9px "Space Mono";color:#777b72}
+.stack-lessons{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:20px}
+.stack-mini{padding:10px 12px;border:1px solid var(--line);border-radius:13px;background:#faf8f2}
+.stack-mini b{display:block;font-size:11px}.stack-mini span{display:block;color:var(--muted);font-size:10px;margin-top:3px} /* Pricing numbers */
+.price-value{color:var(--olive-bright)}
+.final-price{color:var(--olive)}
+.offer-label,.final-price small{color:var(--olive)} /* Reservation modal: custom UI + new HubSpot embed */
+.hsbox{ --hsf-global__font-family:"DM Sans",sans-serif; --hsf-global__color:#11120f; --hsf-global-error__color:#b9382f; --hsf-background__background-color:transparent; --hsf-field-input__background-color:#fffefa; --hsf-field-input__border-color:#d9d8cf; --hsf-field-input__border-width:1px; --hsf-field-input__border-style:solid; --hsf-field-input__border-radius:13px; --hsf-field-input__padding:13px 14px; --hsf-button__background-color:#11120f; --hsf-button__color:#fff; --hsf-button__border-radius:999px; --hsf-button__padding:14px 20px; min-height:160px;
+}
+.hs-form-frame{min-height:120px}
+.hs-next{opacity:.45;pointer-events:none;filter:saturate(.5)}
+.hs-next.ready{opacity:1;pointer-events:auto;filter:none}
+.hs-status{display:none;margin-top:9px;font-size:11px;color:var(--olive);font-weight:800}
+.hs-status.show{display:block} /* mobile */
+@media(max-width:1000px){ .stats{grid-template-columns:repeat(2,1fr)} .career-intro{grid-template-columns:1fr} .role-grid{grid-template-columns:1fr}
+}
+@media(max-width:720px){ .crow-stage{height:215px}.crow3d{width:205px;left:48%;top:8px}.crow-speech{right:0;top:16px} .stats{grid-template-columns:repeat(2,1fr)} .stack-wrap{inset:16px} .road-stage{height:610px} .road-stack-card{width:92%;min-height:450px;padding:22px} .stack-lessons{grid-template-columns:1fr} .whatsapp-box{grid-template-columns:1fr} .community-visual{min-height:360px}
+}
+@media(max-width:520px){ .stats{grid-template-columns:1fr 1fr} .stat{min-height:150px;padding:20px} .stat strong{font-size:50px} .crow-stage{height:205px}.crow3d{width:190px}.crow-speech{font-size:8px;padding:8px 11px} .road-stage{height:625px} .road-stack-card{width:94%;min-height:465px}
+}
+@media(prefers-reduced-motion:reduce){ *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style> 
+<style id="mcl-polished-final">
+/* Final visual cleanup + mobile rules */
+:root{--olive:#68772b;--olive-bright:#d8e92d;--paper:#f7f5ee;--paper2:#fffefa;--ink:#11120f;--muted:#686d63;--line:#d9d8cf;--lav:#d9d6ff}
+body{overflow-x:hidden}
+.nav{z-index:1200}
+.hero{position:relative;padding-top:54px;padding-bottom:10px;overflow:visible}
+.hero .wrap{position:relative;z-index:2}
+/* Small flat-vector crows, flying only. */
+.flight-zone{height:115px;position:absolute;left:0;right:0;top:12px;pointer-events:none;overflow:hidden;z-index:1}
+.flycrow{position:absolute;width:72px;opacity:.92;filter:drop-shadow(0 8px 7px rgba(0,0,0,.12));animation-timing-function:linear;animation-iteration-count:infinite}
+.flycrow svg{width:100%;height:auto}
+.flycrow.c1{top:18px;left:-90px;animation:flyLR 10s linear infinite}
+.flycrow.c2{top:56px;left:110%;transform:scale(.62);animation:flyRL 14s linear infinite 1.5s}
+.flycrow.c3{top:35px;left:-100px;transform:scale(.42);animation:flyLR 17s linear infinite 4s}
+@keyframes flyLR{0%{transform:translateX(0) scale(1)}100%{transform:translateX(115vw) scale(1)}}
+@keyframes flyRL{0%{transform:translateX(0) scale(.62) scaleX(-1)}100%{transform:translateX(-125vw) scale(.62) scaleX(-1)}}
+.hero .crow-stage{height:36px;margin:0;overflow:visible;position:relative;z-index:3}
+.hero .crow-stage>*{display:none}
+/* reservation card */
+.reservation{position:fixed;inset:0;background:rgba(14,16,12,.68);backdrop-filter:blur(9px);z-index:2000;padding:16px;display:none;align-items:center;justify-content:center;overflow:auto}
+.reservation[aria-hidden="false"]{display:flex}
+.modal{width:min(740px,100%);max-height:94vh;overflow:auto;background:#fffefa;border:1px solid #d4d3c9;border-radius:32px;padding:36px 38px 28px;box-shadow:0 30px 90px rgba(0,0,0,.30);position:relative}
+.modal .close{position:absolute;right:22px;top:19px;border:0;background:transparent;color:#6c7167;font-size:36px;line-height:1;cursor:pointer}
+.modal h2{font:800 clamp(42px,7vw,68px)/.95 Manrope;letter-spacing:-.065em;margin:8px 55px 18px 0}
+.modal>div>p{color:var(--muted);font-size:18px;line-height:1.55;margin-bottom:24px}
+.form-grid{display:grid;gap:18px}
+.field label{display:block;font-size:14px;font-weight:800;margin-bottom:7px}
+.field label span{color:#c4342f}
+.field input,.custom-select{width:100%;height:58px;border:1px solid #d1d1c8;border-radius:14px;background:#f1f1eb;color:var(--ink);padding:0 15px;font:500 16px "DM Sans",sans-serif;outline:none}
+.field input:focus,.custom-select:focus{border-color:var(--olive);box-shadow:0 0 0 4px rgba(104,119,43,.12);background:#fff}
+.phone-line{display:grid;grid-template-columns:100px 1fr;gap:7px}
+.country-box{height:58px;border:1px solid #d1d1c8;border-radius:14px;background:#f1f1eb;display:grid;place-items:center;font-weight:800}
+.custom-select{display:flex;align-items:center;justify-content:space-between;cursor:pointer;position:relative;text-align:left}
+.custom-select .chev{width:11px;height:11px;border-right:2px solid #777b72;border-bottom:2px solid #777b72;transform:rotate(45deg);margin-right:4px;margin-top:-5px}
+.select-menu{display:none;position:absolute;left:0;right:0;top:calc(100% + 8px);background:#fffefa;border:1px solid #d1d1c8;border-radius:16px;padding:7px;box-shadow:0 20px 55px rgba(0,0,0,.16);z-index:20}
+.custom-select.open .select-menu{display:block;animation:dropIn .18s ease both}
+.select-option{padding:12px 13px;border-radius:11px;font-weight:700;cursor:pointer}
+.select-option:hover,.select-option.selected{background:#eef3b4;color:var(--ink)}
+@keyframes dropIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+.form-note{font-size:12px!important;color:#777b72!important;margin:0!important}
+.consent-line{display:flex;gap:9px;align-items:flex-start;color:var(--muted);font-size:12px;line-height:1.45}
+.consent-line input{width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--olive)}
+.reserve-continue{width:100%;margin-top:5px;background:var(--olive-bright);color:var(--ink);border:0;border-radius:999px;min-height:64px;font-size:18px;font-weight:900;box-shadow:7px 7px 0 #b9c49a;cursor:pointer;transition:.18s ease}
+.reserve-continue:not(:disabled):hover{transform:translateY(-2px);box-shadow:7px 9px 0 #acb78d}
+.reserve-continue:disabled{opacity:.42;cursor:not-allowed;box-shadow:7px 7px 0 #c9c9bd}
+.reserve-continue.pressed{background:var(--olive);color:#fff}
+/* System card with dropdown/accordion */
+.system-art{display:grid;grid-template-columns:1.08fr .92fr;gap:15px}
+.system-card{border-radius:28px;padding:30px;position:relative;overflow:hidden}
+.system-card.lime{background:var(--olive-bright);border:1px solid var(--ink)}
+.system-card.dark{background:var(--ink);color:#fff;border:1px solid var(--ink)}
+.system-card h3{font:800 clamp(33px,4vw,54px)/.95 Manrope;letter-spacing:-.065em;margin:7px 0 17px}
+.system-number{font:800 clamp(74px,9vw,118px)/.78 Manrope;letter-spacing:-.09em}
+.system-phase-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:20px}
+.phase-drop{border:1px solid rgba(17,18,15,.16);background:rgba(255,255,255,.64);border-radius:17px;overflow:hidden}
+.phase-drop button{width:100%;border:0;background:transparent;padding:15px 16px;display:flex;align-items:center;justify-content:space-between;font-weight:900;cursor:pointer;text-align:left}
+.phase-drop button .mini{font:700 9px "Space Mono";letter-spacing:.12em;color:#5c6552}
+.phase-drop .phase-body{max-height:0;overflow:hidden;transition:max-height .35s ease;padding:0 16px}
+.phase-drop.open .phase-body{max-height:180px;padding:0 16px 16px}
+.phase-drop:hover .phase-body,.phase-drop:focus-within .phase-body{max-height:180px;padding:0 16px 16px}.phase-drop:hover .phase-arrow,.phase-drop:focus-within .phase-arrow{transform:rotate(225deg)}.phase-drop:hover,.phase-drop:focus-within{box-shadow:0 8px 20px rgba(17,18,15,.08);transform:translateY(-1px);transition:.22s ease}
+.phase-body p{font-size:12px;color:#575e53;line-height:1.5}
+.phase-body ul{padding-left:18px;color:#575e53;font-size:11px;line-height:1.65}
+.phase-arrow{width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:.2s}
+.phase-drop.open .phase-arrow{transform:rotate(225deg)}
+.system-lines{position:absolute;inset:0;pointer-events:none}
+.system-lines:before,.system-lines:after{content:"";position:absolute;height:1px;left:-10%;right:-10%;background:rgba(17,18,15,.18);transform:rotate(-6deg);animation:systemSweep 8s linear infinite}
+.system-lines:before{top:28%}.system-lines:after{top:65%;animation-delay:2.5s}
+@keyframes systemSweep{0%{transform:translateX(-18%) rotate(-6deg);opacity:.1}50%{opacity:.45}100%{transform:translateX(18%) rotate(-6deg);opacity:.1}}
+/* roadmap stacked card */
+.road-stage{height:520px}
+.stack-deck{position:absolute;inset:25px;display:flex;align-items:center;justify-content:center}
+.deck-card{position:absolute;width:min(850px,92%);min-height:390px;border:1px solid var(--line);border-radius:28px;background:#fffefa;padding:30px;box-shadow:0 24px 65px rgba(17,18,15,.09);transition:transform .65s cubic-bezier(.2,.85,.2,1),opacity .65s ease;overflow:hidden}
+.deck-card .deck-line{position:absolute;left:-20%;right:-20%;top:18%;height:1px;background:linear-gradient(90deg,transparent,rgba(104,119,43,.40),transparent);transform:rotate(-5deg);animation:lineMove 6s linear infinite}
+.deck-card.active{transform:translateY(0) scale(1);opacity:1;z-index:6}.deck-card.behind1{transform:translateY(24px) translateX(18px) scale(.96);opacity:.56;z-index:5}.deck-card.behind2{transform:translateY(44px) translateX(32px) scale(.92);opacity:.28;z-index:4}.deck-card.exiting{transform:translate(-55%, -95px) rotate(-8deg) scale(.83);opacity:0;z-index:7}
+.deck-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.deck-no{font:800 12px "Space Mono";color:var(--olive)}.deck-meta{font:700 9px "Space Mono";letter-spacing:.12em;color:#777c73}
+.deck-card h3{font:800 clamp(38px,5vw,58px)/.95 Manrope;letter-spacing:-.065em;margin:19px 0 10px}.deck-card>p{color:var(--muted);max-width:650px}.deck-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:22px}.deck-mini{border:1px solid var(--line);border-radius:16px;background:#f8f6ef;padding:13px}.deck-mini b{display:block;font-size:11px}.deck-mini span{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+/* community one-card */
+.community-single{background:var(--olive-bright);border:1px solid var(--ink);border-radius:30px;padding:34px;position:relative;overflow:hidden}
+.community-single h3{font:800 clamp(38px,5vw,62px)/.94 Manrope;letter-spacing:-.065em;max-width:780px;margin:12px 0}.community-single p{max-width:800px;font-size:16px;line-height:1.6}.community-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:20px}.community-join{display:inline-flex;align-items:center;justify-content:center;padding:13px 18px;border-radius:999px;background:var(--ink);color:#fff;font-weight:900}.social-icons{display:flex;gap:9px}.social-icons a{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(17,18,15,.22);background:#eef39b;color:var(--ink);font-weight:900;font-size:12px}
+.community-mini{display:flex;align-items:center;gap:14px;margin-top:18px;padding-top:18px;border-top:1px solid rgba(17,18,15,.16)}
+.community-mini .mini-student{width:78px;height:78px;border-radius:20px;background:#fffefa;display:grid;place-items:center;font-size:35px;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+/* fee card fix */
+.stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.stat{min-width:0;overflow:hidden}.stat strong{display:block;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:clip;font-size:clamp(44px,5vw,74px)}.stat.price-stat strong{font-size:clamp(36px,4.6vw,68px)}
+/* career support mobile-safe */
+.career-support{grid-template-columns:1fr 1fr}.career-support-card{min-width:0}.support-grid{grid-template-columns:1fr 1fr}
+/* fast feel */
+.feel-card{transition:opacity .24s ease,transform .24s ease}.feel-card.active{opacity:1;transform:none}
+@keyframes lineMove{0%{transform:translateX(-25%) rotate(-5deg)}100%{transform:translateX(25%) rotate(-5deg)}}
+@media(max-width:900px){.infogrid,.system-art,.community-grid,.pricing{grid-template-columns:1fr}.community-card{min-height:auto}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.career-support{grid-template-columns:1fr}.support-grid{grid-template-columns:1fr 1fr}.road-stage{height:610px}.deck-card{min-height:470px;width:92%}}
+@media(max-width:600px){
+  .wrap{width:min(100% - 24px,1180px)}
+  .nav{height:72px}.logo-mark{width:44px;height:44px}.logo small{font-size:8px}.navlinks{display:none}.navcta{padding:11px 15px;font-size:13px}
+  .hero{padding-top:36px}.hero h1{font-size:52px}.hero p{font-size:16px}.hero-price{font-size:46px}.banner{min-height:210px;margin-bottom:40px}
+  .flight-zone{height:88px}.flycrow{width:54px}.flycrow.c1{top:16px}.flycrow.c2{top:49px}
+  .section{padding:58px 0}.section-head{display:block;margin-bottom:22px}.section-head p{margin-top:10px;font-size:15px}.section h2{font-size:42px}
+  .system-card{padding:22px}.system-number{font-size:86px}.system-phase-list{grid-template-columns:1fr}.phase-drop button{padding:14px}
+  .road-stage{height:620px}.stack-deck{inset:14px}.deck-card{width:94%;min-height:500px;padding:22px}.deck-card h3{font-size:42px}.deck-mini-grid{grid-template-columns:1fr}
+  .shift-row{grid-template-columns:1fr 1fr}.shift-row>div:first-child{border-right:1px solid var(--line);border-bottom:0}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat{min-height:145px;padding:20px}.stat strong{font-size:50px}.stat.price-stat strong{font-size:38px}
+  .community-single{padding:24px}.community-single .ratio{font-size:86px}.community-single h3{font-size:40px}
+  .career-support-card{padding:22px}.career-support-card h3{font-size:32px;line-height:1}.support-grid{grid-template-columns:1fr}.career-full{padding:24px}.role-grid{grid-template-columns:1fr}
+  .modal{padding:28px 18px 22px;border-radius:28px}.modal h2{font-size:46px;margin-right:25px}.modal>div>p{font-size:17px}.phone-line{grid-template-columns:88px 1fr}.field input,.custom-select,.country-box{height:56px}.reserve-continue{min-height:60px;font-size:17px}.select-menu{position:absolute;max-height:260px;overflow:auto}
+}
+<style id="mcl-seo-nav-css">.mcl-seo-nav{display:flex;align-items:center;gap:9px;margin-left:auto;margin-right:14px;font:800 11px "Space Mono",sans-serif}.mcl-seo-nav a{padding:9px 11px;border:1px solid var(--line);border-radius:999px;background:#fffefa;color:var(--ink);transition:.18s ease}.mcl-seo-nav a:hover{background:var(--olive-bright);transform:translateY(-1px)}@media(max-width:900px){.mcl-seo-nav{display:none}}</style>
+<style id="mcl-footer-links-css">.mcl-footer-links{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:20px;padding-top:18px;border-top:1px solid #30332b}.mcl-footer-links a{font:700 10px "Space Mono",sans-serif;color:#c7cbc0;letter-spacing:.04em}.mcl-footer-links a:hover{color:var(--olive-bright)}@media(max-width:620px){.mcl-footer-links{gap:12px}.mcl-footer-links a{font-size:9px}}</style>
+</style>
+  <link rel="stylesheet" href="/menu.css">
+  <script defer src="/menu.js"></script>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing & Growth Marketing">
+<meta property="og:description" content="Learn how growth works through practical digital marketing, SEO, AEO, GEO, AI, advertising, analytics, CRM and real-world projects.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing & Growth Marketing">
+<meta name="twitter:description" content="A practical growth lab for digital marketing, SEO, AEO, GEO, AI marketing, advertising, analytics and CRM.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<link rel="canonical" href="https://mudercrowlabs.in/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mudercrowlabs.in/">
+<meta property="og:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta property="og:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<meta property="og:site_name" content="Murder Crow Labs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing">
+<meta name="twitter:description" content="Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://mudercrowlabs.in/#organization","name":"Murder Crow Labs","url":"https://mudercrowlabs.in/","description":"A practical creative and growth lab focused on digital marketing, growth marketing, SEO, AEO, GEO, AI, advertising, analytics and CRM.","knowsAbout":["Digital Marketing","Growth Marketing","SEO","AEO","GEO","AI Marketing","Social Media Marketing","Google Ads","Meta Ads","Performance Marketing","CRM","Marketing Automation"]},{"@type":"WebSite","@id":"https://mudercrowlabs.in/#website","url":"https://mudercrowlabs.in/","name":"Murder Crow Labs","publisher":{"@id":"https://mudercrowlabs.in/#organization"},"inLanguage":"en-IN","keywords":"Murder Crow Labs, Murder Crow, Murder Crow digital marketing, Murder Crow digital marketing course, Murder Crow online class, Murder Crow Chennai, digital marketing course, digital marketing online course, digital marketing online class, digital marketing training, digital marketing classes, digital marketing coaching, digital marketing certification, digital marketing course for beginners, practical digital marketing course, live digital marketing classes, digital marketing with live projects, digital marketing course Chennai, digital marketing classes Chennai, digital marketing training Chennai, digital marketing institute Chennai, digital marketing course in Chennai, online digital marketing course Chennai, digital marketing classes Tamil Nadu, learn digital marketing, digital marketing career, digital marketing skills, digital marketing job training, digital marketing course for students, digital marketing course for working professionals, growth marketing course, growth marketing training, AI digital marketing course, AI marketing course, SEO course, AEO course, GEO course, social media marketing, Google Ads, Meta Ads, performance marketing, content marketing, marketing analytics, conversion optimization, sales funnel, CRM, WhatsApp marketing, marketing automation, lead generation"},{"@type":"WebPage","@id":"https://mudercrowlabs.in/#webpage","url":"https://mudercrowlabs.in/","name":"Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing","isPartOf":{"@id":"https://mudercrowlabs.in/#website"},"about":{"@id":"https://mudercrowlabs.in/#organization"},"description":"Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.","keywords":"Murder Crow Labs, Murder Crow, Murder Crow digital marketing, Murder Crow digital marketing course, Murder Crow online class, Murder Crow Chennai, digital marketing course, digital marketing online course, digital marketing online class, digital marketing training, digital marketing classes, digital marketing coaching, digital marketing certification, digital marketing course for beginners, practical digital marketing course, live digital marketing classes, digital marketing with live projects, digital marketing course Chennai, digital marketing classes Chennai, digital marketing training Chennai, digital marketing institute Chennai, digital marketing course in Chennai, online digital marketing course Chennai, digital marketing classes Tamil Nadu, learn digital marketing, digital marketing career, digital marketing skills, digital marketing job training, digital marketing course for students, digital marketing course for working professionals, growth marketing course, growth marketing training, AI digital marketing course, AI marketing course, SEO course, AEO course, GEO course, social media marketing, Google Ads, Meta Ads, performance marketing, content marketing, marketing analytics, conversion optimization, sales funnel, CRM, WhatsApp marketing, marketing automation, lead generation","inLanguage":"en-IN"}]}</script>
+<meta name="keywords" content="Murder Crow Labs, Murder Crow, Murder Crow digital marketing, Murder Crow digital marketing course, Murder Crow online class, Murder Crow Chennai, digital marketing course, digital marketing online course, digital marketing online class, digital marketing training, digital marketing classes, digital marketing coaching, digital marketing certification, digital marketing course for beginners, practical digital marketing course, live digital marketing classes, digital marketing with live projects, digital marketing course Chennai, digital marketing classes Chennai, digital marketing training Chennai, digital marketing institute Chennai, digital marketing course in Chennai, online digital marketing course Chennai, digital marketing classes Tamil Nadu, learn digital marketing, digital marketing career, digital marketing skills, digital marketing job training, digital marketing course for students, digital marketing course for working professionals, growth marketing course, growth marketing training, AI digital marketing course, AI marketing course, SEO course, AEO course, GEO course, social media marketing, Google Ads, Meta Ads, performance marketing, content marketing, marketing analytics, conversion optimization, sales funnel, CRM, WhatsApp marketing, marketing automation, lead generation">
+</head>
+<body>
+
+<script id="mcl-fee-config">
+window.MCL_FEES = Object.freeze({
+  programme: 27499,
+  programmeValue: 45000,
+  reservation: 10,
+  oneToOne: 5000,
+  graphicDesign: 15000,
+  uiUx: 30000
+});
+</script>
+
+<header class="nav wrap"> <a class="logo" href="#" aria-label="Murder Crow Labs home"><img class="logo-image" src="/muder-crow-logo.jpg" alt="Murder Crow #Labs"></a> <nav class="navlinks"><a href="#system">System</a><a href="#inside">Inside</a><a href="#career">Career</a><a href="#pricing">Pricing</a></nav> <nav class="mcl-seo-nav" aria-label="Murder Crow learning navigation"><a href="/about/">About</a><a href="/blog/">Learn</a><a href="/blog/">Blog</a></nav> <button class="navcta" onclick="openReservation()">Join Lab →</button>
+</header>
+<main>
+<section class="hero"> <div class="wrap"> <div class="kicker">Murder Crow #Labs · Live Growth Programme</div> <h1>Don't just learn marketing.<br><em>Learn how growth works.</em></h1> <p>A visual-first learning lab where strategy, creative, acquisition, conversion, analytics, CRM, automation and AI finally sit on the same table.</p> <div class="actions"><button class="btn btn-lime" onclick="openReservation()">Reserve your seat for ₹10 →</button><a class="btn btn-light" href="#system">See what's inside ↓</a></div> <div class="hero-price">₹27,499<small>one time offer · ₹45,000 programme value</small></div> <div class="countdown" aria-label="Offer countdown"><span><b id="cdh">00</b><small>HOURS</small></span><i>:</i><span><b id="cdm">00</b><small>MIN</small></span><i>:</i><span><b id="cds">00</b><small>SEC</small></span></div> <div class="flight-zone" aria-hidden="true"><div class="flycrow c1"><svg viewBox="0 0 260 150" fill="none"><path d="M35 91c13-50 61-70 113-51 36 13 55 39 45 57-13 24-62 33-105 20-26-8-48-14-53-26Z" fill="#171813"/><path d="M66 73C48 48 65 20 104 18c37-2 62 18 66 40-30-12-65-9-104 15Z" fill="#090a08"/><circle cx="169" cy="49" r="33" fill="#2d3129"/><circle cx="180" cy="40" r="7" fill="#9fb92d"/><path d="M195 55l55 14-57 11 14-13-12-12Z" fill="#68772b"/></svg></div><div class="flycrow c2"><svg viewBox="0 0 260 150" fill="none"><path d="M35 91c13-50 61-70 113-51 36 13 55 39 45 57-13 24-62 33-105 20-26-8-48-14-53-26Z" fill="#171813"/><path d="M66 73C48 48 65 20 104 18c37-2 62 18 66 40-30-12-65-9-104 15Z" fill="#090a08"/><circle cx="169" cy="49" r="33" fill="#2d3129"/><circle cx="180" cy="40" r="7" fill="#9fb92d"/><path d="M195 55l55 14-57 11 14-13-12-12Z" fill="#68772b"/></svg></div><div class="flycrow c3"><svg viewBox="0 0 260 150" fill="none"><path d="M35 91c13-50 61-70 113-51 36 13 55 39 45 57-13 24-62 33-105 20-26-8-48-14-53-26Z" fill="#171813"/><path d="M66 73C48 48 65 20 104 18c37-2 62 18 66 40-30-12-65-9-104 15Z" fill="#090a08"/><circle cx="169" cy="49" r="33" fill="#2d3129"/><circle cx="180" cy="40" r="7" fill="#9fb92d"/><path d="M195 55l55 14-57 11 14-13-12-12Z" fill="#68772b"/></svg></div></div><div class="crow-stage" aria-hidden="true"></div></div>
+</section> <section class="banner wrap" id="banner"> <div class="banner-placeholder"><div class="banner-note">BANNER SLOT · REPLACE WITH YOUR CREATIVE</div><h2>Your banner lives here.</h2><p>Drop your Murder Crow campaign artwork, launch poster or offer creative into this top-of-page space without changing the rest of the website.</p><button class="btn btn-dark" onclick="openReservation()">Join Lab →</button></div>
+</section> <section class="section reveal" id="system"><div class="wrap"><div class="section-head"><div><div class="kicker">01 · THE SYSTEM</div><h2>Growth teaches the system.</h2></div><p>The point isn't to collect more tools. It's to understand why the work works — and what to do when it doesn't.</p></div><div class="system-art"><article class="system-card lime"><div class="system-lines"></div><div class="kicker" style="color:#30350f">THE GROWTH ENGINE</div><div class="system-number">04</div><div class="kicker" style="color:#30350f">growth phases</div><div class="system-phase-list"> <div class="phase-drop open"><button type="button" aria-expanded="true"><span>Understand <span class="mini">01</span></span><i class="phase-arrow"></i></button><div class="phase-body"><p>Start with the business before touching the tools.</p><ul><li>Business & marketing basics</li><li>Customer + market research</li><li>Brand, offer & funnel</li></ul></div></div><div class="phase-drop"><button type="button" aria-expanded="false"><span>Attract <span class="mini">02</span></span><i class="phase-arrow"></i></button><div class="phase-body"><p>Build attention that has a job.</p><ul><li>Social media</li><li>Meta + Google</li><li>SEO + content</li></ul></div></div><div class="phase-drop"><button type="button" aria-expanded="false"><span>Convert <span class="mini">03</span></span><i class="phase-arrow"></i></button><div class="phase-body"><p>Turn attention into an owned journey.</p><ul><li>AEO + GEO</li><li>LinkedIn + B2B</li><li>WhatsApp + CRM</li></ul></div></div><div class="phase-drop"><button type="button" aria-expanded="false"><span>Scale <span class="mini">04</span></span><i class="phase-arrow"></i></button><div class="phase-body"><p>Use numbers, systems and automation to keep improving.</p><ul><li>Analytics</li><li>Automation + AI</li><li>Growth project</li></ul></div></div></div></article><article class="system-card dark"><div class="kicker" style="color:var(--olive-bright)">ONE GROWTH SYSTEM</div><h3>Message → attention → trust → conversion → follow-up.</h3><p>Learn how the pieces connect instead of learning every platform as a separate island.</p><div class="chips"><div class="chip"><i class="icon">✦</i>Strategy</div><div class="chip"><i class="icon">↗</i>Acquisition</div><div class="chip"><i class="icon">✓</i>Conversion</div><div class="chip"><i class="icon">∞</i>Retention</div></div><div style="margin-top:24px;padding:18px;border:1px solid #30332b;border-radius:20px;background:#171914"><div class="kicker" style="color:var(--olive-bright)">THE PRACTICAL STACK</div><p style="margin-top:7px">SEO + AEO + GEO + paid media + WhatsApp + CRM + AI + analytics.</p></div></article></div></div></section> <section class="section reveal"><div class="wrap"><div class="section-head"><div><div class="kicker">02 · THE SHIFT</div><h2>Old marketing → new marketing.</h2></div><p>See the difference between collecting tactics and building a growth system.</p></div> <div class="shift"><div class="shift-head"><div>OLD MARKETING</div><div>NEW MARKETING</div></div> <div class="shift-row"><div><b class="oldmark">Post more.</b><span>Chase reach, likes and followers.</span></div><div><b class="newmark">Build demand.</b><span>Understand the customer, message and journey behind attention.</span></div></div> <div class="shift-row"><div><b class="oldmark">Run ads.</b><span>Press buttons and hope the platform finds buyers.</span></div><div><b class="newmark">Build acquisition.</b><span>Research → offer → creative → campaign → landing page → conversion.</span></div></div> <div class="shift-row"><div><b class="oldmark">SEO as a checklist.</b><span>Keywords, blogs and backlinks in isolation.</span></div><div><b class="newmark">Be discoverable.</b><span>SEO + AEO + GEO so people can find and understand the business across search and AI answers.</span></div></div> <div class="shift-row"><div><b class="oldmark">Leads are the finish line.</b><span>Generate a number and move on.</span></div><div><b class="newmark">Leads are the beginning.</b><span>WhatsApp + CRM + follow-up + sales + retention.</span></div></div> <div class="shift-row"><div><b class="oldmark">More tools.</b><span>Learn every platform separately.</span></div><div><b class="newmark">One growth system.</b><span>Connect the pieces so every channel has a job.</span></div></div> <div class="shift-row"><div><b class="oldmark">Reports.</b><span>Show numbers after the work is done.</span></div><div><b class="newmark">Decisions.</b><span>Use analytics to decide what to stop, fix, test and scale.</span></div></div> </div></div></section> <section class="section reveal" id="inside"><div class="wrap"><div class="section-head"><div><div class="kicker">03 · THE ROADMAP</div><h2>See what you actually take.</h2></div><p>16 live sessions. The cards stack, move and cycle while the session details stay readable.</p></div><div class="roadmap"><div class="road-tabs" id="roadTabs"><button class="active" data-phase="0">01 Foundation</button><button data-phase="1">02 Acquisition</button><button data-phase="2">03 Conversion</button><button data-phase="3">04 Scale</button></div><div class="road-stage" id="roadStage"><div class="stack-deck" id="stackDeck"></div></div><div class="road-hint">Auto-playing cards · tap a phase · swipe</div></div></div></section> <section class="section reveal" id="numbers"> <div class="wrap"> <div class="section-head"> <div><div class="kicker">04 · THE NUMBERS</div><h2>One programme. A lot to take with you.</h2></div> <p>Simple numbers. Clear value.</p> </div> <div class="stats"> <article class="stat"><strong class="olive">50+</strong><span>HOURS TRAINING</span></article> <article class="stat"><strong>16</strong><span>LIVE SESSIONS</span></article> <article class="stat"><strong>4</strong><span>GROWTH PHASES</span></article> <article class="stat"><strong>2</strong><span>MONTHS PROGRAMME</span></article> <article class="stat price-stat"><strong class="olive">₹27,499</strong><span>ONE TIME OFFER</span></article> <article class="stat"><strong>1 YEAR</strong><span>MENTORSHIP AFTER THE LAB</span></article> </div> </div>
+</section> <section class="section reveal" id="career"> <div class="wrap"> <div class="section-head"> <div><div class="kicker">05 · WHAT YOU CAN BECOME</div><h2>Learn it. Use it. Get paid for it.</h2></div> <p>Use the skill inside a company, inside a business or to grow your own work.</p> </div> <div class="career-full"> <div class="kicker" style="color:var(--olive-bright)">WHAT YOU CAN BECOME</div> <h3>From learning the system to owning a growth problem.</h3> <p>Build a portfolio, learn to explain your decisions and target roles that reward strategy, performance, CRM, automation, search and growth thinking.</p> <div class="role-grid"> <div class="role"><b>Digital Marketing Executive</b><span>₹3–6 LPA*</span></div> <div class="role"><b>Performance Marketing Specialist</b><span>₹4–12 LPA*</span></div> <div class="role"><b>SEO / AEO / GEO Specialist</b><span>₹4–12 LPA*</span></div> <div class="role"><b>CRM + Marketing Automation</b><span>₹5–15 LPA*</span></div> <div class="role"><b>Digital Marketing Manager</b><span>₹6–15 LPA*</span></div> <div class="role"><b>Growth Marketing Manager</b><span>₹8–18 LPA*</span></div> <div class="role"><b>Senior Growth / Marketing Roles</b><span>₹12–24 LPA*</span></div> <div class="role"><b>Growth Lead / Head-level path</b><span>₹18–35+ LPA*</span></div> </div> <div class="career-intro"> <article class="career-use"><h4>🏢 Grow a company</h4><p>Build acquisition, conversion, CRM, retention and analytics systems that move a real business.</p></article> <article class="career-use"><h4>🚀 Join a startup</h4><p>Own experiments, performance, funnels, automation and the numbers behind growth.</p></article> <article class="career-use"><h4>💼 Work with clients</h4><p>Use the same growth system for agencies, brands, founders and service businesses.</p></article> <article class="career-use"><h4>🧠 Grow your own business</h4><p>Use the system yourself to attract customers, build trust and make the business measurable.</p></article> </div> <p class="career-note">*Indicative market bands, not a salary or placement guarantee. Actual compensation varies by company, location, role scope, experience and proof of work.</p> </div> </div>
+</section> <section class="section reveal" id="career-support"> <div class="wrap"> <div class="section-head"> <div><div class="kicker">CAREER SUPPORT</div><h2>We don't stop at the last session.</h2></div> <p>You leave with a direction, proof of work and support for the next move.</p> </div> <div class="career-support"> <article class="career-support-card"> <div class="kicker">WHAT WE HELP WITH</div> <h3>Turn the work into a career story.</h3> <div class="support-grid"> <div class="support-item"><b>Portfolio</b><span>Turn your projects into proof.</span></div> <div class="support-item"><b>Resume</b><span>Position your actual skills clearly.</span></div> <div class="support-item"><b>LinkedIn</b><span>Make your profile easier to understand.</span></div> <div class="support-item"><b>Interview prep</b><span>Explain your thinking, not just tools.</span></div> </div> </article> <article class="career-support-card dark"> <div class="kicker" style="color:var(--olive-bright)">1-YEAR MENTORSHIP</div> <h3>Keep building after the Lab.</h3> <p>Ask questions, bring problems, review your next move and keep improving the systems you built during the programme.</p> <div class="support-grid"> <div class="support-item"><b>Career direction</b><span>Role and skill-roadmap guidance.</span></div> <div class="support-item"><b>Project feedback</b><span>Improve what you are building.</span></div> <div class="support-item"><b>Business thinking</b><span>Use growth for your own work too.</span></div> <div class="support-item"><b>Community</b><span>Keep knowledge moving forward.</span></div> </div> </article> </div> </div>
+</section> <section class="section reveal"><div class="wrap"><div class="section-head"><div><div class="kicker">FEEL THE SHIFT</div><h2>How this should feel.</h2></div><p>Not another certificate chase. The goal is to leave with clarity, confidence and something real you can use.</p></div><div class="feel-slider" id="feelSlider"><article class="feel-card active"><div class="feel-mark">01</div><h3>“I finally see the whole picture.”</h3><p>Strategy, creative, acquisition, conversion and analytics stop feeling like separate subjects.</p></article><article class="feel-card"><div class="feel-mark">02</div><h3>“I know what to do next.”</h3><p>Instead of guessing which tool to open, you learn how to diagnose the actual growth problem.</p></article><article class="feel-card"><div class="feel-mark">03</div><h3>“I can show what I built.”</h3><p>Your work becomes proof: projects, systems, thinking and a portfolio story you can explain.</p></article><article class="feel-card"><div class="feel-mark">04</div><h3>“I can use this for a business.”</h3><p>Apply the system inside a company, for a client, or to build your own growth engine.</p></article></div><div class="feel-dots" id="feelDots"><button class="active" aria-label="Feeling 1"></button><button aria-label="Feeling 2"></button><button aria-label="Feeling 3"></button><button aria-label="Feeling 4"></button></div></div></section> <section class="section reveal" id="ask-crow"> <div class="wrap"> <div class="whatsapp-box"> <div> <div class="kicker">QUESTIONS? ASK THE CROW.</div> <h3 style="font:800 36px Manrope;letter-spacing:-.05em;margin:8px 0">No boring enquiry form.</h3> <p style="color:var(--muted);max-width:520px">Ask about the programme, careers, one-to-one learning or your business. Choose a quick question here, then continue the conversation on WhatsApp.</p> <div class="chat-actions"> <button class="chat-chip" data-chat="What will I learn?">What will I learn?</button> <button class="chat-chip" data-chat="Is this for beginners?">Is this for beginners?</button> <button class="chat-chip" data-chat="How does ₹10 reservation work?">How does ₹10 work?</button> <button class="chat-chip" data-chat="Can I add 1-to-1?">Can I add 1-to-1?</button> </div> <a id="waChat" class="wa-btn" href="https://wa.me/?text=Hi%20Murder%20Crow%20Labs%2C%20I%20have%20a%20question%20about%20the%20Growth%20Lab." target="_blank" rel="noopener">Continue on WhatsApp →</a> </div> <div class="chat-mock"> <div class="chat-bubble crow">🐦‍⬛ Murder Crow: Ask me anything.</div> <div class="chat-bubble you" id="chatAnswer">I want to know more about #Labs.</div> <div class="chat-bubble crow">Cool. Pick a question and I'll open WhatsApp with it.</div> </div> </div> </div>
+</section> <section class="section reveal" id="community"><div class="wrap"><div class="section-head"><div><div class="kicker">06 · COMMUNITY</div><h2>Knowledge should move forward.</h2></div><p>Every paid learner can help make the next learner possible.</p></div><article class="community-single"><div class="kicker" style="color:var(--ink)">MURDER CROW COMMUNITY PROMISE</div><div class="ratio">10 → 2</div><h3>For every 10 paid learners, 2 free student seats.</h3><p>Two learners who genuinely cannot afford the programme can receive free access through the Murder Crow Community. After the first 50 paid learners, the community ratio will be reviewed and updated as the paid learner community grows.</p><div class="community-mini"><div class="mini-student">💻</div><div><strong>Learn. Gain a skill. Pass one forward.</strong><div style="color:#454b3b;font-size:13px;margin-top:4px">Gain a skill, get closer to work, and help someone else get the same chance.</div></div></div><div class="community-actions"><a class="community-join" href="https://wa.me/?text=Hi%20Murder%20Crow%20Labs%2C%20I%20want%20to%20join%20the%20Murder%20Crow%20Community." target="_blank" rel="noopener">Join the Murder Crow Community →</a><div class="social-icons"><a href="https://facebook.com/" target="_blank" rel="noopener" aria-label="Facebook">f</a><a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">ig</a><a href="https://wa.me/" target="_blank" rel="noopener" aria-label="WhatsApp">wa</a></div></div></article></div></section> <section class="section reveal" id="pricing"><div class="wrap"><div class="pricing"><div class="price-main"><div class="kicker" style="color:var(--olive-bright)">07 · ONE TIME OFFER</div><h2>Your next move is not another course.</h2><p>It's learning how the whole system works. Build the thinking. Build the system. Build proof you can use.</p><div class="price-value">₹27,499<del>₹45,000</del></div><div class="offer-label">one time offer · ₹10 to reserve</div><div class="price-list"><div><i class="check">✓</i> 16 live sessions · 50+ hours</div><div><i class="check">✓</i> 4 growth phases · 2-month programme</div><div><i class="check">✓</i> Playbook · certificate · 1-year mentorship</div><div><i class="check">✓</i> Career positioning, portfolio and interview support</div></div><button class="btn btn-lime" onclick="openReservation()">Reserve ₹10 →</button></div><aside class="pay-side"><h3>Almost there.</h3><p>Tap reserve, fill your details in our Murder Crow-styled HubSpot form, then pay ₹10 securely through Razorpay. The reservation is adjusted against the final programme fee.</p><button class="btn btn-dark" onclick="openReservation()">Open secure reservation →</button><div class="safe">Custom UI · Razorpay Standard Checkout</div></aside></div></div></section> 
+
+
+<section class="final reveal"><div class="wrap"><div class="kicker">READY?</div><h2>Your next move is not another course.<br><em>It's learning how the whole system works.</em></h2><p class="callout">Learn the thinking. Build the system. Then enjoy building with it.</p><div class="final-price">₹27,499<small>one time offer · ₹45,000 programme value</small></div><button class="btn btn-dark" onclick="openReservation()">Reserve ₹10 &amp; enter the Lab →</button></div></section>
+<style id="mcl-learn-hub-css">.mcl-learn-hub{position:relative;overflow:hidden}.mcl-learn-hub .mcl-hub-head{display:flex;justify-content:space-between;align-items:end;gap:25px;margin-bottom:25px}.mcl-learn-hub h2{font:800 clamp(38px,5.5vw,68px)/.94 Manrope;letter-spacing:-.065em;max-width:800px}.mcl-learn-hub h2 em{font-style:normal;color:var(--olive)}.mcl-learn-hub .mcl-hub-copy{max-width:430px;color:var(--muted);font-size:15px}.mcl-learn-grid{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:13px}.mcl-learn-card{border:1px solid var(--line);border-radius:25px;background:var(--paper2);padding:27px;min-height:210px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}.mcl-learn-card:after{content:"";position:absolute;left:-20%;right:-20%;top:23%;height:1px;background:linear-gradient(90deg,transparent,rgba(104,119,43,.35),transparent);transform:rotate(-4deg);animation:mclHubLine 6s linear infinite}.mcl-learn-card.dark{background:var(--ink);color:#fff;border-color:var(--ink)}.mcl-learn-card.lime{background:var(--olive-bright);border-color:var(--ink)}.mcl-learn-card h3{font:800 25px/1.02 Manrope;letter-spacing:-.045em;margin:8px 0}.mcl-learn-card p{font-size:12px;color:var(--muted);max-width:420px}.mcl-learn-card.dark p{color:#d4d8cf}.mcl-learn-card.lime p{color:#30350f}.mcl-learn-kicker{font:700 9px "Space Mono";letter-spacing:.15em;color:var(--olive)}.mcl-learn-card.dark .mcl-learn-kicker{color:var(--olive-bright)}.mcl-learn-card.lime .mcl-learn-kicker{color:var(--ink)}.mcl-learn-link{display:inline-flex;align-items:center;gap:6px;font-weight:900;font-size:11px;color:var(--olive);position:relative;z-index:2}.mcl-learn-card.dark .mcl-learn-link{color:var(--olive-bright)}@keyframes mclHubLine{0%{transform:translateX(-20%) rotate(-4deg)}100%{transform:translateX(20%) rotate(-4deg)}}@media(max-width:800px){.mcl-learn-hub .mcl-hub-head{display:block}.mcl-learn-hub .mcl-hub-copy{margin-top:12px}.mcl-learn-grid{grid-template-columns:1fr}.mcl-learn-card{min-height:170px;padding:23px}.mcl-learn-hub{padding-top:52px;padding-bottom:52px}}</style><section class="mcl-learn-hub section reveal" id="murder-crow-learn"><div class="wrap"><div class="mcl-hub-head"><div><div class="kicker">08 · MURDER CROW LEARN</div><h2>Learn digital marketing.<br><em>Understand how growth works.</em></h2></div><p class="mcl-hub-copy">Simple, practical guides for people searching for digital marketing, digital marketing courses, AI tools, how AI tools work, social media marketing, SEO, growth marketing and marketing careers.</p></div><div class="mcl-learn-grid"><article class="mcl-learn-card dark"><div><div class="mcl-learn-kicker">MURDER CROW LEARN</div><h3>Start with digital marketing.</h3><p>SEO, social media, ads, content, analytics, funnels, AI and growth — explained without making beginners feel lost.</p></div><a class="mcl-learn-link" href="/blog/">Explore the Learn library →</a></article><article class="mcl-learn-card lime"><div><div class="mcl-learn-kicker">AI TOOLS</div><h3>How do AI tools work?</h3><p>Understand what AI tools actually do and where they fit into real marketing work.</p></div><a class="mcl-learn-link" href="/blog/how-ai-tools-work.html">Read the guide →</a></article><article class="mcl-learn-card"><div><div class="mcl-learn-kicker">THE STORY</div><h3>Why Murder Crow?</h3><p>A murder is a group of crows. We made it our idea for a collective of creative people who learn, build, experiment and help each other grow.</p></div><a class="mcl-learn-link" href="/about/">About Murder Crow →</a></article></div></div></section></main>
+<footer><div class="wrap"><div class="logo"><img class="logo-image" src="/muder-crow-logo.jpg" alt="Murder Crow Labs"></div><p>Don't just learn marketing. Learn how growth works. Results depend on the work you put in; nothing here is a guarantee of income or placement.</p><div class="mcl-footer-links" aria-label="Footer navigation"><a href="/about/">About Murder Crow</a><a href="/blog/">Blog / Learn</a><a href="#ask-crow">Support</a><a href="/terms-and-conditions.html">Terms &amp; Conditions</a></div></div></footer> <div class="reservation" id="reservation" aria-hidden="true"><div class="modal"><button class="close" onclick="closeReservation()" aria-label="Close">×</button><div id="leadStep"><div class="step">STEP 01 · YOUR DETAILS</div><h2>Let’s save your seat.</h2><p>Tell us a little about you first. Payment comes after this step.</p><div class="hs-form-shell" aria-label="Murder Crow Labs reservation form"><div class="hs-form-frame" data-region="na2" data-form-id="eb9a7aa6-e191-4f23-913d-cf24348cb7c2" data-portal-id="247139484"></div><p class="form-note">Your details are submitted securely to HubSpot for programme communication. Payment happens separately through Razorpay.</p></div></div><div id="paymentStep" hidden><div class="step">STEP 02 · RAZORPAY</div><h2>Almost there.</h2><div class="pay-summary"><div class="pay-line"><span>Programme value</span><strong class="strike">₹45,000</strong></div><div class="pay-line"><span>One time offer</span><strong>₹27,499</strong></div><div class="pay-line"><span>Seat reservation</span><strong style="color:var(--olive)">₹10</strong></div><p>Your ₹10 reservation is adjusted against the final programme fee. Your seat is confirmed only after successful payment.</p></div><button id="payButton" class="reserve-continue" type="button" onclick="startRazorpay()">Pay ₹10 &amp; Reserve →</button><p class="form-note" style="margin-top:12px">Secure payment via Razorpay Standard Checkout. If you cancel or payment fails, the seat remains unconfirmed.</p><div id="paymentError"></div></div><div id="thankyouStep" hidden><div class="step">CONFIRMED</div><h2>Your seat is reserved. 🖤</h2><p style="color:var(--muted);font-size:18px">Payment verified successfully. You'll get a confirmation and a call from Murder Crow. If you want to ask anything, WhatsApp us anytime.</p><button class="reserve-continue" type="button" onclick="closeReservation()">Done →</button></div></div></div><script src="https://checkout.razorpay.com/v1/checkout.js"></script><script>
+const reservation=document.getElementById('reservation');const leadStep=document.getElementById('leadStep'),paymentStep=document.getElementById('paymentStep'),thankyouStep=document.getElementById('thankyouStep');function openReservation(){reservation.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';leadStep.hidden=false;paymentStep.hidden=true;thankyouStep.hidden=true;}function closeReservation(){reservation.setAttribute('aria-hidden','true');document.body.style.overflow='';}reservation.addEventListener('click',e=>{if(e.target===reservation)closeReservation()});
+window.addEventListener('hs-form-event:on-submission:success', event => { const detail = event.detail || {}; if (detail.formId === 'eb9a7aa6-e191-4f23-913d-cf24348cb7c2') { leadStep.hidden = true; paymentStep.hidden = false; } });
+function escapeHtml(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+async function startRazorpay(){const button=document.getElementById('payButton'),errorBox=document.getElementById('paymentError');errorBox.innerHTML='';button.disabled=true;button.textContent='Creating secure order…';try{const orderRes=await fetch('/api/create-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({amount:1000,currency:'INR',order_type:'reserve'})});const order=await orderRes.json();if(!orderRes.ok)throw new Error(order.error||'Could not create the payment order.');if(!window.Razorpay)throw new Error('Razorpay Checkout did not load. Please refresh.');const rzp=new Razorpay({key:order.key_id,amount:order.amount,currency:order.currency,name:'Murder Crow #Labs',description:'Murder Crow #Labs seat reservation',order_id:order.order_id,theme:{color:'#68772b'},modal:{ondismiss:()=>{button.disabled=false;button.textContent='Pay ₹10 & Reserve →'}},handler:async response=>{button.textContent='Verifying payment…';try{const verifyRes=await fetch('/api/verify-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({razorpay_order_id:response.razorpay_order_id,razorpay_payment_id:response.razorpay_payment_id,razorpay_signature:response.razorpay_signature})});const verified=await verifyRes.json();if(!verifyRes.ok||!verified.success)throw new Error(verified.error||'Payment verification failed.');paymentStep.hidden=true;thankyouStep.hidden=false}catch(err){errorBox.innerHTML='<div class="error">'+escapeHtml(err.message)+'</div>';button.disabled=false;button.textContent='Pay ₹10 & Reserve →'}}});rzp.on('payment.failed',res=>{errorBox.innerHTML='<div class="error">'+escapeHtml(res?.error?.description||'Payment failed. Please try again.')+'</div>';button.disabled=false;button.textContent='Pay ₹10 & Reserve →'});rzp.open();button.textContent='Opening Razorpay…'}catch(err){errorBox.innerHTML='<div class="error">'+escapeHtml(err.message)+'</div>';button.disabled=false;button.textContent='Pay ₹10 & Reserve →'}}
+// growth phase dropdowns: click, keyboard, hover/focus and touch all work
+const phaseDrops=[...document.querySelectorAll('.phase-drop')];
+function setPhase(drop,open){phaseDrops.forEach(d=>{if(d!==drop){d.classList.remove('open');d.querySelector('button')?.setAttribute('aria-expanded','false')}});drop.classList.toggle('open',open);drop.querySelector('button')?.setAttribute('aria-expanded',String(open));}
+phaseDrops.forEach(drop=>{const btn=drop.querySelector('button');btn.addEventListener('click',e=>{e.preventDefault();setPhase(drop,!drop.classList.contains('open'))});btn.addEventListener('mouseenter',()=>setPhase(drop,true));drop.addEventListener('mouseenter',()=>setPhase(drop,true));drop.addEventListener('focusin',()=>setPhase(drop,true));});
+
+// countdown
+const cdEndKey='murderCrowOfferEndsAt';let cdEnd=Number(localStorage.getItem(cdEndKey));if(!cdEnd||cdEnd<Date.now()){cdEnd=Date.now()+58*60*60*1000;localStorage.setItem(cdEndKey,String(cdEnd))}function tickCountdown(){let d=Math.max(0,cdEnd-Date.now());const h=Math.floor(d/36e5);d%=36e5;const m=Math.floor(d/6e4);d%=6e4;const sec=Math.floor(d/1e3);document.getElementById('cdh').textContent=String(h).padStart(2,'0');document.getElementById('cdm').textContent=String(m).padStart(2,'0');document.getElementById('cds').textContent=String(sec).padStart(2,'0')}tickCountdown();setInterval(tickCountdown,1000);
+// feel carousel: 2 second response
+const feelCards=[...document.querySelectorAll('.feel-card')],feelDots=[...document.querySelectorAll('#feelDots button')];let feelIndex=0,feelTimer;function setFeel(i){feelIndex=(i+feelCards.length)%feelCards.length;feelCards.forEach((c,j)=>c.classList.toggle('active',j===feelIndex));feelDots.forEach((d,j)=>d.classList.toggle('active',j===feelIndex))}feelDots.forEach((d,i)=>d.addEventListener('click',()=>{setFeel(i);restartFeel()}));function restartFeel(){clearInterval(feelTimer);feelTimer=setInterval(()=>setFeel(feelIndex+1),2000)}setFeel(0);restartFeel();
+// interactive stacked roadmap cards
+const sessions=[['01','FOUNDATION','Business & Marketing Basics','Business thinking, revenue, customer value and growth constraints.'],['02','FOUNDATION','Business Audit & Customer Research','Audit the offer, journey, buying triggers and customer profile.'],['03','FOUNDATION','Market & Competitor Research','Map the market, competitors, positioning gaps and opportunities.'],['04','FOUNDATION','Brand + Offer + Funnel','Turn research into positioning, offer and conversion path.'],['05','ACQUISITION','Social Media Management','Content pillars, planning, publishing and reporting.'],['06','ACQUISITION','Meta Ads','Campaign structure, audiences, creative tests and optimisation.'],['07','ACQUISITION','Google Ads','Search intent, campaign structure, landing pages and measurement.'],['08','ACQUISITION','SEO + Backlinks','Technical basics, content, authority and discoverability.'],['09','CONVERSION','AEO + GEO','Get found and understood in AI answers.'],['10','CONVERSION','LinkedIn + B2B','Positioning, outreach, authority and B2B journeys.'],['11','CONVERSION','WhatsApp + CRM','Lead stages, follow-up logic and relationship systems.'],['12','CONVERSION','AI + Automation','Automate repetitive work without losing the human layer.'],['13','SCALE','Analytics + Numbers','Performance, unit economics and growth signals.'],['14','SCALE','Problem-Solving Lab','Diagnose a real business problem and build the response.'],['15','SCALE','Portfolio + Career','Turn the work into proof, positioning and applications.'],['16','SCALE','Final Growth Project','Build and present the connected growth system.']];const phaseStarts=[0,4,8,12];const deck=document.getElementById('stackDeck');let deckIndex=0,deckTimer;function renderDeck(){const phase=deckIndex<4?0:deckIndex<8?1:deckIndex<12?2:3;const [a,b]=[phaseStarts[phase],phaseStarts[phase]+4];deck.innerHTML='';for(let i=a;i<b;i++){const d=document.createElement('article');d.className='deck-card '+(i===deckIndex?'active':i===deckIndex+1?'behind1':i===deckIndex+2?'behind2':'');d.innerHTML='<div class="deck-line"></div><div class="deck-top"><span class="deck-no">'+sessions[i][0]+'</span><span class="deck-meta">PHASE '+(phase+1)+' / '+sessions[i][1]+'</span></div><h3>'+sessions[i][2]+'</h3><p>'+sessions[i][3]+'</p><div class="deck-mini-grid"><div class="deck-mini"><b>Build it</b><span>Practical work you can show.</span></div><div class="deck-mini"><b>Connect it</b><span>How this skill fits the growth system.</span></div></div>';deck.appendChild(d)}document.querySelectorAll('#roadTabs button').forEach((b,j)=>b.classList.toggle('active',j===phase))}function nextDeck(){const phase=deckIndex<4?0:deckIndex<8?1:deckIndex<12?2:3;const end=phaseStarts[phase]+4;deckIndex=deckIndex+1<end?deckIndex+1:phaseStarts[(phase+1)%4];renderDeck()}function startDeck(){clearInterval(deckTimer);deckTimer=setInterval(nextDeck,2800)}document.querySelectorAll('#roadTabs button').forEach((b,j)=>b.addEventListener('click',()=>{deckIndex=phaseStarts[j];renderDeck();startDeck()}));renderDeck();startDeck();let tx=0;document.getElementById('roadStage').addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});document.getElementById('roadStage').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>45){if(dx<0)nextDeck();else{deckIndex=Math.max(phaseStarts[Math.floor(deckIndex/4)],deckIndex-1);renderDeck()}startDeck()}},{passive:true});
+// reveal observer
+const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');observer.unobserve(e.target)}}),{threshold:.08});document.querySelectorAll('.reveal').forEach(x=>observer.observe(x));
+</script><script src="https://js-na2.hsforms.net/forms/embed/247139484.js" defer></script>
+  <script defer src="/crow-sound.js"></script>
+</body></html>
