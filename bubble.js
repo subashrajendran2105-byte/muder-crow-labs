@@ -1,1 +1,1 @@
-(()=>{if(window.__MCL_WATER_BUBBLE_LOADER__)return;window.__MCL_WATER_BUBBLE_LOADER__=1;const s=document.createElement('script');s.src='/bubble-v2.js?v=1';s.defer=true;document.head.appendChild(s)})();
+(()=>{if(window.__MCL_WATER_BUBBLE_LOADER__)return;window.__MCL_WATER_BUBBLE_LOADER__=1;const s=document.createElement('script');s.src='/bubble-webgl.js?v=1';s.defer=true;document.head.appendChild(s)})();
