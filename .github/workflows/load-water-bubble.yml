@@ -1,0 +1,33 @@
+name: Load Murder Crow water bubble
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'bubble.js'
+
+permissions:
+  contents: write
+
+jobs:
+  load-bubble:
+    if: ${{ !contains(github.event.head_commit.message, 'Load water bubble') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Load bubble after existing menu script
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('menu.js')
+          s = p.read_text(encoding='utf-8')
+          loader = "\n;(()=>{const s=document.createElement('script');s.src='/bubble.js?v=1';s.defer=true;document.head.appendChild(s)})();\n"
+          if "/bubble.js?v=1" not in s:
+              p.write_text(s + loader, encoding='utf-8')
+      - name: Commit loader
+        run: |
+          git config user.name "murder-crow-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add menu.js
+          git diff --cached --quiet || git commit -m "Load water bubble"
+          git push
