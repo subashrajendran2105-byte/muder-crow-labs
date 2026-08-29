@@ -1,1 +1,1 @@
-(()=>{if(window.__MCL_WATER_BUBBLE_LOADER__)return;window.__MCL_WATER_BUBBLE_LOADER__=1;const s=document.createElement('script');s.src='/bubble-webgl.js?v=1';s.defer=true;document.head.appendChild(s)})();
+(()=>{if(window.__MCL_WATER_BUBBLE_LOADER_V3__)return;window.__MCL_WATER_BUBBLE_LOADER_V3__=1;const old=['mcl-water-field','mcl-water-field-v2','mcl-water-field-v3'];old.forEach(id=>document.getElementById(id)?.remove());const s=document.createElement('script');s.src='/bubble-v3.js?v=3';s.defer=true;document.head.appendChild(s)})();
