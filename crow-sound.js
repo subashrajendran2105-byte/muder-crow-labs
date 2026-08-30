@@ -1,110 +1,19 @@
-/* Murder Crow — FREE Demo flow + smooth Crow animation */
+/* Murder Crow — FREE DEMO flow + Crow celebration.
+   No Cashfree/payment is used for the free-demo journey. */
 (() => {
-  if (window.__murderCrowDemoFix) return;
-  window.__murderCrowDemoFix = true;
-  const FORM_ID = 'eb9a7aa6-e191-4f23-913d-cf24348cb7c2';
-  const originalOpenReservation = window.openReservation;
+  if (window.__mclDemoFlowV2) return;
+  window.__mclDemoFlowV2 = true;
 
-  const css = `
-    #mcl-demo-success{display:none;text-align:center;padding:4px 0 8px}
-    #mcl-demo-success.show{display:block;animation:mclDemoIn .55s cubic-bezier(.2,.8,.2,1) both}
-    #mcl-demo-success .mcl-demo-kicker{font:700 11px "Space Mono";letter-spacing:.17em;color:#68772b;text-transform:uppercase;margin-top:4px}
-    #mcl-demo-success h2{font:800 clamp(36px,8vw,62px)/.94 Manrope;letter-spacing:-.065em;margin:12px 0 10px}
-    #mcl-demo-success p{color:#666a61;font-size:16px;line-height:1.55;max-width:520px;margin:0 auto}
-    .mcl-dance-wrap{height:205px;display:grid;place-items:center;position:relative;margin:-4px auto 4px;overflow:hidden}
-    .mcl-dance-wrap:after{content:"";position:absolute;width:125px;height:18px;border-radius:50%;background:rgba(17,18,15,.16);bottom:22px;filter:blur(7px);animation:mclShadow 1.15s ease-in-out infinite}
-    .mcl-dancing-crow{width:145px;height:145px;position:relative;z-index:2;animation:mclCrowDance 1.15s cubic-bezier(.45,.05,.55,.95) infinite}
-    .mcl-crow-body{transform-origin:50% 72%;animation:mclBodyBounce 1.15s ease-in-out infinite}
-    .mcl-crow-wing-l{transform-origin:84px 65px;animation:mclWingL .58s ease-in-out infinite alternate}
-    .mcl-crow-wing-r{transform-origin:124px 65px;animation:mclWingR .58s ease-in-out infinite alternate-reverse}
-    .mcl-crow-head{transform-origin:106px 48px;animation:mclHead 1.15s ease-in-out infinite}
-    .mcl-crow-feet{animation:mclFeet 1.15s ease-in-out infinite}
-    @keyframes mclDemoIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
-    @keyframes mclCrowDance{0%,100%{transform:translateY(4px) rotate(-4deg)}25%{transform:translateY(-9px) rotate(5deg)}50%{transform:translateY(2px) rotate(-5deg)}75%{transform:translateY(-8px) rotate(4deg)}}
-    @keyframes mclBodyBounce{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.96)}}
-    @keyframes mclWingL{from{transform:rotate(12deg)}to{transform:rotate(-30deg)}}
-    @keyframes mclWingR{from{transform:rotate(-12deg)}to{transform:rotate(30deg)}}
-    @keyframes mclHead{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(5deg)}}
-    @keyframes mclFeet{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-    @keyframes mclShadow{0%,100%{transform:scaleX(.8);opacity:.35}50%{transform:scaleX(1.05);opacity:.2}}
-    #mcl-demo-success .mcl-crew-offer{margin:22px auto 0;border:1px solid #d9d8cf;border-radius:22px;background:#d8e92d;padding:19px;text-align:left;box-shadow:6px 6px 0 #68772b;max-width:560px}
-    #mcl-demo-success .mcl-crew-offer b{font:800 22px/1.05 Manrope;letter-spacing:-.035em}
-    #mcl-demo-success .mcl-crew-offer span{display:block;color:#30350f;font-size:13px;margin-top:7px}
-    #mcl-demo-success .mcl-demo-done{margin-top:18px;width:100%;max-width:560px;border:0;border-radius:999px;background:#11120f;color:#fff;padding:15px 20px;font-weight:800;cursor:pointer}
-    @media(prefers-reduced-motion:reduce){.mcl-dancing-crow,.mcl-crow-body,.mcl-crow-wing-l,.mcl-crow-wing-r,.mcl-crow-head,.mcl-crow-feet,.mcl-dance-wrap:after{animation:none!important}}
-  `;
-
-  function addStyles(){
-    if(document.getElementById('mcl-demo-fix-css')) return;
-    const s=document.createElement('style'); s.id='mcl-demo-fix-css'; s.textContent=css; document.head.appendChild(s);
-  }
-
-  function dancingCrow(){
-    return `<div class="mcl-dance-wrap" aria-hidden="true">
-      <svg class="mcl-dancing-crow" viewBox="0 0 180 180" fill="none">
-        <g class="mcl-crow-body">
-          <ellipse cx="104" cy="91" rx="43" ry="48" fill="#11120f"/>
-          <path d="M70 86C52 76 45 58 56 43C66 29 87 31 101 43C113 53 116 72 106 87C97 100 83 97 70 86Z" fill="#171813"/>
-          <g class="mcl-crow-head"><circle cx="106" cy="48" r="27" fill="#090a08"/><circle cx="115" cy="43" r="4" fill="#d8e92d"/><path d="M128 51L158 59L128 67L136 59L128 51Z" fill="#68772b"/></g>
-          <g class="mcl-crow-wing-l"><path d="M83 69C62 64 39 76 35 94C54 103 73 98 89 82L83 69Z" fill="#252821"/></g>
-          <g class="mcl-crow-wing-r"><path d="M124 69C145 64 168 76 172 94C153 103 134 98 118 82L124 69Z" fill="#252821"/></g>
-          <path d="M76 111C69 125 71 139 83 146" stroke="#68772b" stroke-width="7" stroke-linecap="round"/><path d="M130 111C137 125 135 139 123 146" stroke="#68772b" stroke-width="7" stroke-linecap="round"/>
-          <g class="mcl-crow-feet" stroke="#11120f" stroke-width="5" stroke-linecap="round"><path d="M78 145L69 151M78 145L78 154M78 145L87 151"/><path d="M125 145L116 151M125 145L125 154M125 145L134 151"/></g>
-        </g>
-      </svg>
-    </div>`;
-  }
-
-  function setupModal(){
-    addStyles();
-    const modal=document.querySelector('#reservation .modal'); if(!modal) return false;
-    const lead=document.getElementById('leadStep'),payment=document.getElementById('paymentStep'),thank=document.getElementById('thankyouStep'); if(!lead) return false;
-    const step=lead.querySelector('.step'),title=lead.querySelector('h2'),copy=lead.querySelector(':scope > p'),note=lead.querySelector('.form-note');
-    if(step) step.textContent='FREE DEMO · YOUR DETAILS';
-    if(title) title.textContent='Claim your FREE Demo.';
-    if(copy) copy.textContent='No payment. No ₹10 reservation. Just tell us a little about you and we’ll unlock the demo experience.';
-    if(note) note.textContent='Your details are submitted securely to HubSpot. There is no payment for the demo.';
-    if(payment) payment.setAttribute('hidden','hidden'); if(thank) thank.setAttribute('hidden','hidden');
-    let success=document.getElementById('mcl-demo-success');
-    if(!success){
-      success=document.createElement('div'); success.id='mcl-demo-success';
-      success.innerHTML=`${dancingCrow()}<div class="mcl-demo-kicker">DEMO UNLOCKED · WELCOME TO THE CREW</div><h2>You're in. 🖤</h2><p>Your FREE Demo request is received. Take a look around, then decide what you want to build next.</p><div class="mcl-crew-offer"><b>🐦‍⬛ Crew-only next step</b><span>After the demo, you’ll get the exclusive Murder Crow Crew offer and your next-step options.</span></div><button class="mcl-demo-done" type="button">Back to the Lab →</button>`;
-      modal.appendChild(success);
-      success.querySelector('.mcl-demo-done').addEventListener('click',()=>{success.classList.remove('show');lead.hidden=false;if(payment)payment.hidden=true;if(thank)thank.hidden=true;document.body.style.overflow='';document.getElementById('reservation')?.setAttribute('aria-hidden','true');});
-    }
-    return true;
-  }
-
-  function openDemo(){
-    addStyles();
-    if(typeof originalOpenReservation==='function') originalOpenReservation();
-    const reservation=document.getElementById('reservation'); if(reservation){reservation.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}
-    if(!setupModal()) return;
-    const lead=document.getElementById('leadStep'),payment=document.getElementById('paymentStep'),thank=document.getElementById('thankyouStep'),success=document.getElementById('mcl-demo-success');
-    if(lead)lead.hidden=false;if(payment)payment.hidden=true;if(thank)thank.hidden=true;if(success)success.classList.remove('show');
-  }
-
-  function showDemoSuccess(){
-    if(!setupModal()) return;
-    const lead=document.getElementById('leadStep'),payment=document.getElementById('paymentStep'),thank=document.getElementById('thankyouStep'),success=document.getElementById('mcl-demo-success');
-    if(lead)lead.hidden=true;if(payment)payment.hidden=true;if(thank)thank.hidden=true;
-    if(success){success.classList.remove('show');requestAnimationFrame(()=>requestAnimationFrame(()=>success.classList.add('show')));}
-  }
-
-  window.openReservation=openDemo;
-  window.startRazorpay=()=>{};
-
-  document.addEventListener('click',event=>{
-    const el=event.target.closest?.('a,button,[role="button"]'); if(!el)return;
-    const href=(el.getAttribute('href')||'').toLowerCase(); const text=(el.textContent||'').trim().toLowerCase();
-    const isPaymentLink=href.includes('/payment.html')||href.includes('payment.html?');
-    const isDemoText=/(claim|book|reserve|join|get|start|unlock).*free.*demo|free.*demo.*(claim|book|reserve|join|get|start|unlock)/i.test(text)||/₹?0\s*(rs|inr|rupees)?\s*(demo|class)/i.test(text);
-    if(isPaymentLink||isDemoText){event.preventDefault();event.stopPropagation();openDemo();}
-  },true);
-
-  window.addEventListener('hs-form-event:on-submission:success',event=>{const detail=event.detail||{};if(detail.formId&&detail.formId!==FORM_ID)return;setTimeout(showDemoSuccess,40);});
-
-  if(new URLSearchParams(location.search).get('demo')==='1'){
-    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(openDemo,80),{once:true});else setTimeout(openDemo,80);
-  }
+  const css = `#mcl-demo-celebration{position:fixed;inset:0;z-index:5000;display:grid;place-items:center;background:rgba(17,18,15,.72);backdrop-filter:blur(10px);opacity:0;pointer-events:none;transition:opacity .35s ease;padding:22px}#mcl-demo-celebration.show{opacity:1;pointer-events:auto}.mcl-celebrate-card{width:min(560px,100%);background:#fffefa;border:1px solid #11120f;border-radius:30px;padding:34px 24px 30px;text-align:center;box-shadow:0 30px 90px rgba(0,0,0,.3);overflow:hidden}.mcl-dance-floor{height:170px;position:relative;display:grid;place-items:center;margin-bottom:4px}.mcl-dancing-crow{font-size:105px;line-height:1;display:block;filter:drop-shadow(0 16px 10px rgba(0,0,0,.2));animation:mclCrowDance .7s cubic-bezier(.5,0,.5,1) infinite alternate}.mcl-dance-shadow{position:absolute;bottom:16px;width:105px;height:18px;border-radius:50%;background:rgba(17,18,15,.18);animation:mclCrowShadow .7s ease-in-out infinite alternate}.mcl-celebrate-kicker{font:700 10px/1.2 "Space Mono",monospace;letter-spacing:.18em;text-transform:uppercase;color:#68772b}.mcl-celebrate-card h2{font:800 clamp(42px,9vw,68px)/.9 Manrope,sans-serif;letter-spacing:-.07em;margin:13px 0}.mcl-celebrate-card p{color:#666a61;font:400 16px/1.5 "DM Sans",sans-serif;max-width:450px;margin:0 auto}.mcl-crew-pill{display:inline-block;margin-top:22px;padding:12px 16px;border:1px solid #11120f;border-radius:999px;background:#d8e92d;color:#11120f;font-weight:900}.mcl-whatsapp{display:inline-flex;margin-top:10px;padding:12px 16px;border-radius:999px;border:1px solid #d9d8cf;background:#fff;color:#11120f;font-weight:800}@keyframes mclCrowDance{0%{transform:translateY(8px) rotate(-10deg) scale(.96)}35%{transform:translateY(-12px) rotate(8deg) scale(1.05)}70%{transform:translateY(-3px) rotate(-7deg) scale(1.02)}100%{transform:translateY(-17px) rotate(10deg) scale(1.07)}}@keyframes mclCrowShadow{from{transform:scaleX(.78);opacity:.15}to{transform:scaleX(1.08);opacity:.28}}@media(prefers-reduced-motion:reduce){#mcl-demo-celebration{transition:none}.mcl-dancing-crow,.mcl-dance-shadow{animation:none}}`;
+  const style=document.createElement('style');style.textContent=css;document.head.appendChild(style);
+  const textOf=el=>((el?.innerText||el?.textContent||'')+' '+(el?.getAttribute?.('aria-label')||'')).trim().toLowerCase();
+  const isFreeDemo=el=>{const t=textOf(el);return /claim\s+(your\s+)?free|free\s+demo|claim\s+demo|free\s+class|claim\s+offer/.test(t)&&!/pay|payment|₹\s*\d|cashfree/.test(t)};
+  function findLeadStep(){return document.getElementById('leadStep')||document.querySelector('[data-lead-step],.lead-step,#leadModal,.lead-modal')}
+  function openLead(){const lead=findLeadStep();if(lead){lead.removeAttribute('hidden');lead.style.removeProperty('display');lead.classList.add('open','show','active');document.body.style.overflow='hidden';setTimeout(()=>lead.querySelector('input,textarea,select')?.focus(),120);return true}const form=document.querySelector('iframe[src*="hubspot"],.hbspt-form,[id*="hubspot"],form');if(form){form.scrollIntoView({behavior:'smooth',block:'center'});return true}return false}
+  function celebrate(){document.getElementById('paymentStep')?.setAttribute('hidden','hidden');document.getElementById('paymentStep')?.classList.remove('open','show','active');const lead=findLeadStep();if(lead){lead.setAttribute('hidden','hidden');lead.classList.remove('open','show','active')}document.body.style.overflow='';let modal=document.getElementById('mcl-demo-celebration');if(!modal){modal=document.createElement('div');modal.id='mcl-demo-celebration';modal.innerHTML=`<div class="mcl-celebrate-card"><div class="mcl-dance-floor"><div class="mcl-dance-shadow"></div><div class="mcl-dancing-crow" aria-hidden="true">🐦‍⬛</div></div><div class="mcl-celebrate-kicker">MURDER CROW · CREW ACCESS</div><h2>You’re in.</h2><p>Thank you for claiming your free demo. We’ll connect with you shortly. Keep moving — your next chapter starts here.</p><div class="mcl-crew-pill">✦ Welcome to the Crew ✦</div><br><a class="mcl-whatsapp" href="https://wa.me/919843198923" target="_blank" rel="noopener">💬 Want to discuss? WhatsApp us</a></div>`;document.body.appendChild(modal);modal.addEventListener('click',e=>{if(e.target===modal){modal.classList.remove('show');document.body.style.overflow=''}})}modal.classList.add('show')}
+  document.addEventListener('click',e=>{const el=e.target.closest?.('a,button,[role="button"]');if(!el||!isFreeDemo(el))return;e.preventDefault();e.stopImmediatePropagation();openLead()},true);
+  window.addEventListener('hs-form-event:on-submission:success',e=>{const detail=e.detail||{};if(detail.formId&&detail.formId!=='eb9a7aa6-e191-4f23-913d-cf24348cb7c2')return;celebrate()},true);
+  const originalPush=history.pushState,originalReplace=history.replaceState,blockPaymentUrl=url=>{try{return /(^|\/)payment(?:\.html)?(?:[?#]|$)/i.test(new URL(String(url),location.href).pathname)}catch(_){return false}};history.pushState=function(state,title,url){if(blockPaymentUrl(url))return;return originalPush.apply(this,arguments)};history.replaceState=function(state,title,url){if(blockPaymentUrl(url))return;return originalReplace.apply(this,arguments)};
+  const boot=()=>document.querySelectorAll('a,button,[role="button"]').forEach(el=>{if(isFreeDemo(el)){el.setAttribute('data-mcl-free-demo','true');el.removeAttribute('onclick')}});
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
