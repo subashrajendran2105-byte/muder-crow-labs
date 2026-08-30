@@ -2,8 +2,8 @@
 (() => {
   if (window.__murderCrowDemoFix) return;
   window.__murderCrowDemoFix = true;
-
   const FORM_ID = 'eb9a7aa6-e191-4f23-913d-cf24348cb7c2';
+  const originalOpenReservation = window.openReservation;
 
   const css = `
     #mcl-demo-success{display:none;text-align:center;padding:4px 0 8px}
@@ -45,19 +45,11 @@
         <g class="mcl-crow-body">
           <ellipse cx="104" cy="91" rx="43" ry="48" fill="#11120f"/>
           <path d="M70 86C52 76 45 58 56 43C66 29 87 31 101 43C113 53 116 72 106 87C97 100 83 97 70 86Z" fill="#171813"/>
-          <g class="mcl-crow-head">
-            <circle cx="106" cy="48" r="27" fill="#090a08"/>
-            <circle cx="115" cy="43" r="4" fill="#d8e92d"/>
-            <path d="M128 51L158 59L128 67L136 59L128 51Z" fill="#68772b"/>
-          </g>
+          <g class="mcl-crow-head"><circle cx="106" cy="48" r="27" fill="#090a08"/><circle cx="115" cy="43" r="4" fill="#d8e92d"/><path d="M128 51L158 59L128 67L136 59L128 51Z" fill="#68772b"/></g>
           <g class="mcl-crow-wing-l"><path d="M83 69C62 64 39 76 35 94C54 103 73 98 89 82L83 69Z" fill="#252821"/></g>
           <g class="mcl-crow-wing-r"><path d="M124 69C145 64 168 76 172 94C153 103 134 98 118 82L124 69Z" fill="#252821"/></g>
-          <path d="M76 111C69 125 71 139 83 146" stroke="#68772b" stroke-width="7" stroke-linecap="round"/>
-          <path d="M130 111C137 125 135 139 123 146" stroke="#68772b" stroke-width="7" stroke-linecap="round"/>
-          <g class="mcl-crow-feet" stroke="#11120f" stroke-width="5" stroke-linecap="round">
-            <path d="M78 145L69 151M78 145L78 154M78 145L87 151"/>
-            <path d="M125 145L116 151M125 145L125 154M125 145L134 151"/>
-          </g>
+          <path d="M76 111C69 125 71 139 83 146" stroke="#68772b" stroke-width="7" stroke-linecap="round"/><path d="M130 111C137 125 135 139 123 146" stroke="#68772b" stroke-width="7" stroke-linecap="round"/>
+          <g class="mcl-crow-feet" stroke="#11120f" stroke-width="5" stroke-linecap="round"><path d="M78 145L69 151M78 145L78 154M78 145L87 151"/><path d="M125 145L116 151M125 145L125 154M125 145L134 151"/></g>
         </g>
       </svg>
     </div>`;
@@ -65,109 +57,54 @@
 
   function setupModal(){
     addStyles();
-    const modal=document.querySelector('#reservation .modal');
-    if(!modal) return false;
-
-    const lead=document.getElementById('leadStep');
-    const payment=document.getElementById('paymentStep');
-    const thank=document.getElementById('thankyouStep');
-    if(!lead) return false;
-
-    const step=lead.querySelector('.step');
-    const title=lead.querySelector('h2');
-    const copy=lead.querySelector(':scope > p');
-    const note=lead.querySelector('.form-note');
+    const modal=document.querySelector('#reservation .modal'); if(!modal) return false;
+    const lead=document.getElementById('leadStep'),payment=document.getElementById('paymentStep'),thank=document.getElementById('thankyouStep'); if(!lead) return false;
+    const step=lead.querySelector('.step'),title=lead.querySelector('h2'),copy=lead.querySelector(':scope > p'),note=lead.querySelector('.form-note');
     if(step) step.textContent='FREE DEMO · YOUR DETAILS';
     if(title) title.textContent='Claim your FREE Demo.';
     if(copy) copy.textContent='No payment. No ₹10 reservation. Just tell us a little about you and we’ll unlock the demo experience.';
     if(note) note.textContent='Your details are submitted securely to HubSpot. There is no payment for the demo.';
-
-    if(payment) payment.setAttribute('hidden','hidden');
-    if(thank) thank.setAttribute('hidden','hidden');
-
+    if(payment) payment.setAttribute('hidden','hidden'); if(thank) thank.setAttribute('hidden','hidden');
     let success=document.getElementById('mcl-demo-success');
     if(!success){
-      success=document.createElement('div');
-      success.id='mcl-demo-success';
-      success.innerHTML=`${dancingCrow()}
-        <div class="mcl-demo-kicker">DEMO UNLOCKED · WELCOME TO THE CREW</div>
-        <h2>You're in. 🖤</h2>
-        <p>Your FREE Demo request is received. Take a look around, then decide what you want to build next.</p>
-        <div class="mcl-crew-offer"><b>🐦‍⬛ Crew-only next step</b><span>After the demo, you’ll get the exclusive Murder Crow Crew offer and your next-step options.</span></div>
-        <button class="mcl-demo-done" type="button">Back to the Lab →</button>`;
+      success=document.createElement('div'); success.id='mcl-demo-success';
+      success.innerHTML=`${dancingCrow()}<div class="mcl-demo-kicker">DEMO UNLOCKED · WELCOME TO THE CREW</div><h2>You're in. 🖤</h2><p>Your FREE Demo request is received. Take a look around, then decide what you want to build next.</p><div class="mcl-crew-offer"><b>🐦‍⬛ Crew-only next step</b><span>After the demo, you’ll get the exclusive Murder Crow Crew offer and your next-step options.</span></div><button class="mcl-demo-done" type="button">Back to the Lab →</button>`;
       modal.appendChild(success);
-      success.querySelector('.mcl-demo-done').addEventListener('click',()=>{
-        success.classList.remove('show');
-        lead.hidden=false;
-        if(payment) payment.hidden=true;
-        if(thank) thank.hidden=true;
-        document.body.style.overflow='';
-        document.getElementById('reservation')?.setAttribute('aria-hidden','true');
-      });
+      success.querySelector('.mcl-demo-done').addEventListener('click',()=>{success.classList.remove('show');lead.hidden=false;if(payment)payment.hidden=true;if(thank)thank.hidden=true;document.body.style.overflow='';document.getElementById('reservation')?.setAttribute('aria-hidden','true');});
     }
     return true;
   }
 
   function openDemo(){
     addStyles();
-    if(typeof window.openReservation==='function') window.openReservation();
-    const reservation=document.getElementById('reservation');
-    if(reservation){reservation.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}
+    if(typeof originalOpenReservation==='function') originalOpenReservation();
+    const reservation=document.getElementById('reservation'); if(reservation){reservation.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}
     if(!setupModal()) return;
     const lead=document.getElementById('leadStep'),payment=document.getElementById('paymentStep'),thank=document.getElementById('thankyouStep'),success=document.getElementById('mcl-demo-success');
-    if(lead) lead.hidden=false; if(payment) payment.hidden=true; if(thank) thank.hidden=true; if(success) success.classList.remove('show');
+    if(lead)lead.hidden=false;if(payment)payment.hidden=true;if(thank)thank.hidden=true;if(success)success.classList.remove('show');
   }
 
   function showDemoSuccess(){
     if(!setupModal()) return;
     const lead=document.getElementById('leadStep'),payment=document.getElementById('paymentStep'),thank=document.getElementById('thankyouStep'),success=document.getElementById('mcl-demo-success');
-    if(lead) lead.hidden=true;
-    if(payment) payment.hidden=true;
-    if(thank) thank.hidden=true;
+    if(lead)lead.hidden=true;if(payment)payment.hidden=true;if(thank)thank.hidden=true;
     if(success){success.classList.remove('show');requestAnimationFrame(()=>requestAnimationFrame(()=>success.classList.add('show')));}
   }
 
-  // Replace the old reservation behavior with the free-demo flow.
   window.openReservation=openDemo;
   window.startRazorpay=()=>{};
 
-  // Never send a free-demo click to payment.html.
   document.addEventListener('click',event=>{
-    const el=event.target.closest?.('a,button,[role="button"]');
-    if(!el) return;
-    const href=(el.getAttribute('href')||'').toLowerCase();
-    const text=(el.textContent||'').trim().toLowerCase();
-    const isPaymentLink=href.includes('/payment.html') || href.includes('payment.html?');
-    const isDemoText=/(claim|book|reserve|join|get|start|unlock).*free.*demo|free.*demo.*(claim|book|reserve|join|get|start|unlock)/i.test(text) || /₹?0\s*(rs|inr|rupees)?\s*(demo|class)/i.test(text);
-    if(isPaymentLink || isDemoText){
-      event.preventDefault();
-      event.stopPropagation();
-      openDemo();
-    }
+    const el=event.target.closest?.('a,button,[role="button"]'); if(!el)return;
+    const href=(el.getAttribute('href')||'').toLowerCase(); const text=(el.textContent||'').trim().toLowerCase();
+    const isPaymentLink=href.includes('/payment.html')||href.includes('payment.html?');
+    const isDemoText=/(claim|book|reserve|join|get|start|unlock).*free.*demo|free.*demo.*(claim|book|reserve|join|get|start|unlock)/i.test(text)||/₹?0\s*(rs|inr|rupees)?\s*(demo|class)/i.test(text);
+    if(isPaymentLink||isDemoText){event.preventDefault();event.stopPropagation();openDemo();}
   },true);
 
-  // HubSpot success: let its own listener finish, then replace the payment step.
-  window.addEventListener('hs-form-event:on-submission:success',event=>{
-    const detail=event.detail||{};
-    if(detail.formId && detail.formId!==FORM_ID) return;
-    setTimeout(showDemoSuccess,40);
-  });
+  window.addEventListener('hs-form-event:on-submission:success',event=>{const detail=event.detail||{};if(detail.formId&&detail.formId!==FORM_ID)return;setTimeout(showDemoSuccess,40);});
 
-  // If a demo query is used, open the modal directly.
   if(new URLSearchParams(location.search).get('demo')==='1'){
-    if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>setTimeout(openDemo,80),{once:true});
-    else setTimeout(openDemo,80);
+    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(openDemo,80),{once:true});else setTimeout(openDemo,80);
   }
-
-  // Remove stale payment-provider wording from the demo modal.
-  function cleanDemoCopy(){
-    document.querySelectorAll('#reservation *').forEach(node=>{
-      if(node.children.length===0 && /payment happens after this step|cashfree|razorpay|₹10 reservation/i.test(node.textContent||'')){
-        if(node.closest('#paymentStep')) return;
-        node.textContent=(node.textContent||'').replace(/Payment comes after this step\.?/gi,'No payment is required for the demo.').replace(/Payment happens separately through (Cashfree|Razorpay)\.?/gi,'There is no payment for the demo.').replace(/Your details are submitted securely to HubSpot for programme communication\. Payment happens separately through (Cashfree|Razorpay)\.?/gi,'Your details are submitted securely to HubSpot. There is no payment for the demo.');
-      }
-    });
-  }
-  setTimeout(cleanDemoCopy,100);
-  setTimeout(cleanDemoCopy,700);
 })();
