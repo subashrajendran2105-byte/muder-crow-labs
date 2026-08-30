@@ -74,7 +74,8 @@ module.exports = async function handler(req, res) {
       ...(email ? { customer_email: email } : {})
     },
     order_meta: {
-      return_url: `https://mudercrowlabs.in/payment.html?payment=return&order_id=${encodeURIComponent(orderId)}`
+      return_url: `https://mudercrowlabs.in/payment.html?payment=return&order_id=${encodeURIComponent(orderId)}`,
+      notify_url: 'https://mudercrowlabs.in/api/cashfree-webhook'
     },
     order_note: productLabel + (crewMembers.length
       ? ` · crew members: ${crewMembers.map(m => `${m.name} (${m.phone})`).join(', ')}`
