@@ -1,0 +1,41 @@
+name: Fix Murder Crow payment links
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  fix-links:
+    if: ${{ !contains(github.event.head_commit.message, 'Route payment links to separate product portals') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replace product payment routes
+        shell: python
+        run: |
+          from pathlib import Path
+          replacements = {
+              '/payment.html?product=playbook': '/payment-playbook.html',
+              '/payment.html?product=full': '/payment-full.html',
+          }
+          for p in list(Path('.').rglob('*.html')) + [Path('menu.js')]:
+              if any(part.startswith('.') for part in p.parts) or not p.exists():
+                  continue
+              s = p.read_text(encoding='utf-8')
+              old = s
+              for a, b in replacements.items():
+                  s = s.replace(a, b)
+              if s != old:
+                  p.write_text(s, encoding='utf-8')
+      - name: Commit fixed links
+        shell: bash
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "murder-crow-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add '*.html' menu.js
+          git commit -m "Route payment links to separate product portals"
+          git push
