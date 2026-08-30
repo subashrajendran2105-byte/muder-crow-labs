@@ -1,19 +1,65 @@
 /* Murder Crow — FREE DEMO flow + Crow celebration.
-   No Cashfree/payment is used for the free-demo journey. */
+   FREE DEMO never goes to Cashfree/payment. */
 (() => {
-  if (window.__mclDemoFlowV2) return;
-  window.__mclDemoFlowV2 = true;
+  if (window.__mclDemoFlowV3) return;
+  window.__mclDemoFlowV3 = true;
 
-  const css = `#mcl-demo-celebration{position:fixed;inset:0;z-index:5000;display:grid;place-items:center;background:rgba(17,18,15,.72);backdrop-filter:blur(10px);opacity:0;pointer-events:none;transition:opacity .35s ease;padding:22px}#mcl-demo-celebration.show{opacity:1;pointer-events:auto}.mcl-celebrate-card{width:min(560px,100%);background:#fffefa;border:1px solid #11120f;border-radius:30px;padding:34px 24px 30px;text-align:center;box-shadow:0 30px 90px rgba(0,0,0,.3);overflow:hidden}.mcl-dance-floor{height:170px;position:relative;display:grid;place-items:center;margin-bottom:4px}.mcl-dancing-crow{font-size:105px;line-height:1;display:block;filter:drop-shadow(0 16px 10px rgba(0,0,0,.2));animation:mclCrowDance .7s cubic-bezier(.5,0,.5,1) infinite alternate}.mcl-dance-shadow{position:absolute;bottom:16px;width:105px;height:18px;border-radius:50%;background:rgba(17,18,15,.18);animation:mclCrowShadow .7s ease-in-out infinite alternate}.mcl-celebrate-kicker{font:700 10px/1.2 "Space Mono",monospace;letter-spacing:.18em;text-transform:uppercase;color:#68772b}.mcl-celebrate-card h2{font:800 clamp(42px,9vw,68px)/.9 Manrope,sans-serif;letter-spacing:-.07em;margin:13px 0}.mcl-celebrate-card p{color:#666a61;font:400 16px/1.5 "DM Sans",sans-serif;max-width:450px;margin:0 auto}.mcl-crew-pill{display:inline-block;margin-top:22px;padding:12px 16px;border:1px solid #11120f;border-radius:999px;background:#d8e92d;color:#11120f;font-weight:900}.mcl-whatsapp{display:inline-flex;margin-top:10px;padding:12px 16px;border-radius:999px;border:1px solid #d9d8cf;background:#fff;color:#11120f;font-weight:800}@keyframes mclCrowDance{0%{transform:translateY(8px) rotate(-10deg) scale(.96)}35%{transform:translateY(-12px) rotate(8deg) scale(1.05)}70%{transform:translateY(-3px) rotate(-7deg) scale(1.02)}100%{transform:translateY(-17px) rotate(10deg) scale(1.07)}}@keyframes mclCrowShadow{from{transform:scaleX(.78);opacity:.15}to{transform:scaleX(1.08);opacity:.28}}@media(prefers-reduced-motion:reduce){#mcl-demo-celebration{transition:none}.mcl-dancing-crow,.mcl-dance-shadow{animation:none}}`;
+  const css = `#mcl-demo-celebration{position:fixed;inset:0;z-index:5000;display:grid;place-items:center;background:rgba(17,18,15,.72);backdrop-filter:blur(10px);opacity:0;pointer-events:none;transition:opacity .35s ease;padding:22px}.mcl-demo-celebration-show{opacity:1!important;pointer-events:auto!important}.mcl-celebrate-card{width:min(560px,100%);background:#fffefa;border:1px solid #11120f;border-radius:30px;padding:34px 24px 30px;text-align:center;box-shadow:0 30px 90px rgba(0,0,0,.3);overflow:hidden}.mcl-dance-floor{height:170px;position:relative;display:grid;place-items:center;margin-bottom:4px}.mcl-dancing-crow{font-size:105px;line-height:1;display:block;filter:drop-shadow(0 16px 10px rgba(0,0,0,.2));animation:mclCrowDance .7s cubic-bezier(.5,0,.5,1) infinite alternate}.mcl-dance-shadow{position:absolute;bottom:16px;width:105px;height:18px;border-radius:50%;background:rgba(17,18,15,.18);animation:mclCrowShadow .7s ease-in-out infinite alternate}.mcl-celebrate-kicker{font:700 10px/1.2 "Space Mono",monospace;letter-spacing:.18em;text-transform:uppercase;color:#68772b}.mcl-celebrate-card h2{font:800 clamp(42px,9vw,68px)/.9 Manrope,sans-serif;letter-spacing:-.07em;margin:13px 0}.mcl-celebrate-card p{color:#666a61;font:400 16px/1.5 "DM Sans",sans-serif;max-width:450px;margin:0 auto}.mcl-crew-pill{display:inline-block;margin-top:22px;padding:12px 16px;border:1px solid #11120f;border-radius:999px;background:#d8e92d;color:#11120f;font-weight:900}.mcl-whatsapp{display:inline-flex;margin-top:10px;padding:12px 16px;border-radius:999px;border:1px solid #d9d8cf;background:#fff;color:#11120f;font-weight:800}@keyframes mclCrowDance{0%{transform:translateY(8px) rotate(-10deg) scale(.96)}35%{transform:translateY(-12px) rotate(8deg) scale(1.05)}70%{transform:translateY(-3px) rotate(-7deg) scale(1.02)}100%{transform:translateY(-17px) rotate(10deg) scale(1.07)}}@keyframes mclCrowShadow{from{transform:scaleX(.78);opacity:.15}to{transform:scaleX(1.08);opacity:.28}}`;
   const style=document.createElement('style');style.textContent=css;document.head.appendChild(style);
+
   const textOf=el=>((el?.innerText||el?.textContent||'')+' '+(el?.getAttribute?.('aria-label')||'')).trim().toLowerCase();
   const isFreeDemo=el=>{const t=textOf(el);return /claim\s+(your\s+)?free|free\s+demo|claim\s+demo|free\s+class|claim\s+offer/.test(t)&&!/pay|payment|₹\s*\d|cashfree/.test(t)};
-  function findLeadStep(){return document.getElementById('leadStep')||document.querySelector('[data-lead-step],.lead-step,#leadModal,.lead-modal')}
-  function openLead(){const lead=findLeadStep();if(lead){lead.removeAttribute('hidden');lead.style.removeProperty('display');lead.classList.add('open','show','active');document.body.style.overflow='hidden';setTimeout(()=>lead.querySelector('input,textarea,select')?.focus(),120);return true}const form=document.querySelector('iframe[src*="hubspot"],.hbspt-form,[id*="hubspot"],form');if(form){form.scrollIntoView({behavior:'smooth',block:'center'});return true}return false}
-  function celebrate(){document.getElementById('paymentStep')?.setAttribute('hidden','hidden');document.getElementById('paymentStep')?.classList.remove('open','show','active');const lead=findLeadStep();if(lead){lead.setAttribute('hidden','hidden');lead.classList.remove('open','show','active')}document.body.style.overflow='';let modal=document.getElementById('mcl-demo-celebration');if(!modal){modal=document.createElement('div');modal.id='mcl-demo-celebration';modal.innerHTML=`<div class="mcl-celebrate-card"><div class="mcl-dance-floor"><div class="mcl-dance-shadow"></div><div class="mcl-dancing-crow" aria-hidden="true">🐦‍⬛</div></div><div class="mcl-celebrate-kicker">MURDER CROW · CREW ACCESS</div><h2>You’re in.</h2><p>Thank you for claiming your free demo. We’ll connect with you shortly. Keep moving — your next chapter starts here.</p><div class="mcl-crew-pill">✦ Welcome to the Crew ✦</div><br><a class="mcl-whatsapp" href="https://wa.me/919843198923" target="_blank" rel="noopener">💬 Want to discuss? WhatsApp us</a></div>`;document.body.appendChild(modal);modal.addEventListener('click',e=>{if(e.target===modal){modal.classList.remove('show');document.body.style.overflow=''}})}modal.classList.add('show')}
-  document.addEventListener('click',e=>{const el=e.target.closest?.('a,button,[role="button"]');if(!el||!isFreeDemo(el))return;e.preventDefault();e.stopImmediatePropagation();openLead()},true);
-  window.addEventListener('hs-form-event:on-submission:success',e=>{const detail=e.detail||{};if(detail.formId&&detail.formId!=='eb9a7aa6-e191-4f23-913d-cf24348cb7c2')return;celebrate()},true);
-  const originalPush=history.pushState,originalReplace=history.replaceState,blockPaymentUrl=url=>{try{return /(^|\/)payment(?:\.html)?(?:[?#]|$)/i.test(new URL(String(url),location.href).pathname)}catch(_){return false}};history.pushState=function(state,title,url){if(blockPaymentUrl(url))return;return originalPush.apply(this,arguments)};history.replaceState=function(state,title,url){if(blockPaymentUrl(url))return;return originalReplace.apply(this,arguments)};
-  const boot=()=>document.querySelectorAll('a,button,[role="button"]').forEach(el=>{if(isFreeDemo(el)){el.setAttribute('data-mcl-free-demo','true');el.removeAttribute('onclick')}});
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+
+  function openLead(){
+    // Use the site's own reservation/modal opener first. This preserves the
+    // existing HubSpot form and avoids fighting its modal CSS/state machine.
+    if(typeof window.openReservation==='function'){
+      try{window.openReservation();}catch(_){ }
+      const pay=document.getElementById('paymentStep');
+      if(pay){pay.hidden=true;pay.style.display='none';}
+      return true;
+    }
+    const lead=document.getElementById('leadStep')||document.querySelector('[data-lead-step],.lead-step,#leadModal,.lead-modal');
+    if(lead){lead.hidden=false;lead.style.display='';lead.classList.add('open','show','active');document.body.style.overflow='hidden';return true;}
+    return false;
+  }
+
+  function celebrate(){
+    const pay=document.getElementById('paymentStep');
+    if(pay){pay.hidden=true;pay.style.display='none';pay.classList.remove('open','show','active');}
+    const lead=document.getElementById('leadStep');
+    if(lead){lead.hidden=true;lead.style.display='none';lead.classList.remove('open','show','active');}
+    document.body.style.overflow='';
+    let modal=document.getElementById('mcl-demo-celebration');
+    if(!modal){
+      modal=document.createElement('div');
+      modal.id='mcl-demo-celebration';
+      modal.innerHTML=`<div class="mcl-celebrate-card"><div class="mcl-dance-floor"><div class="mcl-dance-shadow"></div><div class="mcl-dancing-crow" aria-hidden="true">🐦‍⬛</div></div><div class="mcl-celebrate-kicker">MURDER CROW · CREW ACCESS</div><h2>You’re in.</h2><p>Thank you for claiming your free demo. We’ll connect with you shortly. Keep moving — your next chapter starts here.</p><div class="mcl-crew-pill">✦ Welcome to the Crew ✦</div><br><a class="mcl-whatsapp" href="https://wa.me/919843198923" target="_blank" rel="noopener">💬 Want to discuss? WhatsApp us</a></div>`;
+      document.body.appendChild(modal);
+      modal.addEventListener('click',e=>{if(e.target===modal){modal.classList.remove('mcl-demo-celebration-show');document.body.style.overflow=''}});
+    }
+    modal.classList.add('mcl-demo-celebration-show');
+  }
+
+  // Capture only the FREE DEMO CTA. Do not remove the site's onclick handlers;
+  // openReservation may be the function that actually builds the form modal.
+  document.addEventListener('click',e=>{
+    const el=e.target.closest?.('a,button,[role="button"]');
+    if(!el||!isFreeDemo(el))return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    openLead();
+  },true);
+
+  window.addEventListener('hs-form-event:on-submission:success',e=>{
+    const detail=e.detail||{};
+    if(detail.formId&&detail.formId!=='eb9a7aa6-e191-4f23-913d-cf24348cb7c2')return;
+    celebrate();
+  },true);
+
+  // Prevent accidental payment-page history transitions during this demo flow.
+  const originalPush=history.pushState,originalReplace=history.replaceState;
+  const blockPaymentUrl=url=>{try{return /(^|\/)payment(?:\.html)?(?:[?#]|$)/i.test(new URL(String(url),location.href).pathname)}catch(_){return false}};
+  history.pushState=function(state,title,url){if(blockPaymentUrl(url))return;return originalPush.apply(this,arguments)};
+  history.replaceState=function(state,title,url){if(blockPaymentUrl(url))return;return originalReplace.apply(this,arguments)};
 })();
