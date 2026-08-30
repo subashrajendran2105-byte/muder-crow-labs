@@ -42,7 +42,8 @@ module.exports = async function handler(req, res) {
     phone: String(m?.phone || '').replace(/\D/g, '').slice(-10)
   }));
 
-  const allowedAmounts = { reserve: 1000, playbook: 139900, full: 2699900 };
+  // Amounts are expressed in paise at the frontend/API boundary.
+  const allowedAmounts = { reserve: 1000, playbook: 79900, full: 2699900 };
   if (amount !== allowedAmounts[orderType] || currency !== 'INR') {
     return sendJson(res, 400, { error: 'Invalid payment amount or currency.' });
   }
@@ -63,6 +64,12 @@ module.exports = async function handler(req, res) {
       ? 'Murder Crow #Labs full enrolment · ₹26,999'
       : `Murder Crow #Labs seat reservation · ₹10 · crew size ${crewSize}`;
 
+  const returnPage = orderType === 'playbook'
+    ? 'payment-playbook.html'
+    : orderType === 'full'
+      ? 'payment-full.html'
+      : 'payment.html';
+
   const payload = {
     order_id: orderId,
     order_amount: amount / 100,
@@ -74,7 +81,7 @@ module.exports = async function handler(req, res) {
       ...(email ? { customer_email: email } : {})
     },
     order_meta: {
-      return_url: `https://mudercrowlabs.in/payment.html?payment=return&order_id=${encodeURIComponent(orderId)}`,
+      return_url: `https://mudercrowlabs.in/${returnPage}?payment=return&order_id=${encodeURIComponent(orderId)}`,
       notify_url: 'https://mudercrowlabs.in/api/cashfree-webhook'
     },
     order_note: productLabel + (crewMembers.length
