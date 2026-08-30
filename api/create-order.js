@@ -2,9 +2,16 @@ function sendJson(res, status, body) {
   res.status(status).json(body);
 }
 
+function cleanSecret(value) {
+  return String(value || '')
+    .trim()
+    .replace(/^['"]|['"]$/g, '')
+    .trim();
+}
+
 function getCashfreeConfig() {
-  const appId = String(process.env.CASHFREE_CLIENT_ID || '').trim();
-  const secretKey = String(process.env.CASHFREE_CLIENT_SECRET || '').trim();
+  const appId = cleanSecret(process.env.CASHFREE_CLIENT_ID);
+  const secretKey = cleanSecret(process.env.CASHFREE_CLIENT_SECRET);
   const mode = String(process.env.CASHFREE_ENV || 'production').trim().toLowerCase();
   const baseUrl = mode === 'production' ? 'https://api.cashfree.com/pg' : 'https://sandbox.cashfree.com/pg';
   return { appId, secretKey, mode, baseUrl };
@@ -15,8 +22,11 @@ module.exports = async function handler(req, res) {
     res.setHeader('Allow', 'POST');
     return sendJson(res, 405, { error: 'Method not allowed' });
   }
+
   const { appId, secretKey, baseUrl, mode } = getCashfreeConfig();
-  if (!appId || !secretKey) return sendJson(res, 500, { error: 'Cashfree server configuration is missing.' });
+  if (!appId || !secretKey) {
+    return sendJson(res, 500, { error: 'Cashfree server configuration is missing.' });
+  }
 
   const body = req.body || {};
   const amount = Number(body.amount);
@@ -33,26 +43,89 @@ module.exports = async function handler(req, res) {
   }));
 
   const allowedAmounts = { reserve: 1000, playbook: 139900, full: 2699900 };
-  if (amount !== allowedAmounts[orderType] || currency !== 'INR') return sendJson(res, 400, { error: 'Invalid payment amount or currency.' });
-  if (!/^\d{10}$/.test(phone)) return sendJson(res, 400, { error: 'Please provide a valid 10-digit phone number before payment.' });
-  if (orderType === 'reserve' && crewSize > 1 && crewMembers.length !== crewSize - 1) return sendJson(res, 400, { error: 'Please provide the selected crew member details.' });
-  if (crewMembers.some(m => !m.name || !/^\d{10}$/.test(m.phone))) return sendJson(res, 400, { error: 'Please provide a valid name and 10-digit WhatsApp number for every crew member.' });
+  if (amount !== allowedAmounts[orderType] || currency !== 'INR') {
+    return sendJson(res, 400, { error: 'Invalid payment amount or currency.' });
+  }
+  if (!/^\d{10}$/.test(phone)) {
+    return sendJson(res, 400, { error: 'Please provide a valid 10-digit phone number before payment.' });
+  }
+  if (orderType === 'reserve' && crewSize > 1 && crewMembers.length !== crewSize - 1) {
+    return sendJson(res, 400, { error: 'Please provide the selected crew member details.' });
+  }
+  if (crewMembers.some(m => !m.name || !/^\d{10}$/.test(m.phone))) {
+    return sendJson(res, 400, { error: 'Please provide a valid name and 10-digit WhatsApp number for every crew member.' });
+  }
 
   const orderId = `mcl_${orderType}_${Date.now()}`;
-  const productLabel = orderType === 'playbook' ? 'Murder Crow Growth Marketing Playbook' : orderType === 'full' ? 'Murder Crow #Labs full enrolment · ₹26,999' : `Murder Crow #Labs seat reservation · ₹10 · crew size ${crewSize}`;
+  const productLabel = orderType === 'playbook'
+    ? 'Murder Crow Growth Marketing Playbook'
+    : orderType === 'full'
+      ? 'Murder Crow #Labs full enrolment · ₹26,999'
+      : `Murder Crow #Labs seat reservation · ₹10 · crew size ${crewSize}`;
+
   const payload = {
     order_id: orderId,
     order_amount: amount / 100,
     order_currency: currency,
-    customer_details: { customer_id: `mcl_${Date.now()}`, customer_phone: phone, customer_name: name, ...(email ? { customer_email: email } : {}) },
-    order_meta: { return_url: `https://mudercrowlabs.in/payment.html?payment=return&order_id=${encodeURIComponent(orderId)}` },
-    order_note: productLabel + (crewMembers.length ? ` · crew members: ${crewMembers.map(m => `${m.name} (${m.phone})`).join(', ')}` : '')
+    customer_details: {
+      customer_id: `mcl_${Date.now()}`,
+      customer_phone: phone,
+      customer_name: name,
+      ...(email ? { customer_email: email } : {})
+    },
+    order_meta: {
+      return_url: `https://mudercrowlabs.in/payment.html?payment=return&order_id=${encodeURIComponent(orderId)}`
+    },
+    order_note: productLabel + (crewMembers.length
+      ? ` · crew members: ${crewMembers.map(m => `${m.name} (${m.phone})`).join(', ')}`
+      : '')
   };
+
   try {
-    const response = await fetch(`${baseUrl}/orders`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-client-id': appId, 'x-client-secret': secretKey, 'x-api-version': '2025-01-01' }, body: JSON.stringify(payload) });
+    const requestId = `mcl_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+    const response = await fetch(`${baseUrl}/orders`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-client-id': appId,
+        'x-client-secret': secretKey,
+        'x-api-version': '2025-01-01',
+        'x-request-id': requestId
+      },
+      body: JSON.stringify(payload)
+    });
+
     const data = await response.json().catch(() => ({}));
-    if (!response.ok) return sendJson(res, response.status, { error: data?.message || data?.type || 'Unable to create Cashfree order.', cashfree_type: data?.type || null, cashfree_code: data?.code || null, cashfree_status: response.status, environment: mode });
-    return sendJson(res, 200, { order_id: data.order_id || orderId, payment_session_id: data.payment_session_id, amount, currency, order_type: orderType, crew_size: crewSize, mode });
+
+    if (!response.ok) {
+      console.error('Cashfree create-order failed:', {
+        status: response.status,
+        type: data?.type,
+        code: data?.code,
+        message: data?.message,
+        environment: mode,
+        requestId
+      });
+      return sendJson(res, response.status, {
+        error: data?.message || data?.type || 'Unable to create Cashfree order.',
+        cashfree_type: data?.type || null,
+        cashfree_code: data?.code || null,
+        cashfree_status: response.status,
+        cashfree_request_id: requestId,
+        environment: mode
+      });
+    }
+
+    return sendJson(res, 200, {
+      order_id: data.order_id || orderId,
+      payment_session_id: data.payment_session_id,
+      amount,
+      currency,
+      order_type: orderType,
+      crew_size: crewSize,
+      mode
+    });
   } catch (error) {
     console.error('Cashfree create-order request failed:', error);
     return sendJson(res, 500, { error: 'Unable to connect to Cashfree.' });
