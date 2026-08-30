@@ -1,0 +1,46 @@
+name: Sync Murder Crow offer prices
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    if: ${{ !contains(github.event.head_commit.message, 'Sync Murder Crow offer prices') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sync visible offer prices
+        shell: python
+        run: |
+          from pathlib import Path
+          files = list(Path('.').rglob('*.html')) + [Path('menu.js')]
+          replacements = {
+              '₹27,499': '₹26,999',
+              '27,499': '26,999',
+              '₹1,399': '₹799',
+              '1,399': '799',
+          }
+          for p in files:
+              if any(part.startswith('.') for part in p.parts):
+                  continue
+              if not p.exists():
+                  continue
+              s = p.read_text(encoding='utf-8')
+              original = s
+              for old, new in replacements.items():
+                  s = s.replace(old, new)
+              if s != original:
+                  p.write_text(s, encoding='utf-8')
+      - name: Commit synced prices
+        shell: bash
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "murder-crow-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add '*.html' menu.js
+          git commit -m "Sync Murder Crow offer prices"
+          git push
