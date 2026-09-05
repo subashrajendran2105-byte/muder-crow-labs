@@ -31,7 +31,7 @@ module.exports = async function handler(req, res) {
   const body = req.body || {};
   const amount = Number(body.amount);
   const currency = body.currency || 'INR';
-  const orderType = ['reserve', 'full', 'playbook'].includes(body.order_type) ? body.order_type : 'reserve';
+  const orderType = ['reserve', 'full', 'playbook', 'custom'].includes(body.order_type) ? body.order_type : 'reserve';
   const phone = String(body.customer_phone || '').replace(/\D/g, '');
   const email = String(body.customer_email || '').trim();
   const name = String(body.customer_name || 'Murder Crow Learner').trim();
@@ -42,9 +42,17 @@ module.exports = async function handler(req, res) {
     phone: String(m?.phone || '').replace(/\D/g, '').slice(-10)
   }));
 
-  // Amounts are expressed in paise at the frontend/API boundary.
+  // Fixed product amounts remain protected. Custom payments accept ₹10–₹5,000 only.
   const allowedAmounts = { reserve: 1000, playbook: 79900, full: 2699900 };
-  if (amount !== allowedAmounts[orderType] || currency !== 'INR') {
+  const isCustom = orderType === 'custom';
+  if (currency !== 'INR') {
+    return sendJson(res, 400, { error: 'Invalid payment currency.' });
+  }
+  if (isCustom) {
+    if (!Number.isInteger(amount) || amount < 1000 || amount > 500000) {
+      return sendJson(res, 400, { error: 'Custom payment must be between ₹10 and ₹5,000.' });
+    }
+  } else if (amount !== allowedAmounts[orderType]) {
     return sendJson(res, 400, { error: 'Invalid payment amount or currency.' });
   }
   if (!/^\d{10}$/.test(phone)) {
@@ -62,13 +70,17 @@ module.exports = async function handler(req, res) {
     ? 'Murder Crow Growth Marketing Playbook'
     : orderType === 'full'
       ? 'Murder Crow #Labs full enrolment · ₹26,999'
-      : `Murder Crow #Labs seat reservation · ₹10 · crew size ${crewSize}`;
+      : orderType === 'custom'
+        ? `Murder Crow custom payment · ₹${(amount / 100).toFixed(2)}`
+        : `Murder Crow #Labs seat reservation · ₹10 · crew size ${crewSize}`;
 
   const returnPage = orderType === 'playbook'
     ? 'payment-playbook.html'
     : orderType === 'full'
       ? 'payment-full.html'
-      : 'payment.html';
+      : orderType === 'custom'
+        ? 'custom-payment.html'
+        : 'payment.html';
 
   const payload = {
     order_id: orderId,
