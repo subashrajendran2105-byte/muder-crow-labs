@@ -1,5 +1,5 @@
 /* Murder Crow — interaction layer. */
-(()=>{if(window.__MCL_CROW_INTERACTION_V10__)return;window.__MCL_CROW_INTERACTION_V10__=1;
+(()=>{if(window.__MCL_CROW_INTERACTION_V11__)return;window.__MCL_CROW_INTERACTION_V11__=1;
 const css=document.createElement('style');css.textContent=`
 .mcl-payment-success-crow{display:inline-block;transform-origin:50% 80%;animation:mclPaymentCrowDance 1.05s cubic-bezier(.2,.9,.25,1) infinite}
 @keyframes mclPaymentCrowDance{0%,100%{transform:translateY(5px) rotate(-7deg) scale(.98)}25%{transform:translateY(-9px) rotate(8deg) scale(1.06)}50%{transform:translateY(1px) rotate(-5deg) scale(1)}75%{transform:translateY(-7px) rotate(6deg) scale(1.04)}}
@@ -34,4 +34,8 @@ window.addEventListener('hs-form-event:on-submission:success',()=>{setTimeout(sh
 // Protect the demo-first state from the older inline payment-step listener. Once the optional reservation panel exists, leave it alone.
 const guard=()=>{const r=document.getElementById('reservation');if(!r||r.getAttribute('aria-hidden')!=='false')return;const claimed=document.getElementById('mcl-demo-claimed');if(claimed)return;const lead=document.getElementById('leadStep');if(lead&&!lead.hidden)return;ensureDemoFirst();};
 new MutationObserver(guard).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden','aria-hidden']});
+
+// Add one separate custom-payment option to the existing menu without changing its other entries.
+const addCustomPayment=()=>{const sub=[...document.querySelectorAll('.mc-menu-sub')].find(el=>el.previousElementSibling?.textContent?.trim()==='Payments');if(!sub||sub.querySelector('[data-mcl-custom-payment]'))return false;const link=document.createElement('a');link.href='/custom-payment.html';link.textContent='Custom payment · ₹10–₹5,000';link.setAttribute('data-mcl-custom-payment','true');sub.appendChild(link);return true;};
+addCustomPayment();let menuTries=0;const menuTimer=setInterval(()=>{if(addCustomPayment()||++menuTries>20)clearInterval(menuTimer)},100);
 })();
