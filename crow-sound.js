@@ -51,7 +51,5 @@ const setConsultationCopy=()=>{
 setConsultationCopy();
 setTimeout(setConsultationCopy,300);
 setTimeout(setConsultationCopy,1000);
-// Add one separate custom-payment option to the existing menu.
-const addCustomPayment=()=>{const sub=[...document.querySelectorAll('.mc-menu-sub')].find(el=>el.previousElementSibling?.textContent?.trim()==='Payments');if(!sub||sub.querySelector('[data-mcl-custom-payment]'))return false;const link=document.createElement('a');link.href='/custom-payment.html';link.textContent='Custom payment · ₹10–₹5,000';link.setAttribute('data-mcl-custom-payment','true');sub.appendChild(link);return true};
-addCustomPayment();let menuTries=0;const menuTimer=setInterval(()=>{if(addCustomPayment()||++menuTries>20)clearInterval(menuTimer)},100);
+
 })();
