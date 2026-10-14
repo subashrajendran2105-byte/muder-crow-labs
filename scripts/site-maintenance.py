@@ -201,6 +201,21 @@ The homepage slider uses these exact paths. Until a file is uploaded, its card r
         a=a.replace(": 'payment.html';",": 'custom-payment.html';")
         api.write_text(a,encoding="utf-8")
 
+    # Remove the old ₹10 minimum from the separate custom-payment utility too.
+    cp=ROOT/"custom-payment.html"
+    if cp.exists():
+        c=cp.read_text(encoding="utf-8")
+        c=c.replace("₹10","₹100").replace('min="10"','min="100"').replace('value="10"','value="100"').replace('data-value="10"','data-value="100"').replace("Math.max(10,","Math.max(100,").replace("):10};","):100};").replace(".value)<10&&",".value)<100&&").replace(".value=10;",".value=100;")
+        c=c.replace('<button type="button" data-value="40">₹40</button>','')
+        cp.write_text(c,encoding="utf-8")
+    # Keep the custom payment API minimum consistent with its form.
+    api=ROOT/"api/create-order.js"
+    if api.exists():
+        a=api.read_text(encoding="utf-8").replace("Custom payments accept ₹10–₹5,000 only.","Custom payments accept ₹100–₹5,000 only.")
+        a=a.replace("amount < 1000 || amount > 500000","amount < 10000 || amount > 500000")
+        a=a.replace("Custom payment must be between ₹10 and ₹5,000.","Custom payment must be between ₹100 and ₹5,000.")
+        api.write_text(a,encoding="utf-8")
+
     # Generate 50 distinct topic pages plus seven founder pages.
     d=ROOT/"blog";d.mkdir(exist_ok=True)
     items=[]
