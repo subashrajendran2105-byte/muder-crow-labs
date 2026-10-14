@@ -43,15 +43,15 @@ module.exports = async function handler(req, res) {
     phone: String(m?.phone || '').replace(/\D/g, '').slice(-10)
   }));
 
-  // Fixed product amounts remain protected. Custom payments accept ₹10–₹5,000 only.
+  // Fixed product amounts remain protected. Custom payments accept ₹100–₹5,000 only.
   const allowedAmounts = { playbook: 79900, full: 2699900 };
   const isCustom = orderType === 'custom';
   if (currency !== 'INR') {
     return sendJson(res, 400, { error: 'Invalid payment currency.' });
   }
   if (isCustom) {
-    if (!Number.isInteger(amount) || amount < 1000 || amount > 500000) {
-      return sendJson(res, 400, { error: 'Custom payment must be between ₹10 and ₹5,000.' });
+    if (!Number.isInteger(amount) || amount < 10000 || amount > 500000) {
+      return sendJson(res, 400, { error: 'Custom payment must be between ₹100 and ₹5,000.' });
     }
   } else if (amount !== allowedAmounts[orderType]) {
     return sendJson(res, 400, { error: 'Invalid payment amount or currency.' });
