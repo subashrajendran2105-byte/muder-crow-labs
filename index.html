@@ -1164,7 +1164,7 @@ const sessions=[['01','STRATEGY','Brand Development','Positioning, identity and 
 // reveal observer
 const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');observer.unobserve(e.target)}}),{threshold:.08});document.querySelectorAll('.reveal').forEach(x=>observer.observe(x));
 </script><script src="https://js-na2.hsforms.net/forms/embed/247139484.js" defer></script>
-  <script defer src="/crow-sound.js"></script>
+  <script defer src="/crow-sound.js?v=consultation-20261014-2"></script>
 <script>
 (function(){
  const section=document.getElementById('numbers');
@@ -1192,6 +1192,25 @@ const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){
   },{threshold:.22});
   observer.observe(section);
  }else run();
+})();
+</script>
+<script>
+(function(){
+ const label='Register for Free Consultation →';
+ function fixConsultationButtons(){
+  document.querySelectorAll('button,a,[role="button"]').forEach(el=>{
+   const text=(el.textContent||'').replace(/\s+/g,' ').trim();
+   if(/claim your free demo|claim your free consultation|reserve your seat for ₹10|join lab/i.test(text)){
+    el.textContent=label;
+    if(el.tagName==='A'){el.removeAttribute('href');el.setAttribute('role','button');}
+    el.onclick=function(event){event.preventDefault();if(typeof window.openReservation==='function')window.openReservation();};
+   }
+  });
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fixConsultationButtons);
+ else fixConsultationButtons();
+ new MutationObserver(fixConsultationButtons).observe(document.documentElement,{subtree:true,childList:true,characterData:true});
+ window.addEventListener('pageshow',fixConsultationButtons);
 })();
 </script>
 </body></html>
