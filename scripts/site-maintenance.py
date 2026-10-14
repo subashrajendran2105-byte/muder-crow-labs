@@ -152,7 +152,7 @@ def main():
         p.write_text(s,encoding="utf-8")
     p=ROOT/"menu.js"
     if p.exists():
-        s=p.read_text(encoding="utf-8").replace('href="/about/"','href="/about.html"')
+        s=p.read_text(encoding="utf-8").replace('href="/about/"','href="/about.html"').replace('Register for Free Consultation →','Consult Now →').replace('Register for Free Consultation','Consult Now')
         if "mcl-global-social" not in s:
             s+="""
 /* Official social URLs will be connected once supplied; placeholders stay disabled meanwhile. */
