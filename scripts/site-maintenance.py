@@ -85,7 +85,7 @@ def main():
         if any(x.startswith(".") for x in p.parts) or p.name=="subash-rajendran.html": continue
         s=p.read_text(encoding="utf-8"); old=s
         s=s.replace('/#reserve','/#ask-crow').replace('href="/about/"','href="/about.html"')
-        s=s.replace('Reserve your seat for ₹10 →','Consult Now →').replace('Reserve Your Seat','Consult Now').replace('Reserve ₹10 →','Consult Now →').replace('Reserve your seat','Consult Now').replace('Register for Free Consultation →','Consult Now →').replace('Register for Free Consultation','Consult Now')
+        s=s.replace('Reserve your seat for ₹10 →','Consult Now →').replace('Reserve Your Seat','Consult Now').replace('Reserve ₹10 →','Consult Now →').replace('Reserve your seat','Consult Now').replace('Register for Free Consultation →','Consult Now →').replace('Register for Free Consultation','Consult Now').replace('reserve your seat for ₹10','consult now').replace('I want to know more about #Labs.','I want to know more about Murder Crow Labs.')
         if p == ROOT/"index.html":
             s=s.replace('<title>Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing</title>','<title>Murder Crow Labs | Branding, Creative Studio, AI & Performance Marketing</title>')
             s=s.replace('Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.','Murder Crow Labs is a creative, technology and growth studio founded by Subash Rajendran, building brands, websites, products, AI software, Lead Intelligence and performance marketing systems.')
@@ -139,7 +139,9 @@ def main():
     # Remove duplicate About page; Vercel permanently redirects its old URL.
     dup=ROOT/"about/index.html"
     if dup.exists(): dup.unlink()
-    (ROOT/"vercel.json").write_text(json.dumps({"redirects":[{"source":"/about","destination":"/about.html","permanent":True},{"source":"/about/","destination":"/about.html","permanent":True}]},indent=2)+"\n",encoding="utf-8")
+    legacy_payment=ROOT/"payment.html"
+    if legacy_payment.exists(): legacy_payment.unlink()
+    (ROOT/"vercel.json").write_text(json.dumps({"redirects":[{"source":"/about","destination":"/about.html","permanent":True},{"source":"/about/","destination":"/about.html","permanent":True},{"source":"/payment.html","destination":"/#ask-crow","permanent":True}]},indent=2)+"\n",encoding="utf-8")
 
     # Remove the legacy custom-payment link injected by crow-sound.js.
     p=ROOT/"crow-sound.js"
@@ -179,6 +181,20 @@ Add vertical 9:16 MP4 files here when ready:
 
 The homepage slider uses these exact paths. Until a file is uploaded, its card remains a clearly labelled placeholder. Use real, permissioned testimonials only.
 """,encoding="utf-8")
+
+    # Disable the retired ₹10 seat-reservation order while keeping real product/custom payments.
+    api=ROOT/"api/create-order.js"
+    if api.exists():
+        a=api.read_text(encoding="utf-8")
+        a=a.replace("  const body = req.body || {};\n  const amount = Number(body.amount);",
+                    "  const body = req.body || {};\n  if (body.order_type === 'reserve') return sendJson(res, 400, { error: 'Seat reservations are no longer available. Use the free consultation form instead.' });\n  const amount = Number(body.amount);")
+        a=a.replace("const orderType = ['reserve', 'full', 'playbook', 'custom'].includes(body.order_type) ? body.order_type : 'reserve';",
+                    "const orderType = ['full', 'playbook', 'custom'].includes(body.order_type) ? body.order_type : 'custom';")
+        a=a.replace("const allowedAmounts = { reserve: 1000, playbook: 79900, full: 2699900 };","const allowedAmounts = { playbook: 79900, full: 2699900 };")
+        a=a.replace("  if (orderType === 'reserve' && crewSize > 1 && crewMembers.length !== crewSize - 1) {\n    return sendJson(res, 400, { error: 'Please provide the selected crew member details.' });\n  }\n","")
+        a=a.replace(": `Murder Crow #Labs seat reservation · ₹10 · crew size ${crewSize}`; ",": 'Murder Crow payment'; ")
+        a=a.replace(": 'payment.html';",": 'custom-payment.html';")
+        api.write_text(a,encoding="utf-8")
 
     # Generate 50 distinct topic pages plus seven founder pages.
     d=ROOT/"blog";d.mkdir(exist_ok=True)
