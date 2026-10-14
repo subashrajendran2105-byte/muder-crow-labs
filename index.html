@@ -1260,31 +1260,7 @@ const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){
  }else run();
 })();
 </script>
-<script>
-(function(){
- const label='Consult Now →';
- function fixConsultationButtons(){
-  const hero=document.getElementById('heroConsultationCta');
-  if(hero){
-   if(hero.textContent.trim()!==label)hero.textContent=label;
-   hero.setAttribute('aria-label','Consult Now');
-   hero.onclick=function(event){event.preventDefault();if(typeof window.openReservation==='function')window.openReservation();};
-  }
-  document.querySelectorAll('button,a,[role="button"]').forEach(el=>{
-   if(el===hero)return;
-   const text=(el.textContent||'').replace(/\s+/g,' ').trim();
-   if(/claim your free demo|claim your free consultation|consult now/i.test(text)){
-    el.textContent=label;
-    el.onclick=function(event){event.preventDefault();if(typeof window.openReservation==='function')window.openReservation();};
-   }
-  });
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fixConsultationButtons);
- else fixConsultationButtons();
- new MutationObserver(fixConsultationButtons).observe(document.documentElement,{subtree:true,childList:true,characterData:true});
- window.addEventListener('pageshow',fixConsultationButtons);
-})();
-</script>
+
 <script>
 (function(){
  const rail=document.querySelector('.portfolio-rail');if(!rail)return;
