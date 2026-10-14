@@ -41,7 +41,7 @@ updateCountdown();setInterval(updateCountdown,250);
 const countdownGuard=new MutationObserver(()=>updateCountdown());
 ['cdh','cdm','cds'].forEach(id=>{const el=document.getElementById(id);if(el)countdownGuard.observe(el,{childList:true,characterData:true,subtree:true})});
 
-const setHeroCopy=()=>{const b=document.querySelector('.hero .actions .btn-lime');if(b)b.textContent='Claim your FREE Demo →'};setHeroCopy();setTimeout(setHeroCopy,300);setTimeout(setHeroCopy,1000);
+const setHeroCopy=()=>{const b=document.querySelector('.hero .actions .btn-lime');if(b)b.textContent='Register for Free Consultation →'};setHeroCopy();setTimeout(setHeroCopy,300);setTimeout(setHeroCopy,1000);
 
 const getSteps=()=>({reservation:document.getElementById('reservation'),lead:document.getElementById('leadStep'),payment:document.getElementById('paymentStep'),thankyou:document.getElementById('thankyouStep')});
 const ensureDemoFirst=()=>{const x=getSteps();if(!x.reservation||!x.lead)return;x.lead.hidden=false;if(x.payment)x.payment.hidden=true;if(x.thankyou)x.thankyou.hidden=true;};
@@ -56,11 +56,9 @@ const celebrate=panel=>{
 };
 
 const showDemoClaimed=()=>{const x=getSteps();if(!x.reservation||!x.payment)return;ensureDemoFirst();x.lead.hidden=true;x.payment.hidden=true;if(x.thankyou)x.thankyou.hidden=true;let panel=document.getElementById('mcl-demo-claimed');if(!panel){panel=document.createElement('div');panel.id='mcl-demo-claimed';panel.innerHTML='<div class="mcl-demo-success"><strong>🎉 Congratulations!</strong><p>Your FREE Demo Class is claimed — <b>₹0 paid.</b></p><button type="button" class="mcl-demo-reserve">Reserve your seat for ₹10 →</button><div class="mcl-seat-note">Seats are filling fast · reservation is completely optional.</div></div>';x.reservation.querySelector('.modal')?.appendChild(panel);panel.querySelector('.mcl-demo-reserve').addEventListener('click',()=>{panel.hidden=true;x.lead.hidden=true;x.payment.hidden=false;x.thankyou.hidden=true;const pay=document.getElementById('payButton');if(pay){pay.disabled=false;pay.textContent='Pay ₹10 & Reserve →';pay.setAttribute('aria-label','Pay ₹10 and reserve your seat')}const step=x.payment.querySelector('.step');if(step)step.textContent='STEP 02 · ₹10 SEAT RESERVATION';const heading=x.payment.querySelector('h2');if(heading)heading.textContent='Reserve your seat.';const note=x.payment.querySelector('.form-note');if(note)note.textContent='Secure ₹10 payment. Your reservation is adjusted against the final programme fee.'});}panel.hidden=false;celebrate(panel)};
-window.addEventListener('hs-form-event:on-submission:success',()=>{setTimeout(showDemoClaimed,0);setTimeout(showDemoClaimed,120)});
+// Free consultation form success is handled by the homepage; no reservation/payment step.
 
-// Never allow the old inline HubSpot listener to turn the free-demo result directly into payment.
-const guard=()=>{const r=document.getElementById('reservation');if(!r||r.getAttribute('aria-hidden')!=='false')return;const claimed=document.getElementById('mcl-demo-claimed');if(claimed)return;const lead=document.getElementById('leadStep');if(lead&&!lead.hidden)return;ensureDemoFirst()};
-new MutationObserver(guard).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['hidden','aria-hidden']});
+// Consultation modal is handled by index.html; legacy payment-step guard disabled.
 
 // Add one separate custom-payment option to the existing menu.
 const addCustomPayment=()=>{const sub=[...document.querySelectorAll('.mc-menu-sub')].find(el=>el.previousElementSibling?.textContent?.trim()==='Payments');if(!sub||sub.querySelector('[data-mcl-custom-payment]'))return false;const link=document.createElement('a');link.href='/custom-payment.html';link.textContent='Custom payment · ₹10–₹5,000';link.setAttribute('data-mcl-custom-payment','true');sub.appendChild(link);return true};
