@@ -43,23 +43,14 @@ const countdownGuard=new MutationObserver(()=>updateCountdown());
 
 const setHeroCopy=()=>{const b=document.querySelector('.hero .actions .btn-lime');if(b)b.textContent='Register for Free Consultation →'};setHeroCopy();setTimeout(setHeroCopy,300);setTimeout(setHeroCopy,1000);
 
-const getSteps=()=>({reservation:document.getElementById('reservation'),lead:document.getElementById('leadStep'),payment:document.getElementById('paymentStep'),thankyou:document.getElementById('thankyouStep')});
-const ensureDemoFirst=()=>{const x=getSteps();if(!x.reservation||!x.lead)return;x.lead.hidden=false;if(x.payment)x.payment.hidden=true;if(x.thankyou)x.thankyou.hidden=true;};
-const wrapOpen=()=>{if(typeof window.openReservation!=='function'||window.openReservation.__mclWrapped)return;const original=window.openReservation;const wrapped=function(){original.apply(this,arguments);ensureDemoFirst()};wrapped.__mclWrapped=true;window.openReservation=wrapped};
-wrapOpen();setTimeout(wrapOpen,50);setTimeout(wrapOpen,300);
-
-const celebrate=panel=>{
- if(!panel)return;
- for(let i=0;i<18;i++){
-  const c=document.createElement('span');c.className='mcl-confetti';c.style.left=(5+Math.random()*90)+'%';c.style.animationDelay=(Math.random()*180)+'ms';c.style.transform='rotate('+(Math.random()*180)+'deg)';c.style.background=['#d8e92d','#68772b','#d9d6ff','#11120f'][i%4];panel.appendChild(c);setTimeout(()=>c.remove(),1300)
- }
+// The homepage is now a studio-services site. All primary CTAs open the free consultation form.
+const setConsultationCopy=()=>{
+ const b=document.querySelector('.hero .actions .btn-lime');
+ if(b)b.textContent='Register for Free Consultation →';
 };
-
-const showDemoClaimed=()=>{const x=getSteps();if(!x.reservation||!x.payment)return;ensureDemoFirst();x.lead.hidden=true;x.payment.hidden=true;if(x.thankyou)x.thankyou.hidden=true;let panel=document.getElementById('mcl-demo-claimed');if(!panel){panel=document.createElement('div');panel.id='mcl-demo-claimed';panel.innerHTML='<div class="mcl-demo-success"><strong>🎉 Congratulations!</strong><p>Your FREE Demo Class is claimed — <b>₹0 paid.</b></p><button type="button" class="mcl-demo-reserve">Reserve your seat for ₹10 →</button><div class="mcl-seat-note">Seats are filling fast · reservation is completely optional.</div></div>';x.reservation.querySelector('.modal')?.appendChild(panel);panel.querySelector('.mcl-demo-reserve').addEventListener('click',()=>{panel.hidden=true;x.lead.hidden=true;x.payment.hidden=false;x.thankyou.hidden=true;const pay=document.getElementById('payButton');if(pay){pay.disabled=false;pay.textContent='Pay ₹10 & Reserve →';pay.setAttribute('aria-label','Pay ₹10 and reserve your seat')}const step=x.payment.querySelector('.step');if(step)step.textContent='STEP 02 · ₹10 SEAT RESERVATION';const heading=x.payment.querySelector('h2');if(heading)heading.textContent='Reserve your seat.';const note=x.payment.querySelector('.form-note');if(note)note.textContent='Secure ₹10 payment. Your reservation is adjusted against the final programme fee.'});}panel.hidden=false;celebrate(panel)};
-// Free consultation form success is handled by the homepage; no reservation/payment step.
-
-// Consultation modal is handled by index.html; legacy payment-step guard disabled.
-
+setConsultationCopy();
+setTimeout(setConsultationCopy,300);
+setTimeout(setConsultationCopy,1000);
 // Add one separate custom-payment option to the existing menu.
 const addCustomPayment=()=>{const sub=[...document.querySelectorAll('.mc-menu-sub')].find(el=>el.previousElementSibling?.textContent?.trim()==='Payments');if(!sub||sub.querySelector('[data-mcl-custom-payment]'))return false;const link=document.createElement('a');link.href='/custom-payment.html';link.textContent='Custom payment · ₹10–₹5,000';link.setAttribute('data-mcl-custom-payment','true');sub.appendChild(link);return true};
 addCustomPayment();let menuTries=0;const menuTimer=setInterval(()=>{if(addCustomPayment()||++menuTries>20)clearInterval(menuTimer)},100);
