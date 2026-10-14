@@ -41,12 +41,12 @@ updateCountdown();setInterval(updateCountdown,250);
 const countdownGuard=new MutationObserver(()=>updateCountdown());
 ['cdh','cdm','cds'].forEach(id=>{const el=document.getElementById(id);if(el)countdownGuard.observe(el,{childList:true,characterData:true,subtree:true})});
 
-const setHeroCopy=()=>{const b=document.querySelector('.hero .actions .btn-lime');if(b)b.textContent='Register for Free Consultation →'};setHeroCopy();setTimeout(setHeroCopy,300);setTimeout(setHeroCopy,1000);
+const setHeroCopy=()=>{const b=document.querySelector('.hero .actions .btn-lime');if(b)b.textContent='Consult Now →'};setHeroCopy();setTimeout(setHeroCopy,300);setTimeout(setHeroCopy,1000);
 
 // The homepage is now a studio-services site. All primary CTAs open the free consultation form.
 const setConsultationCopy=()=>{
  const b=document.querySelector('.hero .actions .btn-lime');
- if(b)b.textContent='Register for Free Consultation →';
+ if(b)b.textContent='Consult Now →';
 };
 setConsultationCopy();
 setTimeout(setConsultationCopy,300);
