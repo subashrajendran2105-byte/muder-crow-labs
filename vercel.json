@@ -9,6 +9,11 @@
       "source": "/about/",
       "destination": "/about.html",
       "permanent": true
+    },
+    {
+      "source": "/payment.html",
+      "destination": "/#ask-crow",
+      "permanent": true
     }
   ]
 }

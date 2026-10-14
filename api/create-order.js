@@ -29,9 +29,10 @@ module.exports = async function handler(req, res) {
   }
 
   const body = req.body || {};
+  if (body.order_type === 'reserve') return sendJson(res, 400, { error: 'Seat reservations are no longer available. Use the free consultation form instead.' });
   const amount = Number(body.amount);
   const currency = body.currency || 'INR';
-  const orderType = ['reserve', 'full', 'playbook', 'custom'].includes(body.order_type) ? body.order_type : 'reserve';
+  const orderType = ['full', 'playbook', 'custom'].includes(body.order_type) ? body.order_type : 'custom';
   const phone = String(body.customer_phone || '').replace(/\D/g, '');
   const email = String(body.customer_email || '').trim();
   const name = String(body.customer_name || 'Murder Crow Learner').trim();
@@ -43,7 +44,7 @@ module.exports = async function handler(req, res) {
   }));
 
   // Fixed product amounts remain protected. Custom payments accept ₹10–₹5,000 only.
-  const allowedAmounts = { reserve: 1000, playbook: 79900, full: 2699900 };
+  const allowedAmounts = { playbook: 79900, full: 2699900 };
   const isCustom = orderType === 'custom';
   if (currency !== 'INR') {
     return sendJson(res, 400, { error: 'Invalid payment currency.' });
@@ -57,9 +58,6 @@ module.exports = async function handler(req, res) {
   }
   if (!/^\d{10}$/.test(phone)) {
     return sendJson(res, 400, { error: 'Please provide a valid 10-digit phone number before payment.' });
-  }
-  if (orderType === 'reserve' && crewSize > 1 && crewMembers.length !== crewSize - 1) {
-    return sendJson(res, 400, { error: 'Please provide the selected crew member details.' });
   }
   if (crewMembers.some(m => !m.name || !/^\d{10}$/.test(m.phone))) {
     return sendJson(res, 400, { error: 'Please provide a valid name and 10-digit WhatsApp number for every crew member.' });
@@ -80,7 +78,7 @@ module.exports = async function handler(req, res) {
       ? 'payment-full.html'
       : orderType === 'custom'
         ? 'custom-payment.html'
-        : 'payment.html';
+        : 'custom-payment.html';
 
   const payload = {
     order_id: orderId,
