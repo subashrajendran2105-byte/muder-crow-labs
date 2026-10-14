@@ -85,8 +85,8 @@ def main():
         if any(x.startswith(".") for x in p.parts) or p.name=="subash-rajendran.html": continue
         s=p.read_text(encoding="utf-8"); old=s
         s=s.replace('/#reserve','/#ask-crow').replace('href="/about/"','href="/about.html"')
-        s=s.replace('Reserve your seat for ₹10 →','Consult Now →').replace('Reserve Your Seat','Consult Now').replace('Reserve ₹10 →','Consult Now →').replace('Reserve your seat','Consult Now')
-        if p.name=="index.html":
+        s=s.replace('Reserve your seat for ₹10 →','Consult Now →').replace('Reserve Your Seat','Consult Now').replace('Reserve ₹10 →','Consult Now →').replace('Reserve your seat','Consult Now').replace('Register for Free Consultation →','Consult Now →').replace('Register for Free Consultation','Consult Now')
+        if p == ROOT/"index.html":
             s=s.replace('<title>Murder Crow Labs | Digital Marketing Course, Online Class & Growth Marketing</title>','<title>Murder Crow Labs | Branding, Creative Studio, AI & Performance Marketing</title>')
             s=s.replace('Murder Crow Labs is a practical digital marketing course and online class covering SEO, AEO, GEO, AI marketing, social media marketing, Meta Ads, Google Ads, analytics, CRM, growth marketing and real-world projects. Learn digital marketing online with practical training from Chennai.','Murder Crow Labs is a creative, technology and growth studio founded by Subash Rajendran, building brands, websites, products, AI software, Lead Intelligence and performance marketing systems.')
             s=s.replace('From the first business idea to brand identity, products, spaces, websites, content, applications and growth systems — Murder Crow #Labs brings the pieces together.','From brand identity and product design to websites, applications, AI software, Lead Intelligence, production and performance marketing, Murder Crow Labs connects the pieces that help businesses grow.')
@@ -146,6 +146,7 @@ def main():
     if p.exists():
         s=p.read_text(encoding="utf-8")
         s=re.sub(r'// Add one separate custom-payment option to the existing menu\..*?const menuTimer=setInterval\(\(\)=>\{if\(addCustomPayment\(\)\|\|\+\+menuTries>20\)clearInterval\(menuTimer\)\},100\);','',s,flags=re.S)
+        s=s.replace('Register for Free Consultation →','Consult Now →').replace('Register for Free Consultation','Consult Now')
         p.write_text(s,encoding="utf-8")
     p=ROOT/"menu.js"
     if p.exists():
@@ -156,6 +157,28 @@ def main():
 (()=>{const add=()=>{const f=document.querySelector('footer');if(!f||f.querySelector('.mcl-global-social'))return;const box=document.createElement('div');box.className='mcl-global-social';box.setAttribute('aria-label','Murder Crow Labs social profiles');box.innerHTML='<a href="#social-links-coming-soon" aria-disabled="true" title="Instagram link will be connected" aria-label="Instagram">◎</a><a href="#social-links-coming-soon" aria-disabled="true" title="LinkedIn link will be connected" aria-label="LinkedIn">in</a>';f.appendChild(box);const st=document.createElement('style');st.textContent='.mcl-global-social{display:flex;gap:10px;margin-top:18px}.mcl-global-social a{display:grid;place-items:center;width:38px;height:38px;border:1px solid currentColor;border-radius:50%;font-weight:900;text-decoration:none}.mcl-global-social a[aria-disabled=true]{opacity:.65;cursor:default}';document.head.appendChild(st)};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',add);else add()})();
 """
         p.write_text(s,encoding="utf-8")
+
+    # Remove homepage-only testimonial assets that an earlier filename check could add to nested index pages.
+    for p in [ROOT/"blog/index.html", ROOT/"services/index.html"]:
+        if p.exists():
+            s=p.read_text(encoding="utf-8")
+            s=re.sub(r'<style id="mcl-testimonial-slider-css">.*?</style>','',s,flags=re.S)
+            s=re.sub(r'<script id="mcl-testimonial-slider-js">.*?</script>','',s,flags=re.S)
+            s=re.sub(r'<div id="testimonialVideoModal".*?</div></div>','',s,flags=re.S)
+            p.write_text(s,encoding="utf-8")
+
+    # Keep a clear place and exact filenames for the videos the founder will upload later.
+    video_dir=ROOT/"videos"
+    video_dir.mkdir(exist_ok=True)
+    (video_dir/"README.md").write_text("""# Murder Crow Labs video testimonials
+
+Add vertical 9:16 MP4 files here when ready:
+- founder-story.mp4
+- client-testimonial-01.mp4
+- project-partner-01.mp4
+
+The homepage slider uses these exact paths. Until a file is uploaded, its card remains a clearly labelled placeholder. Use real, permissioned testimonials only.
+""",encoding="utf-8")
 
     # Generate 50 distinct topic pages plus seven founder pages.
     d=ROOT/"blog";d.mkdir(exist_ok=True)
