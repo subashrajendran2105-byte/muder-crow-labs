@@ -1,7 +1,7 @@
 (() => {
   if (document.getElementById('mcl-chat-launcher')) return;
   const style=document.createElement('style');
-  style.textContent = \`
+  style.textContent = `
 #mcl-chat-launcher{position:fixed;right:20px;bottom:22px;z-index:1200;border:0;border-radius:999px;background:#d7ee1d;color:#171813;padding:15px 20px;font:800 15px Manrope,Arial,sans-serif;box-shadow:5px 6px 0 #68772b;display:flex;align-items:center;gap:10px;cursor:pointer}
 #mcl-chat-launcher .mcl-chat-dot{width:9px;height:9px;border-radius:50%;background:#68772b;box-shadow:0 0 0 4px #68772b22}
 #mcl-chat-panel{position:fixed;right:20px;bottom:88px;z-index:1201;width:min(390px,calc(100vw - 28px));height:min(610px,calc(100dvh - 125px));background:#fbfaf4;color:#171813;border:1px solid #deddd2;border-radius:24px;box-shadow:0 24px 80px #0003;display:none;overflow:hidden;font-family:"DM Sans",Arial,sans-serif}
@@ -23,7 +23,7 @@
 .mcl-chat-send{border:0;border-radius:999px;background:#171813;color:#fff;padding:11px 16px;font-weight:800;cursor:pointer}
 .mcl-chat-foot{font-size:10px;color:#77796e;text-align:center;padding:0 10px 10px}
 @media(max-width:520px){#mcl-chat-launcher{right:14px;bottom:14px;padding:13px 16px}#mcl-chat-panel{right:8px;bottom:76px;width:calc(100vw - 16px);height:min(620px,calc(100dvh - 94px));border-radius:20px}}
-  \`;
+  `;
   document.head.appendChild(style);
   const launcher=document.createElement('button');
   launcher.id='mcl-chat-launcher';launcher.type='button';launcher.setAttribute('aria-label','Chat with Murder Crow Labs');
