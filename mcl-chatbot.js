@@ -50,7 +50,7 @@
     if(step<flow.length){const item=flow[step];bubble(item.q,'bot');
       if(item.a){item.a.forEach(v=>{const b=document.createElement('button');b.type='button';b.className='mcl-chat-choice';b.textContent=v;b.addEventListener('click',()=>choose(v));opts.appendChild(b);});}
       else{const input=document.createElement('input');input.className='mcl-chat-input';input.placeholder=item.placeholder;input.setAttribute('aria-label',item.placeholder);const send=document.createElement('button');send.type='button';send.className='mcl-chat-send';send.textContent='Continue →';send.addEventListener('click',()=>{const v=input.value.trim();if(v)choose(v);else input.focus();});input.addEventListener('keydown',e=>{if(e.key==='Enter')send.click();});opts.append(input,send);input.focus();}
-      if(step>0){const back=document.createElement('button');back.type='button';back.className='mcl-chat-choice';back.textContent='← Back';back.addEventListener('click',()=>{step--;log.lastElementChild?.remove();log.lastElementChild?.remove();render();});opts.appendChild(back);}
+      if(step>0){const back=document.createElement('button');back.type='button';back.className='mcl-chat-choice';back.textContent='← Back';back.addEventListener('click',()=>{step--;delete answers[flow[step].key];log.lastElementChild?.remove();log.lastElementChild?.remove();log.lastElementChild?.remove();render();});opts.appendChild(back);}
     }else{
       bubble('Thanks! Here’s a quick summary of what you shared. Continue to our free consultation form and tell us how to reach you.','bot');
       const summary=flow.map(x=>x.key.toUpperCase()+': '+(answers[x.key]||'Not provided')).join('\n');
